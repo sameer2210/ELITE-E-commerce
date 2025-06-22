@@ -7,7 +7,7 @@ import Unauth from "./Unauth";
 import Settings from "../pages/user/Settings";
 import CreateProduct from "../pages/admin/CreateProduct";
 import DetailsProduct from "../pages/admin/DetailsProduct";
-
+import Carts from "../pages/user/Carts";
 
 const Signup = lazy(() => import("./../pages/user/Signup"));
 const Signin = lazy(() => import("./../pages/user/Signin"));
@@ -20,34 +20,52 @@ const Mainroutes = () => {
     <Routes>
       <Route path="/" element={<Products />} />
 
-      <Route path="/signin"element={
+      <Route
+        path="/signin"
+        element={
           <Unauth>
             <Signin />
           </Unauth>
         }
       />
-      <Route path="/signup"element={
+      <Route
+        path="/signup"
+        element={
           <Unauth>
             <Signup />
           </Unauth>
         }
       />
 
-      <Route path="/settings"element={
+      <Route
+        path="/settings"
+        element={
           <Auth>
             <Settings />
           </Auth>
         }
       />
-      <Route path="/create-product"element={
+      <Route
+        path="/create-product"
+        element={
           <Auth>
             <CreateProduct />
           </Auth>
         }
       />
-       <Route path="/product-info/:id"element={
+      <Route
+        path="/product-info/:id"
+        element={
           <Auth>
             <DetailsProduct />
+          </Auth>
+        }
+      />
+      <Route
+        path="/cart"
+        element={
+          <Auth>
+            <Carts />
           </Auth>
         }
       />

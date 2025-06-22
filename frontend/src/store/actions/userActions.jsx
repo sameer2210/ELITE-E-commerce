@@ -35,32 +35,6 @@ export const asyncsigninuser = (user) => async (dispatch, getState) => {
   }
 };
 
-// export const asyncsigninuser = (user) => async (dispatch) => {
-//   try {
-//     const { data } = await axios.get(
-//       `/users?email=${user.email}&password=${user.password}`
-//     );
-
-//     console.log(data); // Should be [userObject]
-
-//     if (Array.isArray(data) && data.length > 0) {
-//       const loggedInUser = data[0];
-//       localStorage.setItem("user", JSON.stringify(loggedInUser));
-//       dispatch(LoginUser(loggedInUser)); // ✅ directly login
-//       console.log("User logged in!");
-//     } else {
-//       console.log("Wrong Credentials!");
-//     }
-
-//     console.log("User Logged in successfully!");
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-
-
-
 export const asyncsignupuser = (user) => async (dispatch, getState) => {
   try {
     await axios.post("/users", user);
@@ -83,7 +57,7 @@ export const asynclogoutuser = () => async (dispatch, getState) => {
 export const asyncupdateuser = (id, user) => async (dispatch, getState) => {
   try {
     const { data } = await axios.patch("/users/" + id, user);
-    localStorage.setItem("users", JSON.stringify(data));
+    localStorage.setItem("user", JSON.stringify(data));
     dispatch(asynccurrentuser());
     console.log("User updated!");
   } catch (error) {

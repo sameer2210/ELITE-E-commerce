@@ -4,8 +4,8 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Products = () => {
-  const { Products } = useSelector((state) => state.productReducer);
-  const productList = Products.map((p, i) => {
+  const { products } = useSelector((state) => state.productReducer);
+  const productList = products.map((p, i) => {
     return (
       <div
         title={p.title}
@@ -23,7 +23,7 @@ const Products = () => {
       </div>
     );
   });
-  return Products.length > 0 ? (
+  return products.length > 0 ? (
     <div className="flex flex-wrap">{productList}</div>
   ) : (
     "Loading..."

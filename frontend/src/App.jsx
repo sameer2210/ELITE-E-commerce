@@ -9,14 +9,14 @@ import { asyncloadproducts } from "./store/actions/productAction";
 const App = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.userReducer);
-  const { Products } = useSelector((state) => state.productReducer);
+  const { products } = useSelector((state) => state.productReducer);
 
   useEffect(() => {
     !user && dispatch(asynccurrentuser());
   }, [user]);
 
   useEffect(() => {
-    Products.length == 0 && dispatch(asyncloadproducts());
+    products.length == 0 && dispatch(asyncloadproducts());
   }, []);
 
   return (
