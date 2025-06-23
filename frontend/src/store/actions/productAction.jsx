@@ -4,8 +4,15 @@ import { loadproducts } from "../reducers/productSlice";
 
 export const asyncloadproducts = () => async (dispatch, getState) => {
   try {
-    const { data } = await axios.get("/products");
-    localStorage.setItem("products", JSON.stringify(data));
+    const {
+      productReducer: { products }
+    } = getState();
+    if (products.length > 0) {
+      console.log("Products already loaded");
+      return;
+    }
+    const { data } = await axios.get(`/products?_limit=20`);             // or remove _limit to fetch all
+    // localStorage.setItem("products", JSON.stringify(data));          // save data in local storage
     dispatch(loadproducts(data));
     console.log("Products loaded!");
   } catch (error) {

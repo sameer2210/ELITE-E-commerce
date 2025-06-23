@@ -1,32 +1,55 @@
-/* eslint-disable no-unused-vars */
-import React from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+/* eslint-disable react-hooks/exhaustive-deps */
+import axios from "../api/config";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loadlazyproducts } from "../store/reducers/productSlice";
+const ProductTemplate = lazy(() => import("../components/ProductTemplate"));
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Products = () => {
+  const dispatch = useDispatch();
   const { products } = useSelector((state) => state.productReducer);
-  const productList = products.map((p, i) => {
-    return (
-      <div
-        title={p.title}
-        key={p.id}
-        className="w-[31%] mr-3 mb-3 shadow-md p-1 rounded"
-      >
-        <img className="h-[30vh] mx-auto block" src={p.image} alt="" />
-        <h1 className="mt-3 text-2xl">{p.title.slice(0, 15)}...</h1>
-        <p className="text-red-400">{p.price}</p>
-        <p>{p.description.slice(0, 80)}...</p>
-        <div className="mt-2 p-2 w-full flex justify-between items-center">
-          <button>Add to Cart</button>
-          <Link to={`/product-info/${p.id}`}>More Info</Link>
-        </div>
+  const [hasMore, sethasMore] = useState(true);
+
+  const fetchproducts = async () => {
+    try {
+      const { data } = await axios.get(
+        `/products?_limit=6&_start=${products.length}`
+      );
+      if (data.length === 0) {
+        sethasMore(false);
+      } else {
+        dispatch(loadlazyproducts(data));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchproducts();
+  }, []);
+
+  return (
+    <InfiniteScroll
+      dataLength={products.length}
+      next={fetchproducts}
+      hasMore={hasMore}
+      loader={<h4>Loading...</h4>}
+      endMessage={
+        <p style={{ textAlign: "center" }}>
+          <b>Yay! You have seen it all</b>
+        </p>
+      }
+    >
+      <div className="flex flex-wrap">
+        {products.map((p, i) => (
+          <Suspense key={i} fallback={<h1>LOADING...</h1>}>
+            <ProductTemplate p={p} />
+          </Suspense>
+        ))}
       </div>
-    );
-  });
-  return products.length > 0 ? (
-    <div className="flex flex-wrap">{productList}</div>
-  ) : (
-    "Loading..."
+    </InfiniteScroll>
   );
 };
 
