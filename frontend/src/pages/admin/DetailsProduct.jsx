@@ -1,11 +1,12 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { asyncupdateuser } from "../../store/actions/userActions";
 import {
+  asyncAddtoCartProduct,
   asyncdeleteproduct,
   asyncupdateproduct
 } from "../../store/actions/productAction";
-import { asyncupdateuser } from "../../store/actions/userActions";
 
 const DetailsProduct = () => {
   const { id } = useParams();
@@ -30,20 +31,25 @@ const DetailsProduct = () => {
     navigate("/");
   };
 
-  const AddtoCartHandler = () => {
-    const copyUser = { ...user, cart: [...(user.cart || [])] };
+  // const AddtoCartHandler = () => {
+  //   const copyUser = { ...user, cart: [...(user.cart || [])] };
 
-    const index = copyUser?.cart.findIndex((x) => x?.product.id == id);
-    if (index == -1) {
-      copyUser.cart.push({ product, quantity: 1 });
-    } else {
-      copyUser.cart[index] = {
-        product,
-        quantity: copyUser.cart[index].quantity + 1
-      };
-    }
-    dispatch(asyncupdateuser(copyUser.id, copyUser));
-    // navigate("/cart");
+  //   const index = copyUser?.cart.findIndex((x) => x?.product.id == id);
+  //   if (index == -1) {
+  //     copyUser.cart.push({ product, quantity: 1 });
+  //   } else {
+  //     copyUser.cart[index] = {
+  //       product,
+  //       quantity: copyUser.cart[index].quantity + 1
+  //     };
+  //   }
+  //   dispatch(asyncupdateuser(copyUser.id, copyUser));
+  //   // navigate("/cart");
+  // };
+
+  const AddtoCartHandler = () => {
+    const updatedUser = asyncAddtoCartProduct(user, product, product.id);
+    dispatch(asyncupdateuser(updatedUser.id, updatedUser));
   };
 
   const DeleteHandler = () => {
@@ -54,7 +60,7 @@ const DetailsProduct = () => {
   return product ? (
     <div className="w-full">
       <div className="w-full">
-        <img src={product?.image} className="block mx-auto h-[30vmax]" alt="" />
+        <img src={product?.image} className="block mx-auto h-[30vmax]" alt="network error" />
         <h1 className="text-2xl mt-3 ">{product?.title}</h1>
         <p>{product?.description}</p>
         <h2 className="text-red-400 mt-3 text-5xl ">{product?.price}</h2>
@@ -102,13 +108,13 @@ const DetailsProduct = () => {
             type="text"
             placeholder="enter description here..."
           ></textarea>
-          <button className="mr-5 text-white text-3xl px-5 py-3 rounded bg-red-400">
+          <button className="mr-5 text-white text-3xl px-5 py-3 rounded bg-neutral-800">
             Update Product
           </button>
           <button
             onClick={DeleteHandler}
             type="button"
-            className="text-white text-3xl px-5 py-3 rounded bg-red-400"
+            className="text-white text-3xl px-5 py-3 rounded bg-red-600"
           >
             Delete Product
           </button>

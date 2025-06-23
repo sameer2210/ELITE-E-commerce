@@ -52,14 +52,14 @@ const Settings = () => {
           type="password"
           placeholder="********"
         />
-        <button className="text-white text-3xl px-5 py-3 rounded bg-blue-400">
+        <button className="text-white text-3xl px-5 py-3 rounded bg-cyan-900">
           Update User
         </button>
         <br /> <br />
         <button
           onClick={LogoutHandler}
           type="button"
-          className="text-white text-3xl px-5 py-3 rounded bg-red-400"
+          className="text-white text-3xl px-5 py-3 rounded bg-red-500"
         >
           Logout User
         </button>

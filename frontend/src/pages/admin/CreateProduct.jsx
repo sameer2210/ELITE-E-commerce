@@ -46,7 +46,7 @@ const CreateProduct = () => {
         type="text"
         placeholder="enter description here..."
       ></textarea>
-      <button className="text-white text-3xl px-5 py-3 rounded bg-red-400">
+      <button className="text-white text-3xl px-5 py-3 rounded bg-teal-800">
         Create Product
       </button>
     </form>
