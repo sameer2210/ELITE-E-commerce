@@ -20,7 +20,7 @@ const App = () => {
   // }, [products]);
 
   return (
-    <div className="py-10 px-[10%] font-thin ">
+    <div className="py-2 px-3 font-thin ">
       <Nav />
       <Mainroutes />
     </div>

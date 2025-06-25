@@ -31,21 +31,7 @@ const DetailsProduct = () => {
     navigate("/");
   };
 
-  // const AddtoCartHandler = () => {
-  //   const copyUser = { ...user, cart: [...(user.cart || [])] };
-
-  //   const index = copyUser?.cart.findIndex((x) => x?.product.id == id);
-  //   if (index == -1) {
-  //     copyUser.cart.push({ product, quantity: 1 });
-  //   } else {
-  //     copyUser.cart[index] = {
-  //       product,
-  //       quantity: copyUser.cart[index].quantity + 1
-  //     };
-  //   }
-  //   dispatch(asyncupdateuser(copyUser.id, copyUser));
-  //   // navigate("/cart");
-  // };
+ 
 
   const AddtoCartHandler = () => {
     const updatedUser = asyncAddtoCartProduct(user, product, product.id);
