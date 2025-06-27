@@ -2,81 +2,340 @@
   "products": [
     {
       "id": "1",
-      "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
-      "price": 109.95,
-      "description": "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
-      "category": "men's clothing",
-      "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
+      "image": "https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "title": "PATEK PHILIPPE",
+      "subtitle": "Grand Complications 5270P-001",
+      "price": 185000,
+      "originalPrice": 200000,
+      "category": "High Complications",
+      "description": "The Patek Philippe Grand Complications is a beautiful luxury watch showcasing unparalleled craftsmanship. Its perpetual calendar, chronograph, and platinum case make it a masterpiece of horology.",
+      "designer": "Patek Philippe Design Team",
+      "articleNumber": "PP-5270P",
+      "rating": 4.9,
+      "reviews": 312,
+      "warranty": "2 year international warranty",
+      "features": [
+        "Swiss Made",
+        "Perpetual Calendar",
+        "Sapphire Crystal",
+        "Water Resistant 30m"
+      ],
+      "specifications": {
+        "movement": "Caliber CH 29-535 PS Q",
+        "powerReserve": "65 hours",
+        "caseDiameter": "41mm",
+        "caseThickness": "12.4mm",
+        "waterResistance": "30m"
+      },
+      "thumbnails": [
+        "https://images.pexels.com/photos/277390/pexels-photo-277390.jpeg?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/364822/pexels-photo-364822.jpeg?w=100&h=100&fit=crop&auto=format"
+      ]
     },
     {
       "id": "2",
-      "title": "Mens Casual Premium Slim Fit T-Shirts ",
-      "price": 22.3,
-      "description": "Slim-fitting style, contrast raglan long sleeve, three-button henley placket, light weight & soft fabric for breathable and comfortable wearing. And Solid stitched shirts with round neck made for durability and a great fit for casual fashion wear and diehard baseball fans. The Henley style round neckline includes a three-button placket.",
-      "category": "men's clothing",
-      "image": "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg"
+      "image": "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?w=600&h=600&fit=crop&auto=format",
+      "title": "ROLEX",
+      "subtitle": "Daytona Cosmograph 116500LN",
+      "price": 14500,
+      "originalPrice": 16000,
+      "category": "Sports Watches",
+      "description": "The Rolex Daytona Cosmograph is a beautiful luxury watch revered for its precision and iconic design. With a ceramic bezel and chronograph functionality, it’s a favorite among racing enthusiasts.",
+      "designer": "Rolex Design Team",
+      "articleNumber": "RX-116500LN",
+      "rating": 4.8,
+      "reviews": 987,
+      "warranty": "5 year international warranty",
+      "features": [
+        "Chronometer Certified",
+        "Oyster Steel",
+        "Cerachrom Bezel",
+        "Water Resistant 100m"
+      ],
+      "specifications": {
+        "movement": "Caliber 4130",
+        "powerReserve": "72 hours",
+        "caseDiameter": "40mm",
+        "caseThickness": "12.2mm",
+        "waterResistance": "100m"
+      },
+      "thumbnails": [
+        "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?w=100&h=100&fit=crop&auto=format",
+        "https://images.unsplash.com/photo-1524594158904-4392b68d0bb8?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/2113994/pexels-photo-2113994.jpeg?w=100&h=100&fit=crop&auto=format",
+        "https://images.unsplash.com/photo-1547996160-3bd7db01e629?w=100&h=100&fit=crop&auto=format"
+      ]
     },
     {
       "id": "3",
-      "title": "Mens Cotton Jacket",
-      "price": 55.99,
-      "description": "great outerwear jackets for Spring/Autumn/Winter, suitable for many occasions, such as working, hiking, camping, mountain/rock climbing, cycling, traveling or other outdoors. Good gift choice for you or your family member. A warm hearted love to Father, husband or son in this thanksgiving or Christmas Day.",
-      "category": "men's clothing",
-      "image": "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg"
+      "image": "https://images.pexels.com/photos/277390/pexels-photo-277390.jpeg?w=600&h=600&fit=crop&auto=format",
+      "title": "AUDEMARS PIGUET",
+      "subtitle": "Royal Oak Selfwinding 15400ST",
+      "price": 38000,
+      "originalPrice": 42000,
+      "category": "Luxury Sports Watches",
+      "description": "The Audemars Piguet Royal Oak is a beautiful luxury watch with its iconic octagonal bezel and tapisserie dial. Its self-winding movement and stainless steel case offer both style and durability.",
+      "designer": "Gérald Genta",
+      "articleNumber": "AP-15400ST",
+      "rating": 4.8,
+      "reviews": 654,
+      "warranty": "2 year international warranty",
+      "features": [
+        "Swiss Made",
+        "Self-Winding",
+        "Sapphire Crystal",
+        "Water Resistant 50m"
+      ],
+      "specifications": {
+        "movement": "Caliber 3120",
+        "powerReserve": "60 hours",
+        "caseDiameter": "41mm",
+        "caseThickness": "9.8mm",
+        "waterResistance": "50m"
+      },
+      "thumbnails": [
+        "https://images.pexels.com/photos/277390/pexels-photo-277390.jpeg?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/364822/pexels-photo-364822.jpeg?w=100&h=100&fit=crop&auto=format",
+        "https://images.unsplash.com/photo-1495856459153-74f75b6c9184?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?w=100&h=100&fit=crop&auto=format"
+      ]
     },
     {
       "id": "4",
-      "title": "Mens Casual Slim Fit",
-      "price": 15.99,
-      "description": "The color could be slightly different between on the screen and in practice. / Please note that body builds vary by person, therefore, detailed size information should be reviewed below on the product description.",
-      "category": "men's clothing",
-      "image": "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg"
+      "image": "https://images.pexels.com/photos/2113994/pexels-photo-2113994.jpeg?w=600&h=600&fit=crop&auto=format",
+      "title": "OMEGA",
+      "subtitle": "Seamaster Diver 300M 210.30.42.20.03.001",
+      "price": 5600,
+      "originalPrice": 6200,
+      "category": "Dive Watches",
+      "description": "The Omega Seamaster Diver 300M is a beautiful luxury watch designed for underwater adventures. Its wave-patterned dial, helium escape valve, and robust construction make it a top choice for divers.",
+      "designer": "Omega Design Team",
+      "articleNumber": "OM-210.30.42",
+      "rating": 4.7,
+      "reviews": 821,
+      "warranty": "5 year international warranty",
+      "features": [
+        "Swiss Made",
+        "Co-Axial Escapement",
+        "Sapphire Crystal",
+        "Water Resistant 300m"
+      ],
+      "specifications": {
+        "movement": "Caliber 8800",
+        "powerReserve": "55 hours",
+        "caseDiameter": "42mm",
+        "caseThickness": "13.6mm",
+        "waterResistance": "300m"
+      },
+      "thumbnails": [
+        "https://images.unsplash.com/photo-1547996160-3bd7db01e629?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/277390/pexels-photo-277390.jpeg?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?w=100&h=100&fit=crop&auto=format"
+      ]
     },
     {
       "id": "5",
-      "title": "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet",
-      "price": 695,
-      "description": "From our Legends Collection, the Naga was inspired by the mythical water dragon that protects the ocean's pearl. Wear facing inward to be bestowed with love and abundance, or outward for protection.",
-      "category": "jewelery",
-      "image": "https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg"
+      "image": "https://images.unsplash.com/photo-1667211586479-3846af286124?q=80&w=765&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "title": "VACHERON CONSTANTIN",
+      "subtitle": "Patrimony 81180/000R-9159",
+      "price": 21000,
+      "originalPrice": 23000,
+      "category": "Dress Watches",
+      "description": "The Vacheron Constantin Patrimony is a beautiful luxury watch epitomizing minimalist elegance. Its slim profile, clean dial, and rose gold case make it perfect for formal occasions.",
+      "designer": "Vacheron Constantin Design Team",
+      "articleNumber": "VC-81180",
+      "rating": 4.8,
+      "reviews": 398,
+      "warranty": "2 year international warranty",
+      "features": [
+        "Swiss Made",
+        "Manual Wind",
+        "Rose Gold",
+        "Water Resistant 30m"
+      ],
+      "specifications": {
+        "movement": "Caliber 1400",
+        "powerReserve": "40 hours",
+        "caseDiameter": "40mm",
+        "caseThickness": "6.79mm",
+        "waterResistance": "30m"
+      },
+      "thumbnails": [
+        "https://images.unsplash.com/photo-1547996160-3bd7db01e629?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/2113994/pexels-photo-2113994.jpeg?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/364822/pexels-photo-364822.jpeg?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?w=100&h=100&fit=crop&auto=format"
+      ]
     },
     {
       "id": "6",
-      "title": "Solid Gold Petite Micropave ",
-      "price": 168,
-      "description": "Satisfaction Guaranteed. Return or exchange any order within 30 days.Designed and sold by Hafeez Center in the United States. Satisfaction Guaranteed. Return or exchange any order within 30 days.",
-      "category": "jewelery",
-      "image": "https://fakestoreapi.com/img/61sbMiUnoGL._AC_UL640_QL65_ML3_.jpg"
+      "image": "https://images.unsplash.com/photo-1673453071000-8620d5f9dbae?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "title": "CARTIER",
+      "subtitle": "Tank Louis Cartier W1529856",
+      "price": 12500,
+      "originalPrice": 14000,
+      "category": "Classic Elegance",
+      "description": "The Cartier Tank Louis is a beautiful luxury watch with a storied history. Its rectangular case, Roman numerals, and manual-winding movement offer timeless sophistication.",
+      "designer": "Louis Cartier",
+      "articleNumber": "CR-W1529856",
+      "rating": 4.7,
+      "reviews": 543,
+      "warranty": "2 year international warranty",
+      "features": [
+        "Swiss Made",
+        "Manual Wind",
+        "Gold Case",
+        "Water Resistant 20m"
+      ],
+      "specifications": {
+        "movement": "Caliber 8971 MC",
+        "powerReserve": "38 hours",
+        "caseDiameter": "33.7mm x 25.5mm",
+        "caseThickness": "6.6mm",
+        "waterResistance": "20m"
+      },
+      "thumbnails": [
+        "https://images.pexels.com/photos/364822/pexels-photo-364822.jpeg?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/277390/pexels-photo-277390.jpeg?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/2113994/pexels-photo-2113994.jpeg?w=100&h=100&fit=crop&auto=format",
+        "https://images.unsplash.com/photo-1524594158904-4392b68d0bb8?w=100&h=100&fit=crop&auto=format"
+      ]
     },
     {
       "id": "7",
-      "title": "White Gold Plated Princess",
-      "price": 9.99,
-      "description": "Classic Created Wedding Engagement Solitaire Diamond Promise Ring for Her. Gifts to spoil your love more for Engagement, Wedding, Anniversary, Valentine's Day...",
-      "category": "jewelery",
-      "image": "https://fakestoreapi.com/img/71YAIFU48IL._AC_UL640_QL65_ML3_.jpg"
+      "image": "https://images.unsplash.com/photo-1495856459153-74f75b6c9184?w=600&h=600&fit=crop&auto=format",
+      "title": "IWC",
+      "subtitle": "Pilot’s Watch Mark XX IW328201",
+      "price": 5200,
+      "originalPrice": 5800,
+      "category": "Pilot Watches",
+      "description": "The IWC Pilot’s Watch Mark XX is a beautiful luxury watch designed for aviation enthusiasts. Its legible dial, robust movement, and stainless steel case ensure functionality and style.",
+      "designer": "IWC Design Team",
+      "articleNumber": "IWC-328201",
+      "rating": 4.6,
+      "reviews": 476,
+      "warranty": "2 year international warranty",
+      "features": [
+        "Swiss Made",
+        "Automatic Movement",
+        "Anti-Magnetic",
+        "Water Resistant 100m"
+      ],
+      "specifications": {
+        "movement": "Caliber 32111",
+        "powerReserve": "120 hours",
+        "caseDiameter": "40mm",
+        "caseThickness": "10.8mm",
+        "waterResistance": "100m"
+      },
+      "thumbnails": [
+        "https://images.unsplash.com/photo-1495856459153-74f75b6c9184?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/277390/pexels-photo-277390.jpeg?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/364822/pexels-photo-364822.jpeg?w=100&h=100&fit=crop&auto=format"
+      ]
     },
     {
       "id": "8",
-      "title": "Pierced Owl Rose Gold Plated Stainless Steel Double",
-      "price": 10.99,
-      "description": "Rose Gold Plated Double Flared Tunnel Plug Earrings. Made of 316L Stainless Steel",
-      "category": "jewelery",
-      "image": "https://fakestoreapi.com/img/51UDEzMJVpL._AC_UL640_QL65_ML3_.jpg"
+      "image": "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?w=600&h=600&fit=crop&auto=format",
+      "title": "JAEGER-LECOULTRE",
+      "subtitle": "Master Ultra Thin Moon 1368470",
+      "price": 9500,
+      "originalPrice": 10500,
+      "category": "Dress Watches",
+      "description": "The Jaeger-LeCoultre Master Ultra Thin Moon is a beautiful luxury watch combining elegance and complication. Its moon phase display and ultra-thin case make it a refined masterpiece.",
+      "designer": "Jaeger-LeCoultre Design Team",
+      "articleNumber": "JLC-1368470",
+      "rating": 4.8,
+      "reviews": 412,
+      "warranty": "2 year international warranty",
+      "features": [
+        "Swiss Made",
+        "Moon Phase",
+        "Ultra-Thin",
+        "Water Resistant 50m"
+      ],
+      "specifications": {
+        "movement": "Caliber 925",
+        "powerReserve": "70 hours",
+        "caseDiameter": "39mm",
+        "caseThickness": "9.3mm",
+        "waterResistance": "50m"
+      },
+      "thumbnails": [
+        "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/2113994/pexels-photo-2113994.jpeg?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/364822/pexels-photo-364822.jpeg?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/277390/pexels-photo-277390.jpeg?w=100&h=100&fit=crop&auto=format"
+      ]
     },
     {
       "id": "9",
-      "title": "WD 2TB Elements Portable External Hard Drive - USB 3.0 ",
-      "price": 64,
-      "description": "USB 3.0 and USB 2.0 Compatibility Fast data transfers Improve PC Performance High Capacity; Compatibility Formatted NTFS for Windows 10, Windows 8.1, Windows 7; Reformatting may be required for other."
+      "image": "https://images.pexels.com/photos/364822/pexels-photo-364822.jpeg?w=600&h=600&fit=crop&auto=format",
+      "title": "BREGUET",
+      "subtitle": "Marine 5517TI/G2/5ZU",
+      "price": 18000,
+      "originalPrice": 20000,
+      "category": "Sports Watches",
+      "description": "The Breguet Marine is a beautiful luxury watch blending sporty functionality with elegant design. Its titanium case, guilloché dial, and automatic movement make it versatile and sophisticated.",
+      "designer": "Breguet Design Team",
+      "articleNumber": "BR-5517TI",
+      "rating": 4.7,
+      "reviews": 356,
+      "warranty": "2 year international warranty",
+      "features": [
+        "Swiss Made",
+        "Automatic Movement",
+        "Titanium Case",
+        "Water Resistant 100m"
+      ],
+      "specifications": {
+        "movement": "Caliber 777A",
+        "powerReserve": "55 hours",
+        "caseDiameter": "40mm",
+        "caseThickness": "11.5mm",
+        "waterResistance": "100m"
+      },
+      "thumbnails": [
+        "https://images.pexels.com/photos/364822/pexels-photo-364822.jpeg?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/277390/pexels-photo-277390.jpeg?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/2113994/pexels-photo-2113994.jpeg?w=100&h=100&fit=crop&auto=format"
+      ]
     },
     {
       "id": "10",
-      "title": "SanDisk SSD PLUS 1TB Internal SSD - SATA III 6 Gb/s",
-      "price": 109,
-      "description": "Easy upgrade for faster boot up, shutdown, application load and response (As compared to 5400 RPM SATA 2.5” hard drive; Based on published specifications and internal benchmarking tests using PCMark vantage scores) Boosts burst write performance, making it ideal for typical PC workloads The perfect balance of performance and reliability Read/write speeds of up to 535MB/s/450MB/s (Based on internal testing; Performance may vary depending upon drive capacity, host device, OS and application.)",
-      "category": "electronics",
-      "image": "https://fakestoreapi.com/img/61U7T1koQqL._AC_SX679_.jpg"
+      "image": "https://images.unsplash.com/photo-1495856459153-74f75b6c9184?w=600&h=600&fit=crop&auto=format",
+      "title": "BLANCPAIN",
+      "subtitle": "Fifty Fathoms Bathyscaphe 5000-1110-B52A",
+      "price": 10500,
+      "originalPrice": 12000,
+      "category": "Dive Watches",
+      "description": "The Blancpain Fifty Fathoms Bathyscaphe is a beautiful luxury watch for diving enthusiasts. Its ceramic bezel, luminous markers, and robust automatic movement ensure performance and style.",
+      "designer": "Blancpain Design Team",
+      "articleNumber": "BP-5000-1110",
+      "rating": 4.7,
+      "reviews": 489,
+      "warranty": "2 year international warranty",
+      "features": [
+        "Swiss Made",
+        "Automatic Movement",
+        "Ceramic Bezel",
+        "Water Resistant 300m"
+      ],
+      "specifications": {
+        "movement": "Caliber 1315",
+        "powerReserve": "120 hours",
+        "caseDiameter": "43mm",
+        "caseThickness": "13.4mm",
+        "waterResistance": "300m"
+      },
+      "thumbnails": [
+        "https://images.unsplash.com/photo-1495856459153-74f75b6c9184?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/277390/pexels-photo-277390.jpeg?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/2113994/pexels-photo-2113994.jpeg?w=100&h=100&fit=crop&auto=format",
+        "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?w=100&h=100&fit=crop&auto=format"
+      ]
     },
     {
       "id": "11",
@@ -157,22 +416,6 @@
       "description": "95%Cotton,5%Spandex, Features: Casual, Short Sleeve, Letter Print,V-Neck,Fashion Tees, The fabric is soft and has some stretch., Occasion: Casual/Office/Beach/School/Home/Street. Season: Spring,Summer,Autumn,Winter.",
       "category": "women's clothing",
       "image": "https://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_.jpg"
-    },
-    {
-      "id": "ASNUaAMORAaT4Dt789B3f",
-      "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "title": "dsf",
-      "price": "109",
-      "category": "dsf",
-      "description": "sdfsd"
-    },
-    {
-      "id": "upb4Y_yBr15BcgqOjEGii",
-      "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "title": "s",
-      "price": "55",
-      "category": "jhg",
-      "description": "nm"
     }
   ],
   "users": [
@@ -182,93 +425,19 @@
       "email": "admin@master.com",
       "password": "123456",
       "isAdmin": true,
-      "cart": [
-        {
-          "product": {
-            "id": "1",
-            "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
-            "price": 109.95,
-            "description": "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
-            "category": "men's clothing",
-            "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
-          },
-          "quantity": 2
-        },
-        {
-          "product": {
-            "id": "2",
-            "title": "Mens Casual Premium Slim Fit T-Shirts ",
-            "price": 22.3,
-            "description": "Slim-fitting style, contrast raglan long sleeve, three-button henley placket, light weight & soft fabric for breathable and comfortable wearing. And Solid stitched shirts with round neck made for durability and a great fit for casual fashion wear and diehard baseball fans. The Henley style round neckline includes a three-button placket.",
-            "category": "men's clothing",
-            "image": "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg"
-          },
-          "quantity": 4
-        },
-        {
-          "product": {
-            "id": "3",
-            "title": "Mens Cotton Jacket",
-            "price": 55.99,
-            "description": "great outerwear jackets for Spring/Autumn/Winter, suitable for many occasions, such as working, hiking, camping, mountain/rock climbing, cycling, traveling or other outdoors. Good gift choice for you or your family member. A warm hearted love to Father, husband or son in this thanksgiving or Christmas Day.",
-            "category": "men's clothing",
-            "image": "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg"
-          },
-          "quantity": 1
-        },
-        {
-          "product": {
-            "id": "5",
-            "title": "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet",
-            "price": 695,
-            "description": "From our Legends Collection, the Naga was inspired by the mythical water dragon that protects the ocean's pearl. Wear facing inward to be bestowed with love and abundance, or outward for protection.",
-            "category": "jewelery",
-            "image": "https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg"
-          },
-          "quantity": 1
-        },
-        {
-          "product": {
-            "id": "6",
-            "title": "Solid Gold Petite Micropave ",
-            "price": 168,
-            "description": "Satisfaction Guaranteed. Return or exchange any order within 30 days.Designed and sold by Hafeez Center in the United States. Satisfaction Guaranteed. Return or exchange any order within 30 days.",
-            "category": "jewelery",
-            "image": "https://fakestoreapi.com/img/61sbMiUnoGL._AC_UL640_QL65_ML3_.jpg"
-          },
-          "quantity": 1
-        },
-        {
-          "product": {
-            "id": "4",
-            "title": "Mens Casual Slim Fit",
-            "price": 15.99,
-            "description": "The color could be slightly different between on the screen and in practice. / Please note that body builds vary by person, therefore, detailed size information should be reviewed below on the product description.",
-            "category": "men's clothing",
-            "image": "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg"
-          },
-          "quantity": 1
-        }
-      ]
+      "cart": [],
+      "fullName": "",
+      "location": ""
     },
     {
-      "id": "sam123",
-      "username": "sameer",
+      "id": "2WeHFbs3iW28zHGDf9IVr",
+      "fullName": "sameer",
+      "username": "sam",
       "email": "sam@gmail.com",
-      "password": "sam",
-      "cart": [
-        {
-          "product": {
-            "id": "1",
-            "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
-            "price": 109.95,
-            "description": "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
-            "category": "men's clothing",
-            "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
-          },
-          "quantity": 1
-        }
-      ]
+      "password": "123456",
+      "location": "Home",
+      "isAdmin": false,
+      "cart": []
     }
   ]
 }
