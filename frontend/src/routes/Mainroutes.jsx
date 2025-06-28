@@ -13,6 +13,7 @@ const Signup = lazy(() => import("./../pages/user/Signup"));
 const Signin = lazy(() => import("./../pages/user/Signin"));
 const Products = lazy(() => import("./../pages/Products"));
 const About = lazy(() => import("./../pages/About"));
+const Contact = lazy(() => import("./../pages/Contact"));
 const PageNotFound = lazy(() => import("./../pages/PageNotFound"));
 
 const Mainroutes = () => {
@@ -71,6 +72,7 @@ const Mainroutes = () => {
       />
 
       <Route path="/about" element={<About />} />
+      <Route path="/contact" element={<Contact />} />
       <Route path="/*" element={<PageNotFound />} />
     </Routes>
   );

@@ -137,7 +137,7 @@ const Nav = () => {
       <div className="bg-gradient-to-r from-slate-900 via-gray-900 to-slate-900 text-white py-2 px-4 text-center text-xs sm:text-sm relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse"></div>
         <span className="relative inline-flex items-center gap-2 font-medium">
-          Exclusive Collection - Handcrafted Luxury Timepieces
+          Exclusive Collection - Handcrafted luxury lifestyle domain
         </span>
       </div>
 
@@ -159,7 +159,7 @@ const Nav = () => {
                     ÉLITE
                   </span>
                   <span className="text-[10px] sm:text-xs text-gray-500 font-medium tracking-wider -mt-1">
-                    LUXURY COLLECTION
+                   Luxury Lifestyle
                   </span>
                 </div>
               </NavLink>
@@ -228,6 +228,22 @@ const Nav = () => {
                 <span className="relative z-10">ABOUT</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-red-400 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
               </NavLink>
+
+
+              <NavLink
+                to="/contact"
+                className={({ isActive }) =>
+                  `relative px-3 py-2 text-sm lg:text-base font-medium transition-all duration-300 rounded-md group overflow-hidden ${
+                    isActive
+                      ? "text-red-600 shadow-md shadow-red-400/20"
+                      : "text-gray-700 hover:text-slate-900 hover:bg-gray-50 hover:shadow-sm"
+                  }`
+                }
+              >
+                <span className="relative z-10">CONTACT</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-red-400 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+              </NavLink>
+
             </div>
 
             {/* Right Side Icon Controls */}
@@ -343,7 +359,6 @@ const Nav = () => {
                 )}
               </NavLink>
             </div>
-
             {/* Mobile Menu Button */}
             <div className="md:hidden">
               <button
@@ -447,6 +462,19 @@ const Nav = () => {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   ABOUT
+                </NavLink>
+                 <NavLink
+                  to="/contact"
+                  className={({ isActive }) =>
+                    `block px-4 py-2 font-medium text-base rounded-lg transition-all duration-300 ${
+                      isActive
+                        ? "text-red-600 bg-red-50"
+                        : "text-gray-900 hover:bg-gray-100"
+                    }`
+                  }
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  CONTACT
                 </NavLink>
                 {user && (
                   <div className="mt-4 pt-4 border-t border-gray-200">

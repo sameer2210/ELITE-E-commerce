@@ -65,6 +65,8 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { asyncsignupuser } from "../../store/actions/userActions";
+import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -79,6 +81,12 @@ const Signup = () => {
     console.log(user);
     navigate("/signin");
   };
+  const socialLinks = [
+    { icon: Facebook, name: 'Facebook', color: 'hover:bg-blue-600' },
+    { icon: Twitter, name: 'Twitter', color: 'hover:bg-sky-500' },
+    { icon: Linkedin, name: 'LinkedIn', color: 'hover:bg-blue-700' },
+    { icon: Instagram, name: 'Instagram', color: 'hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500' },
+  ];
 
   return (
     <div className="min-h-screen  flex items-center justify-center bg-[url(https://images.unsplash.com/photo-1644394969490-a0722932071a?q=80&w=1986&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] bg-center bg-cover relative overflow-hidden">
@@ -119,20 +127,17 @@ const Signup = () => {
             </svg>
           </div>
 
-          {/* Social Icons */}
-          <div className="flex space-x-4">
-            <div className="w-10 h-10 bg-white/40 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors cursor-pointer">
-              <span className="text-white text-sm">f</span>
-            </div>
-            <div className="w-10 h-10 bg-white/40 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors cursor-pointer">
-              <span className="text-white text-sm">t</span>
-            </div>
-            <div className="w-10 h-10 bg-white/40 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors cursor-pointer">
-              <span className="text-white text-sm">in</span>
-            </div>
-            <div className="w-10 h-10 bg-white/40 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors cursor-pointer">
-              <span className="text-white text-sm">@</span>
-            </div>
+          {/* Social Media Icons */}
+          <div className="flex flex-col space-y-6">
+            {socialLinks.map((social, index) => (
+              <div
+                key={social.name}
+                className={`w-12 h-12 bg-black rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 cursor-pointer group ${social.color} transform hover:rotate-12`}
+                style={{ animationDelay: `${index * 200}ms` }}
+              >
+                <social.icon className="w-6 h-6 text-white group-hover:scale-110 transition-transform duration-200" />
+              </div>
+            ))}
           </div>
         </div>
 
