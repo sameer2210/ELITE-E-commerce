@@ -1,6 +1,10 @@
-/* eslint-disable no-unused-vars */
 import axios from "../../api/config";
-import { loadproducts } from "../reducers/productSlice";
+import { toast } from "react-toastify";
+import {
+  loadproducts,
+  setProductError,
+  setProductLoading
+} from "../reducers/productSlice";
 
 export const asyncloadproducts = () => async (dispatch, getState) => {
   try {
@@ -11,62 +15,55 @@ export const asyncloadproducts = () => async (dispatch, getState) => {
       console.log("Products already loaded");
       return;
     }
+    dispatch(setProductLoading(true));
     const { data } = await axios.get(`/products?_limit=20`); // or remove _limit to fetch all
     // localStorage.setItem("products", JSON.stringify(data));          // save data in local storage
     dispatch(loadproducts(data));
-    console.log("Products loaded!");
+    console.log("Products fetched from API");
   } catch (error) {
-    console.log(error);
+    console.error("Failed to load products:", error);
+    dispatch(setProductError("Failed to load products"));
+    toast.error("Failed to load products.");
   }
 };
 
-export const asynccreateproduct = (Product) => async (dispatch, getState) => {
+export const asynccreateproduct = (product) => async (dispatch) => {
   try {
-    await axios.post("/products", Product);
-    dispatch(asyncloadproducts());
+    await axios.post("/products", product);
+    dispatch(asyncloadproducts()); // Refresh the product list after creation
+    toast.success("Product created successfully!");
     console.log("Product created!");
   } catch (error) {
-    console.log(error);
+    console.error("Error creating product:", error);
+    toast.error("Failed to create product. Please try again.");
   }
 };
 
-export const asyncupdateproduct =
-  (id, product) => async (dispatch, getState) => {
-    try {
-      await axios.patch(`/products/${id}`, product);
-      dispatch(asyncloadproducts());
-      console.log("Product updated!");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+export const asyncupdateproduct = (id, product) => async (dispatch) => {
+  try {
+    await axios.patch(`/products/${id}`, product);
+    dispatch(asyncloadproducts());
 
-export const asyncdeleteproduct = (id) => async (dispatch, getState) => {
+    // dispatch(setProductLoading(true));
+    // // update logic
+    // dispatch(setProductLoading(false));
+
+    toast.success("Product updated successfully!");
+    console.log("Product updated!");
+  } catch (error) {
+    console.error("Failed to update product:", error);
+    toast.error("Could not update product. Please try again.");
+  }
+};
+
+export const asyncdeleteproduct = (id) => async (dispatch) => {
   try {
     await axios.delete(`/products/${id}`);
     dispatch(asyncloadproducts());
+    toast.success("Product deleted successfully!");
     console.log("Product deleted!");
   } catch (error) {
-    console.log(error);
-  }
-};
-
-export const asyncAddtoCartProduct = (user, product, id) => {
-  try {
-    const copyUser = { ...user, cart: [...(user.cart || [])] };
-
-    const index = copyUser?.cart.findIndex((x) => x?.product.id == id);
-    if (index == -1) {
-      copyUser.cart.push({ product, quantity: 1 });
-    } else {
-      copyUser.cart[index] = {
-        product,
-        quantity: copyUser.cart[index].quantity + 1
-      };
-    }
-    return copyUser;
-  } catch (error) {
-    console.error("Error in asyncAddtoCartProduct:", error);
-    return user;
+    console.error("Failed to delete product:", error);
+    toast.error("Could not delete product. Please try again.");
   }
 };

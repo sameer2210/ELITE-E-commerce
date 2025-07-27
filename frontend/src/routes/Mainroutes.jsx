@@ -1,80 +1,52 @@
-import React from "react";
+
+
+import React, { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import { lazy } from "react";
 
 import Auth from "./Auth";
 import Unauth from "./Unauth";
+import Carts from "../pages/cart/Cart";
 import Settings from "../pages/user/Settings";
-import CreateProduct from "../pages/admin/CreateProduct";
-import DetailsProduct from "../pages/admin/DetailsProduct";
-import Carts from "../pages/user/Carts";
+import ProductDetails from './../pages/product/ProductDetails';
+import ProductManagement from "../pages/admin/ProductManagement";
 
-const Signup = lazy(() => import("./../pages/user/Signup"));
-const Signin = lazy(() => import("./../pages/user/Signin"));
-const Products = lazy(() => import("./../pages/Products"));
-const About = lazy(() => import("./../pages/About"));
-const Contact = lazy(() => import("./../pages/Contact"));
-const PageNotFound = lazy(() => import("./../pages/PageNotFound"));
+// Lazy-loaded components
+const Signup = lazy(() => import("../pages/user/Signup"));
+const Signin = lazy(() => import("../pages/user/Signin"));
+const Products = lazy(() => import("../components/product/ProductList"));
+const About = lazy(() => import("../pages/general/About"));
+const Contact = lazy(() => import("../pages/general/Contact"));
+const PageNotFound = lazy(() => import("../pages/general/PageNotFound"));
+
+const Loader = () => (
+  <div className="text-center py-20 text-lg font-medium text-gray-600">
+    Loading...
+  </div>
+);
 
 const Mainroutes = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Products />} />
+    <Suspense fallback={<Loader />}>
+      <Routes>
+        {/* Public */}
+        <Route path="/" element={<Products />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
 
-      <Route
-        path="/signin"
-        element={
-          <Unauth>
-            <Signin />
-          </Unauth>
-        }
-      />
-      <Route
-        path="/signup"
-        element={
-          <Unauth>
-            <Signup />
-          </Unauth>
-        }
-      />
+        {/* Auth-Protected */}
+        <Route path="/settings" element={<Auth><Settings /></Auth>} />
+        <Route path="/product-management" element={<Auth><ProductManagement /></Auth>} />
+        <Route path="/product-info/:id" element={<Auth><ProductDetails /></Auth>} />
+        <Route path="/cart" element={<Auth><Carts /></Auth>} />
 
-      <Route
-        path="/settings"
-        element={
-          <Auth>
-            <Settings />
-          </Auth>
-        }
-      />
-      <Route
-        path="/create-product"
-        element={
-          <Auth>
-            <CreateProduct />
-          </Auth>
-        }
-      />
-      <Route
-        path="/product-info/:id"
-        element={
-          <Auth>
-            <DetailsProduct />
-          </Auth>
-        }
-      />
-      <Route
-        path="/cart"
-        element={
-          <Auth>
-            <Carts />
-          </Auth>
-        }
-      />
+        {/* Unauthenticated Only */}
+        <Route path="/signin" element={<Unauth><Signin /></Unauth>} />
+        <Route path="/signup" element={<Unauth><Signup /></Unauth>} />
 
-      <Route path="/about" element={<About />} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/*" element={<PageNotFound />} />
-    </Routes>
+        {/* Catch All */}
+        <Route path="/*" element={<PageNotFound />} />
+      </Routes>
+    </Suspense>
   );
 };
 

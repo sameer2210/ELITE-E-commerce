@@ -86,7 +86,8 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { motion, AnimatePresence } from "framer-motion";
+import Button from "../../components/common/Button";
 import {
   asyncdeleteuser,
   asynclogoutuser,
@@ -106,11 +107,10 @@ import {
   LogOut,
   Trash2
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 
 const SettingsComponent = () => {
-  const { user } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.userReducer);
   const [isLoading, setIsLoading] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
@@ -140,25 +140,12 @@ const SettingsComponent = () => {
     setIsLoading(true);
     try {
       const updatedUser = { ...user, ...data };
+      await new Promise((r) => setTimeout(r, 2000)); // simulate saving
       await dispatch(asyncupdateuser(user.id, updatedUser));
-      toast.success("Profile updated successfully!", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true
-      });
+      toast.success("Profile updated successfully!");
     } catch (error) {
       console.error("Update failed:", error);
-      toast.error("Failed to update profile.", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true
-      });
+      toast.error("Failed to update profile.");
     } finally {
       setIsLoading(false);
     }
@@ -168,24 +155,11 @@ const SettingsComponent = () => {
     setIsLoading(true);
     try {
       await dispatch(asynclogoutuser(user.id));
-      toast.success("Logged out successfully!", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true
-      });
+      await new Promise((res) => setTimeout(res, 2000)); // simulate API call
+      toast.success("Logged out successfully!");
     } catch (error) {
       console.error("Logout failed:", error);
-      toast.error("Failed to logout.", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true
-      });
+      toast.error("Failed to logout!");
     } finally {
       setIsLoading(false);
     }
@@ -195,24 +169,11 @@ const SettingsComponent = () => {
     setIsLoading(true);
     try {
       await dispatch(asyncdeleteuser(user.id));
-      toast.success("Account deleted successfully!", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true
-      });
+      await new Promise((res) => setTimeout(res, 2000)); // simulate API call
+      toast.success("Account deleted successfully!");
     } catch (error) {
       console.error("Delete failed:", error);
-      toast.error("Failed to delete account.", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true
-      });
+      toast.error("Failed to delete account!");
     } finally {
       setIsLoading(false);
       setShowDeleteConfirm(false);
@@ -221,15 +182,7 @@ const SettingsComponent = () => {
 
   const resetForm = () => {
     reset();
-    toast.info("Changes discarded.", {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-
-      draggable: true
-    });
+    toast.info("Changes discarded successfully!");
   };
 
   useEffect(() => {
@@ -246,14 +199,7 @@ const SettingsComponent = () => {
     const file = e.target.files[0];
     if (file) {
       console.log("File selected:", file.name);
-      toast.success("Profile picture uploaded!", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true
-      });
+      toast.success("Profile picture uploaded!");
     }
   };
 
@@ -482,7 +428,7 @@ const SettingsComponent = () => {
                   <button
                     onClick={handleSubmit(handleUpdateUser)}
                     disabled={isLoading || !isDirty}
-                    className="group relative flex items-center gap-2 rounded-l-xl bg-gray-50  font-medium py-3 px-6 border-2 border-gray-300 hover:border-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-800 text-base tracking-wide uppercase overflow-hidden disabled:opacity-90 disabled:cursor-not-allowed"
+                    className="group relative flex items-center gap-2 rounded-tl-xl bg-gray-50  font-medium py-3 px-6 border-2 border-gray-300 hover:border-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-800 text-base tracking-wide uppercase overflow-hidden disabled:opacity-90 disabled:cursor-not-allowed"
                   >
                     <Save className="w-5 text-teal-700 h-5 group-hover:scale-110 transition-transform duration-300" />
                     {isLoading ? "Saving..." : "Save Changes"}
@@ -490,16 +436,14 @@ const SettingsComponent = () => {
                     <span className="relative z-10 transform group-hover:-translate-y-0.5 transition-transform duration-600"></span>
                   </button>
 
-                  <button
-                    onClick={resetForm}
+                  <Button
+                    onClick={() => resetForm(true)}
                     disabled={isLoading}
-                    className="group relative flex items-center gap-2 rounded-r-xl bg-gray-50 text-gray-900 font-medium py-3 px-2 border-2 border-gray-300 hover:border-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-800 text-base tracking-wide uppercase overflow-hidden disabled:opacity-90 disabled:cursor-not-allowed"
-                  >
-                    <Save className="w-5 text-red-700 h-5 group-hover:scale-110 transition-transform duration-300" />
-                    Discard Changes
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-900 group-hover:w-full transition-all duration-700"></span>
-                    <span className="relative z-10 transform group-hover:-translate-y-0.5 transition-transform duration-600"></span>
-                  </button>
+                    icon={Save}
+                    iconColor="text-yellow-400"
+                  > Discard Changes
+                  </Button>
+
                 </motion.div>
               </div>
 
@@ -515,28 +459,23 @@ const SettingsComponent = () => {
                   Danger Zone
                 </h3>
                 <div className="flex justify-evenly">
-                  <button
-                    onClick={handleLogout}
-                    disabled={isLoading}
-                    aria-label={isLoading ? "Logging out" : "Log out"}
-                    className="group relative flex items-center gap-2 rounded-l-xl bg-gray-50 text-gray-900 font-medium py-3 px-12 border-2 border-gray-300 hover:border-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-800 text-base tracking-wide uppercase overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    <LogOut className="w-5 text-red-500 h-5 group-hover:scale-110 transition-transform duration-300" />
-                    {isLoading ? "Logging out..." : "Logout"}
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-900 group-hover:w-full transition-all duration-700"></span>
-                    <span className="relative z-10 transform group-hover:-translate-y-0.5 transition-transform duration-600"></span>
-                  </button>
 
-                  <button
+                  <Button
+                    onClick={() => handleLogout(true)}
+                    disabled={isLoading}
+                    loadingText="Logging out..."
+                    icon={LogOut}
+                    iconColor="text-red-500"
+                  >Logout
+                  </Button>
+
+                  <Button
                     onClick={() => setShowDeleteConfirm(true)}
                     disabled={isLoading}
-                    className="group relative flex items-center gap-2 rounded-r-xl bg-gray-50 text-gray-900 font-medium py-3 px-2 border-2 border-gray-300 hover:border-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-800 text-base tracking-wide uppercase overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    <Trash2 className="w-5 text-red-500 h-5 group-hover:scale-110 transition-transform duration-300" />
-                    Delete Account
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-900 group-hover:w-full transition-all duration-700"></span>
-                    <span className="relative z-10 transform group-hover:-translate-y-0.5 transition-transform duration-600"></span>
-                  </button>
+                    icon={Trash2}
+                    iconColor="text-red-600"
+                  >Delete Account
+                  </Button>
                 </div>
               </motion.div>
             </motion.div>
@@ -613,14 +552,13 @@ const SettingsComponent = () => {
                 <p className="text-sm text-gray-600 mb-3">
                   Chat to our staff 24/7 for instant support.
                 </p>
-                <button className="flex items-center gap-2 px-4 py-2 bg-indigo-50 hover:bg-indigo-100 rounded-xl transition-all duration-300 text-sm font-medium text-indigo-700">
+                <Button>
                   <MessageCircle className="w-4 h-4" />
                   Start live chat
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse ml-1"></div>
                   <span className="text-xs text-green-600 font-semibold">
                     Online
                   </span>
-                </button>
+                </Button>
               </motion.div>
 
               {/* Chat with AI */}
@@ -636,11 +574,11 @@ const SettingsComponent = () => {
                 <p className="text-sm text-gray-600 mb-3">
                   Get instant answers from our AI assistant.
                 </p>
-                <button className="flex items-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 rounded-xl transition-all duration-300 text-sm font-medium text-blue-700 border border-blue-200">
+                <Button >
                   <Bot className="w-4 h-4" />
                   Ask AI Assistant
-                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse ml-1"></div>
-                </button>
+                  <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse ml-1"></div>
+                </Button>
               </motion.div>
 
               {/* Call Us */}
@@ -760,23 +698,19 @@ const SettingsComponent = () => {
                   cannot be undone.
                 </p>
                 <div className="flex gap-3">
-                  <button
+                  <Button
                     onClick={handleDeleteUser}
                     disabled={isLoading}
-                    className="group relative bg-transparent text-gray-900 font-light py-3 px-12 border-b-2 border-gray-300 hover:border-gray-900 transition-all duration-500 text-lg tracking-widest uppercase overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isLoading ? "Deleting..." : "Delete Account"}
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-900 group-hover:w-full transition-all duration-500"></span>
-                    <span className="relative z-10 transform group-hover:translate-y-1 transition-transform duration-300"></span>
-                  </button>
+                    loadingText="Deleting..."
+                  >Delete Account
+                    {/* {isLoading ? "Deleting..." : "Delete Account"} */}
+                  </Button>
 
-                  <button
+                  <Button
                     onClick={() => setShowDeleteConfirm(false)}
                     disabled={isLoading}
-                    className="flex-1 bg-gray-500 hover:bg-gray-300 disabled:bg-gray-100 disabled:cursor-not-allowed text-gray-800 px-4 py-2 rounded-xl transition-all duration-300 text-sm font-medium"
-                  >
-                    Cancel
-                  </button>
+                  >Cancel
+                  </Button>
                 </div>
               </motion.div>
             </motion.div>

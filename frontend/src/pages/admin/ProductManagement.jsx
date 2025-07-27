@@ -1,81 +1,34 @@
 /* eslint-disable no-unused-vars */
-// import { nanoid } from "nanoid";
-// import { useForm } from "react-hook-form";
-// import { useDispatch } from "react-redux";
-// import { useNavigate } from "react-router-dom";
-// import { asynccreateproduct } from "../../store/actions/productAction";
 
-// const CreateProduct = () => {
-//   const dispatch = useDispatch();
-//   const navigate = useNavigate();
-//   const { register, handleSubmit } = useForm();
-
-//   const SigninHandler = (product) => {
-//     product.id = nanoid();
-//     dispatch(asynccreateproduct(product));
-//     navigate("/");
-//   };
-//   return (
-//     <form onSubmit={handleSubmit(SigninHandler)} className="p-5 w-full">
-//       <input
-//         {...register("image")}
-//         className="w-full text-3xl border-b outline-0 p-2 mb-5"
-//         type="url"
-//         placeholder="Product Image"
-//       />
-//       <input
-//         {...register("title")}
-//         className="w-full text-3xl border-b outline-0 p-2 mb-5"
-//         type="text"
-//         placeholder="Product Name"
-//       />
-//       <input
-//         {...register("price")}
-//         className="w-full text-3xl border-b outline-0 p-2 mb-5"
-//         type="text"
-//         placeholder="0.00"
-//       />
-//       <input
-//         {...register("category")}
-//         className="w-full text-3xl border-b outline-0 p-2 mb-5"
-//         type="text"
-//         placeholder="Product Category"
-//       />
-//       <textarea
-//         {...register("description")}
-//         className="w-full text-3xl border-b outline-0 p-2 mb-5"
-//         type="text"
-//         placeholder="enter description here..."
-//       ></textarea>
-//       <button className="text-white text-3xl px-5 py-3 rounded bg-teal-800">
-//         Create Product
-//       </button>
-//     </form>
-//   );
-// };
-
-// export default CreateProduct;
-
-//--------------------------------------------------------------------------------------------------------
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { asynccreateproduct } from "../../store/actions/productAction";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { asynccreateproduct, asyncdeleteproduct,asyncupdateproduct } from "../../store/actions/productAction";
 
-const CreateProduct = () => {
+const ProductManagement = () => {
+
+  const { id } = useParams();
+  const { products } = useSelector((state) => state.productReducer);
+  const product = products?.find((p) => p.id == id);
+
+
+  const { register, handleSubmit,formState: { errors }, reset } = useForm({
+    defaultValues: {
+      image: product?.image,
+      title: product?.title,
+      price: product?.price,
+      category: product?.category,
+      description: product?.description
+    }
+  });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset
-  } = useForm();
+  // const {register,handleSubmit,formState: { errors },reset} = useForm();
 
   const onSubmit = async (data) => {
     if (isSubmitting) return;
@@ -93,6 +46,53 @@ const CreateProduct = () => {
       setIsSubmitting(false);
     }
   };
+
+  const UpdateHandler = ((data) => {
+    try {
+      console.log("Update product:", data);
+      const updatedProduct = {
+        ...product,
+        image: data.image,
+        title: data.title,
+        price: parseFloat(data.price),
+        category: data.category,
+        description: data.description
+      };
+
+      dispatch(asyncupdateproduct(product.id, updatedProduct));
+      toast.success("Product updated successfully!");
+      navigate("/");
+    } catch (error) {
+      console.error("Error updating product:", error);
+      toast.error("Failed to update product. Please try again.");
+    }
+  });
+
+  const DeleteHandler = () => {
+    try {
+      if (window.confirm("Are you sure you want to delete this product?")) {
+        console.log("Delete product:", product.id);
+        dispatch(asyncdeleteproduct(product.id));
+        toast.success("Product deleted successfully!");
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      toast.error("Failed to delete product. Please try again.");
+    }
+  };
+    // Update form when product loads
+  useEffect(() => {
+    if (product) {
+      reset({
+        image: product?.image || product?.images?.[0] || "",
+        title: product?.title || "",
+        price: product?.price || "",
+        category: product?.category || "",
+        description: product?.description || ""
+      });
+    }
+  }, [product, reset]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 py-12 px-4">
@@ -300,8 +300,25 @@ const CreateProduct = () => {
                     {isSubmitting ? "Wait..." : "reset"}
                   </span>
                 </button>
+                <div className="flex gap-4 mt-6">
+                    <button
+                      type="button"
+                      onClick={UpdateHandler}
+                      className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                    >
+                      Update Product
+                    </button>
+                    <button
+                      type="button"
+                      onClick={DeleteHandler}
+                      className="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors font-medium"
+                    >
+                      Delete Product
+                    </button>
+                  </div>
               </div>
             </form>
+
           </div>
         </div>
 
@@ -316,4 +333,4 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default ProductManagement;
