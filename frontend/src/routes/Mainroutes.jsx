@@ -1,5 +1,3 @@
-
-
 import React, { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 
@@ -7,8 +5,8 @@ import Auth from "./Auth";
 import Unauth from "./Unauth";
 import Carts from "../pages/cart/Cart";
 import Settings from "../pages/user/Settings";
+import ProductCreate from "../pages/admin/ProductCreate";
 import ProductDetails from './../pages/product/ProductDetails';
-import ProductManagement from "../pages/admin/ProductManagement";
 
 // Lazy-loaded components
 const Signup = lazy(() => import("../pages/user/Signup"));
@@ -35,7 +33,7 @@ const Mainroutes = () => {
 
         {/* Auth-Protected */}
         <Route path="/settings" element={<Auth><Settings /></Auth>} />
-        <Route path="/product-management" element={<Auth><ProductManagement /></Auth>} />
+        <Route path="/productCreate" element={<Auth><ProductCreate /></Auth>} />
         <Route path="/product-info/:id" element={<Auth><ProductDetails /></Auth>} />
         <Route path="/cart" element={<Auth><Carts /></Auth>} />
 

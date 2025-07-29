@@ -1,16 +1,18 @@
 const Button = ({
     onClick,
+    className = "",
+    type = "button",
     disabled = false,
     loading = false,
-    loadingText = "Loading...",
     icon: Icon,
+    loadingText = "Loading...",
     iconColor = "text-gray-900",
-    className = "",
     children,
 }) => {
     return (
         <button
             onClick={onClick}
+            type={type}
             disabled={disabled || loading}
             aria-label={loading ? loadingText : children}
             className={`group relative flex items-center gap-2 rounded-tr-2xl bg-gray-50 text-gray-900 font-medium py-3 px-4 border-2 border-gray-300 hover:border-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-800 text-base tracking-wide uppercase overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed ${className}`}

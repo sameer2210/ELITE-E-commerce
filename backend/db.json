@@ -38,7 +38,7 @@
       "image": "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?w=600&h=600&fit=crop&auto=format",
       "title": "ROLEX",
       "subtitle": "Daytona Cosmograph 116500LN",
-      "price": 14500,
+      "price": 144.97,
       "originalPrice": 16000,
       "category": "Sports Watches",
       "description": "The Rolex Daytona Cosmograph is a beautiful luxury watch revered for its precision and iconic design. With a ceramic bezel and chronograph functionality, it’s a favorite among racing enthusiasts.",
@@ -421,27 +421,25 @@
     },
     {
       "id": "igaL5ceeK4iAsepcb9KpY",
-      "image": "https://cdn.dummyjson.com/recipe-images/1.webp",
-      "title": "sam",
-      "price": "234",
-      "category": "Sports Watches",
-      "description": "ksalkfjasljflkasjsflkimport { useSelector } from \"react-redux\";\nimport { Navigate } from \"react-router-dom\";\n\nconst Auth = ({ children }) => {\n  const { user, loading } = useSelector((state) => state.userReducer);\n\n  if (loading) {\n    return <div className=\"text-center py-10\">Checking authentication...</div>;\n  }\n\n  return user ? children : <Navigate to=\"/signin\" replace />;\n};\n\nexport default Auth;\n\n\n"
-    },
-    {
-      "id": "vbmtHLbZhHQkHdzkNXoV1",
       "image": "https://images.unsplash.com/photo-1484723091739-30a097e8f929?q=80&w=1547&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "title": "sa,,mm",
-      "price": "35",
+      "title": "sam",
+      "price": 1.98,
       "category": "Sports Watches",
-      "description": "nbvmnm"
+      "description": "ksalkfjasljflkasjsflkimport { useSelector } from \"react-redux\";\nimport { Navigate } from \"react-router-dom\";\n\nconst Auth = ({ children }) => {\n  const { user, loading } = useSelector((state) => state.userReducer);\n\n  if (loading) {\n    return <div className=\"text-center py-10\">Checking authentication...</div>;\n  }\n\n  return user ? children : <Navigate to=\"/signin\" replace />;\n};\n\nexport default Auth;\n\n\n",
+      "brand": "adas",
+      "department": "watches-jewellery",
+      "tag": "eco-friendly"
     },
     {
-      "id": "5ZvL821gOfc855kcw1K3y",
-      "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "title": "saeeeeer",
-      "price": 3262,
-      "category": "Sports Watches",
-      "description": "dsf"
+      "id": "fFi0gYaEOZdO8G5ZR14vy",
+      "image": "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?w=600&h=600&fit=crop&auto=format",
+      "title": "sammm",
+      "price": 99,
+      "brand": "puma",
+      "department": "women",
+      "category": "Luxury Sports Watches",
+      "tag": "limited",
+      "description": "sammmmmmmmmm"
     }
   ],
   "users": [
@@ -489,7 +487,7 @@
               "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?w=100&h=100&fit=crop&auto=format"
             ]
           },
-          "quantity": 1
+          "quantity": 2
         },
         {
           "product": {
@@ -525,6 +523,58 @@
               "https://images.pexels.com/photos/2113994/pexels-photo-2113994.jpeg?w=100&h=100&fit=crop&auto=format",
               "https://images.unsplash.com/photo-1547996160-3bd7db01e629?w=100&h=100&fit=crop&auto=format"
             ]
+          },
+          "quantity": 1
+        },
+        {
+          "product": {
+            "id": "3",
+            "image": "https://images.pexels.com/photos/277390/pexels-photo-277390.jpeg?w=600&h=600&fit=crop&auto=format",
+            "title": "AUDEMARS PIGUET",
+            "subtitle": "Royal Oak Selfwinding 15400ST",
+            "randomOffer": "on offer",
+            "price": 38000,
+            "originalPrice": 42000,
+            "category": "Luxury Sports Watches",
+            "description": "The Audemars Piguet Royal Oak is a beautiful luxury watch with its iconic octagonal bezel and tapisserie dial. Its self-winding movement and stainless steel case offer both style and durability.",
+            "designer": "Gérald Genta",
+            "articleNumber": "AP-15400ST",
+            "rating": 4.8,
+            "reviews": 654,
+            "warranty": "2 year international warranty",
+            "features": [
+              "Swiss Made",
+              "Self-Winding",
+              "Sapphire Crystal",
+              "Water Resistant 50m"
+            ],
+            "specifications": {
+              "movement": "Caliber 3120",
+              "powerReserve": "60 hours",
+              "caseDiameter": "41mm",
+              "caseThickness": "9.8mm",
+              "waterResistance": "50m"
+            },
+            "thumbnails": [
+              "https://images.pexels.com/photos/277390/pexels-photo-277390.jpeg?w=100&h=100&fit=crop&auto=format",
+              "https://images.pexels.com/photos/364822/pexels-photo-364822.jpeg?w=100&h=100&fit=crop&auto=format",
+              "https://images.unsplash.com/photo-1495856459153-74f75b6c9184?w=100&h=100&fit=crop&auto=format",
+              "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?w=100&h=100&fit=crop&auto=format"
+            ]
+          },
+          "quantity": 5
+        },
+        {
+          "product": {
+            "id": "igaL5ceeK4iAsepcb9KpY",
+            "image": "https://cdn.dummyjson.com/recipe-images/1.webp",
+            "title": "sam",
+            "price": 1.98,
+            "category": "Sports Watches",
+            "description": "ksalkfjasljflkasjsflkimport { useSelector } from \"react-redux\";\nimport { Navigate } from \"react-router-dom\";\n\nconst Auth = ({ children }) => {\n  const { user, loading } = useSelector((state) => state.userReducer);\n\n  if (loading) {\n    return <div className=\"text-center py-10\">Checking authentication...</div>;\n  }\n\n  return user ? children : <Navigate to=\"/signin\" replace />;\n};\n\nexport default Auth;\n\n\n",
+            "brand": "adas",
+            "department": "watches-jewellery",
+            "tag": "eco-friendly"
           },
           "quantity": 1
         }

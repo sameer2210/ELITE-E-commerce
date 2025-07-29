@@ -295,6 +295,7 @@ const Nav = () => {
                       setUserMenuOpen(!isUserMenuOpen);
                       setSearchOpen(false);
                     }}
+
                     className="flex items-center space-x-1 p-2 text-gray-300 hover:text-white transition-colors rounded-full hover:bg-gray-800"
                   >
                     <User className="w-5 h-5" />
@@ -316,7 +317,7 @@ const Nav = () => {
                       </NavLink>
 
                       {user.isAdmin && (
-                        <NavLink to="/product-management" className="block px-3 py-2 text-white hover:bg-red-500 rounded-lg text-sm">
+                        <NavLink to="/productCreate" className="block px-3 py-2 text-white hover:bg-red-500 rounded-lg text-sm">
                           Admin Panel
                         </NavLink>
                       )
