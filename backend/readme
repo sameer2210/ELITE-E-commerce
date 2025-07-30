@@ -1,10 +1,52 @@
-ÉLITE
-
-
-
-
-To run backend
-
-
-
-npx json-server --watch db.json --port 5000
+backend/
+├── src/
+│   ├── config/
+│   │   ├── db.js                 # MongoDB connection
+│   │   └── cloudinary.js         # (optional) Cloudinary config for images
+│   │
+│   ├── controllers/
+│   │   ├── auth.controller.js
+│   │   ├── product.controller.js
+│   │   ├── user.controller.js
+│   │   ├── order.controller.js
+│   │   └── payment.controller.js
+│   │
+│   ├── middleware/
+│   │   ├── auth.middleware.js    # JWT auth
+│   │   ├── error.middleware.js   # Global error handler
+│   │   └── validate.middleware.js# (optional) Request validation
+│   │
+│   ├── models/
+│   │   ├── user.model.js
+│   │   ├── product.model.js
+│   │   ├── order.model.js
+│   │   ├── category.model.js
+│   │   └── cart.model.js
+│   │
+│   ├── routes/
+│   │   ├── auth.routes.js
+│   │   ├── user.routes.js
+│   │   ├── product.routes.js
+│   │   ├── order.routes.js
+│   │   └── upload.routes.js
+│   │
+│   ├── services/
+│   │   ├── auth.service.js
+│   │   ├── product.service.js
+│   │   └── payment.service.js
+│   │
+│   ├── utils/
+│   │   ├── generateToken.js      # JWT token generator
+│   │   ├── sendEmail.js
+│   │   └── slugify.js
+│   │
+│   ├── app.js                    # App config: middleware, routes
+│   └── server.js                 # Main entry: connect DB and start server
+│
+├── uploads/                      # Local uploads (optional)
+├── tests/                        # (optional) For unit/integration tests
+├── Dockerfile                    # (optional) Docker support
+├── .env                          # Environment config
+├── .gitignore
+├── package.json
+└── README.md
