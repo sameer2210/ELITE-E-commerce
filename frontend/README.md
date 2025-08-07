@@ -114,6 +114,7 @@ NPM package management files. List dependencies, scripts, and project metadata.
 │ │ │ └── ⚛️ QuantitySelector.jsx
 │ │ ├── 📁 common/
 │ │ │ ├── ⚛️ Button.jsx
+| | | |---⚛️--AutoSlider.jsx
 │ │ │ ├── ⚛️ Loader.jsx
 │ │ │ └── ⚛️ RatingStars.jsx
 │ │ ├── 📁 filters/
@@ -132,6 +133,7 @@ NPM package management files. List dependencies, scripts, and project metadata.
 │ │ │ └── ⚛️ Sidebar.jsx
 │ │ └── 📁 product/
 │ │ ├── ⚛️ ProductCard.jsx
+| | |---⚛️--ProductForm.jsx
 │ │ └── ⚛️ ProductList.jsx
 │ ├── 📁 hooks/
 │ │ ├── 📁 cartHook/
