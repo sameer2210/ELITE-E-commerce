@@ -25,7 +25,7 @@ startServer();
 
 // Gracefully handle unhandled promise rejections
 process.on("unhandledRejection", (err) => {
-  console.error("Unhandle Rejection: ", err.message);
+  console.error("Un-handle Rejection: ", err.message);
   server.close(() => process.exit(1));
 });
 

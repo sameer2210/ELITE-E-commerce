@@ -4,7 +4,7 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import { notFound, errorHandler } from "../src/middleware/error.middleware.js";
 
-// import authRoutes from "./routes/auth.routes.js";
+import authRoutes from "./routes/auth.routes.js";
 // import userRoutes from "./routes/user.routes.js";
 // import productRoutes from "./routes/product.routes.js";
 // import orderRoutes from "./routes/order.routes.js";
@@ -28,7 +28,7 @@ app.use(
   })
 );
 
-// app.use("/api/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 // app.use("/api/user", userRoutes);
 // app.use("/api/product", productRoutes);
 // app.use("/api/upload", uploadRoutes);
