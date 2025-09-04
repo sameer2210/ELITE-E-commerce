@@ -1,52 +1,58 @@
+
+Folder Structure---
+
 backend/
 ├── src/
 │   ├── config/
-│   │   ├── db.js                 # MongoDB connection
-│   │   └── cloudinary.js         # (optional) Cloudinary config for images
+│   │   ├── db.js                 # MongoDB connection logic (connects using MONGO_URI)
+│   │   └── cloudinary.js         # Cloudinary config for image uploads (optional)
 │   │
-│   ├── controllers/
-│   │   ├── auth.controller.js
-│   │   ├── product.controller.js
-│   │   ├── user.controller.js
-│   │   ├── order.controller.js
-│   │   └── payment.controller.js
+│   ├── controllers/              # Handle requests & responses (business logic layer)
+│   │   ├── auth.controller.js    # User login, register, refresh tokens
+│   │   ├── product.controller.js # CRUD operations for products
+│   │   ├── user.controller.js    # Fetch/update/delete user details
+│   │   ├── order.controller.js   # Order placement, status updates
+│   │   └── payment.controller.js # Payment gateway integrations (e.g. Stripe/Razorpay)
 │   │
-│   ├── middleware/
-│   │   ├── auth.middleware.js    # JWT auth
-│   │   ├── error.middleware.js   # Global error handler
-│   │   └── validate.middleware.js# (optional) Request validation
+│   ├── middleware/               # Middlewares run before reaching controllers
+│   │   ├── auth.middleware.js    # JWT authentication & role-based access
+│   │   ├── error.middleware.js   # Global error handler (try/catch wrapper)
+│   │   └── validate.middleware.js# Request validation (Joi/Yup/Zod) (optional)
 │   │
-│   ├── models/
-│   │   ├── user.model.js
-│   │   ├── product.model.js
-│   │   ├── order.model.js
-│   │   ├── category.model.js
-│   │   └── cart.model.js
+│   ├── models/                   # MongoDB schemas (Mongoose)
+│   │   ├── user.model.js         # User schema (name, email, password, roles)
+│   │   ├── product.model.js      # Product schema (title, price, stock, etc.)
+│   │   ├── order.model.js        # Order schema (items, total, status, user ref)
+│   │   ├── category.model.js     # Categories schema (electronics, clothing, etc.)
+│   │   └── cart.model.js         # Cart schema (items, user ref, total)
 │   │
-│   ├── routes/
-│   │   ├── auth.routes.js
-│   │   ├── user.routes.js
-│   │   ├── product.routes.js
-│   │   ├── order.routes.js
-│   │   └── upload.routes.js
+│   ├── routes/                   # API routes (connects URLs to controllers)
+│   │   ├── auth.routes.js        # /api/auth → login, register, refresh, logout
+│   │   ├── user.routes.js        # /api/users → profile, update, delete
+│   │   ├── product.routes.js     # /api/products → CRUD endpoints
+│   │   ├── order.routes.js       # /api/orders → create, update, fetch orders
+│   │   └── upload.routes.js      # /api/upload → file/image uploads
 │   │
-│   ├── services/
-│   │   ├── auth.service.js
-│   │   ├── product.service.js
-│   │   └── payment.service.js
+│   ├── scripts/
+│   │   └── seedAdmin.js          # Script to insert a default admin user in DB
 │   │
-│   ├── utils/
-│   │   ├── generateToken.js      # JWT token generator
-│   │   ├── sendEmail.js
-│   │   └── slugify.js
+│   ├── services/                 # Service layer (logic reusable across controllers)
+│   │   ├── auth.service.js       # Auth helper functions (hash password, verify)
+│   │   ├── product.service.js    # Product-related reusable functions
+│   │   └── payment.service.js    # Payment gateway utilities
 │   │
-│   ├── app.js                    # App config: middleware, routes
-│   └── server.js                 # Main entry: connect DB and start server
+│   ├── utils/                    # Helper functions/utilities
+│   │   ├── generateToken.js      # Generates JWT tokens
+│   │   ├── sendEmail.js          # Nodemailer/SMTP for emails
+│   │   └── slugify.js            # Converts product titles → URL-friendly slugs
+│   │
+│   ├── app.js                    # Express app config → middleware, routes
+│   └── server.js                 # Main entry → connect DB + start server
 │
-├── uploads/                      # Local uploads (optional)
-├── tests/                        # (optional) For unit/integration tests
-├── Dockerfile                    # (optional) Docker support
-├── .env                          # Environment config
-├── .gitignore
-├── package.json
-└── README.md
+├── uploads/                      # Local uploads folder (if not using cloudinary)
+├── tests/                        # Jest/Mocha test cases (unit/integration)
+├── Dockerfile                    # Docker setup (optional)
+├── .env                          # Environment variables (MONGO_URI, JWT_SECRET, etc.)
+├── .gitignore                    # Ignore node_modules, .env, etc.
+├── package.json                  # Project metadata, dependencies, scripts
+└── README.md                     # Project documentation

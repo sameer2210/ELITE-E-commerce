@@ -1,7 +1,7 @@
-import dotenv from "dotenv";
-import http from "http";
-import app from "./app.js";
-import connectDB from "./config/db.js";
+import dotenv from 'dotenv';
+import http from 'http';
+import app from './app.js';
+import connectDB from './config/db.js';
 
 dotenv.config(); // Load environment variables
 
@@ -16,7 +16,7 @@ const startServer = async () => {
       console.log(`Server is running on http://localhost:${PORT}`);
     });
   } catch (err) {
-    console.log("failed to start Server: ", err);
+    console.log('failed to start Server: ', err);
     process.exit(1);
   }
 };
@@ -24,13 +24,13 @@ const startServer = async () => {
 startServer();
 
 // Gracefully handle unhandled promise rejections
-process.on("unhandledRejection", (err) => {
-  console.error("Un-handle Rejection: ", err.message);
+process.on('unhandledRejection', err => {
+  console.error('Un-handle Rejection: ', err);
   server.close(() => process.exit(1));
 });
 
 // handle uncaught exceptions
-process.on("uncaughtException", (err) => {
-  console.error("UnCaught Exception: ", err.message);
+process.on('uncaughtException', err => {
+  console.error('UnCaught Exception: ', err.message);
   process.exit(1);
 });
