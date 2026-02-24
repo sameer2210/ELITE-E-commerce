@@ -5,7 +5,7 @@ import { nanoid } from "nanoid";
 import { toast } from "react-toastify";
 import { ArrowLeft } from "lucide-react";
 import Button from "../../components/common/Button";
-import ProductForm from "../../components/product/productForm";
+import ProductForm from "../../components/product/ProductForm";
 import { asynccreateproduct } from "../../store/actions/productAction";
 
 const ProductCreate = () => {

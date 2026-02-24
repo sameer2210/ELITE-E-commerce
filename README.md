@@ -182,6 +182,69 @@ NPM package management files. List dependencies, scripts, and project metadata.
 ├── 📄 README.md
 └── 📄 vite.config.js
 
+
+and this is backend starcture
+
+
+Folder Structure---
+
+backend/
+├── src/
+│   ├── config/
+│   │   ├── db.js                 # MongoDB connection logic (connects using MONGO_URI)
+│   │   └── cloudinary.js         # Cloudinary config for image uploads (optional)
+│   │
+│   ├── controllers/              # Handle requests & responses (business logic layer)
+│   │   ├── auth.controller.js    # User login, register, refresh tokens
+│   │   ├── product.controller.js # CRUD operations for products
+│   │   ├── user.controller.js    # Fetch/update/delete user details
+│   │   ├── order.controller.js   # Order placement, status updates
+│   │   └── payment.controller.js # Payment gateway integrations (e.g. Stripe/Razorpay)
+│   │
+│   ├── middleware/               # Middlewares run before reaching controllers
+│   │   ├── auth.middleware.js    # JWT authentication & role-based access
+│   │   ├── error.middleware.js   # Global error handler (try/catch wrapper)
+│   │   └── validate.middleware.js# Request validation (Joi/Yup/Zod) (optional)
+│   │
+│   ├── models/                   # MongoDB schemas (Mongoose)
+│   │   ├── user.model.js         # User schema (name, email, password, roles)
+│   │   ├── product.model.js      # Product schema (title, price, stock, etc.)
+│   │   ├── order.model.js        # Order schema (items, total, status, user ref)
+│   │   ├── category.model.js     # Categories schema (electronics, clothing, etc.)
+│   │   └── cart.model.js         # Cart schema (items, user ref, total)
+│   │
+│   ├── routes/                   # API routes (connects URLs to controllers)
+│   │   ├── auth.routes.js        # /api/auth → login, register, refresh, logout
+│   │   ├── user.routes.js        # /api/users → profile, update, delete
+│   │   ├── product.routes.js     # /api/products → CRUD endpoints
+│   │   ├── order.routes.js       # /api/orders → create, update, fetch orders
+│   │   └── upload.routes.js      # /api/upload → file/image uploads
+│   │
+│   ├── scripts/
+│   │   └── seedAdmin.js          # Script to insert a default admin user in DB
+│   │
+│   ├── services/                 # Service layer (logic reusable across controllers)
+│   │   ├── auth.service.js       # Auth helper functions (hash password, verify)
+│   │   ├── product.service.js    # Product-related reusable functions
+│   │   └── payment.service.js    # Payment gateway utilities
+│   │
+│   ├── utils/                    # Helper functions/utilities
+│   │   ├── generateToken.js      # Generates JWT tokens
+│   │   ├── sendEmail.js          # Nodemailer/SMTP for emails
+│   │   └── slugify.js            # Converts product titles → URL-friendly slugs
+│   │
+│   ├── app.js                    # Express app config → middleware, routes
+│   └── server.js                 # Main entry → connect DB + start server
+│
+├── uploads/                      # Local uploads folder (if not using cloudinary)
+├── tests/                        # Jest/Mocha test cases (unit/integration)
+├── Dockerfile                    # Docker setup (optional)
+├── .env                          # Environment variables (MONGO_URI, JWT_SECRET, etc.)
+├── .gitignore                    # Ignore node_modules, .env, etc.
+├── package.json                  # Project metadata, dependencies, scripts
+└── README.md                     # Project documentation
+
+
 ## Project Workflow & Architecture
 
 ### 1. General Workflow

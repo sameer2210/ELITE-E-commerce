@@ -34,6 +34,8 @@ app.use(
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use("/api/product", productRoutes);
+// Legacy/Frontend-friendly routes
+app.use("/products", productRoutes);
 // app.use("/api/upload", uploadRoutes);
 // app.use("/api/order", orderRoutes);
 

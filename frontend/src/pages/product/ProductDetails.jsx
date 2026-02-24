@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../components/common/Button";
-import ProductForm from "../../components/product/productForm";
+import ProductForm from "../../components/product/ProductForm";
 import { asyncupdateuser } from "../../store/actions/userActions";
 import { asyncAddtoCartProduct } from "../../store/actions/cartAction";
 import { asyncdeleteproduct, asyncupdateproduct } from "../../store/actions/productAction";
@@ -17,7 +17,7 @@ const ProductDetails = () => {
   const { id } = useParams();
   const user = useSelector(state => state.userReducer.user || null);
   const { products, loading } = useSelector(state => state.productReducer);
-  const product = products.find(p => p.id === id);
+  const product = products.find(p => p.id === id || p._id === id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -47,7 +47,7 @@ const ProductDetails = () => {
         tag: data.tag,
         description: data.description
       };
-      await dispatch(asyncupdateproduct(product.id, updatedProduct));
+      await dispatch(asyncupdateproduct(product.id || product._id, updatedProduct));
       toast.success("Product updated!");
       navigate("/");
     } catch (error) {
@@ -77,7 +77,7 @@ const ProductDetails = () => {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
     if (loading) return;
     try {
-      await dispatch(asyncdeleteproduct(product.id));
+      await dispatch(asyncdeleteproduct(product.id || product._id));
       toast.success("Product deleted!");
       navigate("/");
     } catch (error) {
@@ -281,12 +281,12 @@ const ProductDetails = () => {
               </div>
               <div className="space-y-4">
                 {products
-                  .filter(item => item.id !== id)
+                  .filter(item => (item.id || item._id) !== id)
                   .slice(0, 10)
                   .map(item => (
                     <div
-                      key={item.id}
-                      onClick={() => navigate(`/products/${item.id}`)}
+                      key={item.id || item._id}
+                      onClick={() => navigate(`/product-info/${item.id || item._id}`)}
                       className="flex items-center gap-2 p-2 rounded hover:bg-gray-50 cursor-pointer"
                     >
                       <img

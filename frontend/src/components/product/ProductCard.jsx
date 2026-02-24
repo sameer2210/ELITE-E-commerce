@@ -22,7 +22,7 @@ const ProductCard = ({ p }) => {
       return;
     }
     try {
-      const updatedUser = asyncAddtoCartProduct(user, p, p.id);
+      const updatedUser = asyncAddtoCartProduct(user, p, p.id || p._id);
       dispatch(asyncupdateuser(updatedUser.id, updatedUser));
       toast.success(`${p.title.slice(0, 30)}... added to cart!`);
     } catch (error) {
@@ -93,7 +93,7 @@ const ProductCard = ({ p }) => {
           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
             <div className="flex space-x-3">
               <Link
-                to={`/product-info/${p.id}`}
+                to={`/product-info/${p.id || p._id}`}
                 className="w-12 h-12 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-xl hover:bg-white hover:scale-110 transition-all duration-300"
               >
                 <Eye className="w-5 h-5 text-stone-600" />
