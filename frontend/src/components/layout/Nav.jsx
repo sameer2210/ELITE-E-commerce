@@ -73,12 +73,11 @@ const navigationData = {
 };
 
 
-const NavDropdown = ({ menuItem, data, activeDropdown, handleMouseEnter, handleMouseLeave }) => (
+const NavDropdown = ({ menuItem, activeDropdown, handleMouseEnter }) => (
   <div
     key={menuItem}
-    className="relative dropdown-container"
+    className="relative"
     onMouseEnter={() => handleMouseEnter(menuItem)}
-    onMouseLeave={handleMouseLeave}
   >
     <button
       className="flex items-center space-x-1 text-sm font-medium text-gray-300 hover:text-white transition-colors py-2"
@@ -89,78 +88,81 @@ const NavDropdown = ({ menuItem, data, activeDropdown, handleMouseEnter, handleM
       <span>{menuItem}</span>
       <ChevronDown className="w-4 h-4" />
     </button>
-    {activeDropdown === menuItem && data && (
-      <div className="absolute   mt-2 w-screen  bg-stone-950 rounded-xl shadow-2xl  animate-in slide-in-from-top-4 duration-300 z-50">
-        <div className="p-6 grid grid-cols-4 gap-6">
-          {/* Featured Section */}
-          {data.featured && data.featured.brands && data.featured.brands.length > 0 && (
-            <div className="space-y-4">
-              <h3 className="text-sm font-bold text-white uppercase tracking-wider border-b border-gray-700 pb-2">
-                {data.featured.title}
-              </h3>
-              <div className="space-y-2">
-                {data.featured.brands.map((brand, index) => (
+  </div>
+);
+
+const NavMegaMenu = ({ data }) => {
+  if (!data) return null;
+
+  return (
+    <div className="p-6 grid grid-cols-4 gap-6">
+      {/* Featured Section */}
+      {data.featured && data.featured.brands && data.featured.brands.length > 0 && (
+        <div className="space-y-4">
+          <h3 className="text-sm font-bold text-white uppercase tracking-wider border-b border-gray-700 pb-2">
+            {data.featured.title}
+          </h3>
+          <div className="space-y-2">
+            {data.featured.brands.map((brand, index) => (
+              <button
+                key={index}
+                className="block text-sm text-gray-400 hover:text-white transition-colors py-1"
+              >
+                {brand}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      {/* Categories Section */}
+      {data.categories && Object.keys(data.categories).length > 0 && (
+        <div className="col-span-2 grid grid-cols-2 gap-6">
+          {Object.entries(data.categories).map(([category, catData]) => (
+            <div key={category} className="space-y-3">
+              <h3 className="text-sm font-bold text-white uppercase">{category}</h3>
+              <div className="space-y-1">
+                {catData.items && catData.items.map((item, idx) => (
                   <button
-                    key={index}
+                    key={idx}
                     className="block text-sm text-gray-400 hover:text-white transition-colors py-1"
                   >
-                    {brand}
+                    {item}
                   </button>
                 ))}
               </div>
             </div>
-          )}
-          {/* Categories Section */}
-          {data.categories && Object.keys(data.categories).length > 0 && (
-            <div className="col-span-2 grid grid-cols-2 gap-6">
-              {Object.entries(data.categories).map(([category, catData]) => (
-                <div key={category} className="space-y-3">
-                  <h3 className="text-sm font-bold text-white uppercase">{category}</h3>
-                  <div className="space-y-1">
-                    {catData.items && catData.items.map((item, idx) => (
-                      <button
-                        key={idx}
-                        className="block text-sm text-gray-400 hover:text-white transition-colors py-1"
-                      >
-                        {item}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-          {/* Spotlight Section */}
-          {data.spotlight && data.spotlight.title && (
-            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-4">
-              <div className="space-y-4">
-                <h3 className="text-sm font-bold text-white uppercase tracking-wider">
-                  {data.spotlight.title}
-                </h3>
-                <div className="aspect-square bg-gray-700 rounded-lg overflow-hidden">
-                  {data.spotlight.image && (
-                    <img
-                      src={data.spotlight.image}
-                      alt={data.spotlight.brand}
-                      className="w-full h-full object-cover"
-                    />
-                  )}
-                </div>
-                <div className="space-y-2">
-                  <h4 className="font-bold text-white text-lg">{data.spotlight.brand}</h4>
-                  <p className="text-sm text-gray-400">{data.spotlight.description}</p>
-                  <button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-200">
-                    {data.spotlight.cta}
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
+          ))}
         </div>
-      </div>
-    )}
-  </div>
-);
+      )}
+      {/* Spotlight Section */}
+      {data.spotlight && data.spotlight.title && (
+        <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-4">
+          <div className="space-y-4">
+            <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+              {data.spotlight.title}
+            </h3>
+            <div className="aspect-square bg-gray-700 rounded-lg overflow-hidden">
+              {data.spotlight.image && (
+                <img
+                  src={data.spotlight.image}
+                  alt={data.spotlight.brand}
+                  className="w-full h-full object-cover"
+                />
+              )}
+            </div>
+            <div className="space-y-2">
+              <h4 className="font-bold text-white text-lg">{data.spotlight.brand}</h4>
+              <p className="text-sm text-gray-400">{data.spotlight.description}</p>
+              <button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-200">
+                {data.spotlight.cta}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const Nav = () => {
   const { user } = useSelector((state) => state.userReducer);
@@ -172,6 +174,7 @@ const Nav = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const dispatch = useDispatch();
+  const activeDropdownData = activeDropdown ? navigationData[activeDropdown] : null;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -243,7 +246,7 @@ const Nav = () => {
 
       {/* Main Navigation */}
       <nav
-        className={`sticky top-0 z-50 transition-all duration-300 ease-out 
+        className={`sticky top-0 z-50 transition-all duration-300 ease-out relative
           ${scrolled ? ' bg-stone-950 backdrop-blur-xl shadow-md' : 'bg-stone-950 '} `}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -358,19 +361,33 @@ const Nav = () => {
 
           {/* Desktop Navigation Menu */}
           <div className="hidden md:flex items-center justify-center border-t border-gray-800 py-2">
-            <div className="flex items-center space-x-6">
+            <div
+              className="flex items-center space-x-6 dropdown-container"
+              onMouseLeave={handleMouseLeave}
+            >
               {menuKeys.map((menuItem) => (
                 <NavDropdown
                   key={menuItem}
                   menuItem={menuItem}
-                  data={navigationData[menuItem]}
                   activeDropdown={activeDropdown}
                   handleMouseEnter={handleMouseEnter}
-                  handleMouseLeave={handleMouseLeave}
                 />
               ))}
             </div>
           </div>
+
+          {/* Desktop Mega Menu */}
+          {activeDropdownData && (
+            <div
+              className="absolute left-0 right-0 top-full mt-2 bg-stone-950/95 backdrop-blur-xl shadow-2xl animate-in slide-in-from-top-4 duration-300 z-50 dropdown-container"
+              onMouseEnter={() => clearTimeout(dropdownTimeoutRef.current)}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <NavMegaMenu data={activeDropdownData} />
+              </div>
+            </div>
+          )}
 
           {/* Mobile Menu */}
           {isMobileMenuOpen && (
