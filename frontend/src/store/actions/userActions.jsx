@@ -1,71 +1,146 @@
 import axios from "../../api/config";
 import { toast } from "react-toastify";
-import { LoginUser, LogoutUser } from "../reducers/userSlice";
+import { LoginUser, LogoutUser, SetLoading } from "../reducers/userSlice";
 
-
-export const asynccurrentuser = () => async (dispatch) => {
+const getStoredUser = () => {
   try {
-    const user = JSON.parse(localStorage.getItem("user"));        //Converts the string back into a JavaScript object
-    if (user && user.email) {
-      dispatch(LoginUser(user));
-      console.log("Session restored for:", user.email);
-    } else {
-      console.warn("No user session found.");
-      toast.error("Please sign in to continue");
-    }
-  } catch (error) {
-    console.error("Failed to restore session:", error);
-    toast.error("Session error. Please sign in again.");
+    const raw = localStorage.getItem("user");
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
   }
 };
 
+const normalizeUser = (user = {}, fallback = {}) => {
+  const base = { ...(fallback || {}), ...(user || {}) };
+  if (!Object.keys(base).length) return null;
+
+  const normalized = { ...base };
+  normalized.id = base._id || base.id || null;
+
+  if (typeof normalized.isAdmin !== "boolean") {
+    normalized.isAdmin = base.role === "admin";
+  }
+
+  if (!normalized.name) {
+    normalized.name = base.fullName || base.username || "";
+  }
+  if (!normalized.fullName && normalized.name) {
+    normalized.fullName = normalized.name;
+  }
+
+  if (!Array.isArray(normalized.cart)) {
+    normalized.cart = [];
+  }
+
+  delete normalized._id;
+  delete normalized.password;
+  delete normalized.token;
+
+  return normalized;
+};
+
+const persistUser = (user, fallback, dispatch) => {
+  const normalized = normalizeUser(user, fallback);
+  if (!normalized) {
+    dispatch(LogoutUser());
+    return null;
+  }
+  localStorage.setItem("user", JSON.stringify(normalized));
+  dispatch(LoginUser(normalized));
+  return normalized;
+};
+
+const getErrorMessage = (error, fallback) => {
+  return error?.response?.data?.message || fallback;
+};
+
+const buildProfilePayload = (user = {}) => {
+  const payload = {
+    name: user.name || user.fullName,
+    email: user.email,
+    password: user.password,
+  };
+
+  Object.keys(payload).forEach((key) => {
+    if (payload[key] === undefined || payload[key] === "") {
+      delete payload[key];
+    }
+  });
+
+  return payload;
+};
+
+export const asynccurrentuser = () => async (dispatch) => {
+  dispatch(SetLoading(true));
+  try {
+    const token = localStorage.getItem("token");
+    const storedUser = getStoredUser();
+
+    if (!token) {
+      localStorage.removeItem("user");
+      dispatch(LogoutUser());
+      return;
+    }
+
+    const { data } = await axios.get("/api/user/profile");
+    persistUser(data, storedUser, dispatch);
+  } catch (error) {
+    console.error("Failed to restore session:", error);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    dispatch(LogoutUser());
+  }
+};
 
 export const asyncsigninuser = (user) => async (dispatch) => {
   try {
-    const { data } = await axios.get(`/users?email=${user.email}`);     // Only get user by email (json-server)
-    const foundUser = data[0];
+    const payload = { email: user.email, password: user.password };
+    const { data } = await axios.post("/api/auth/signin", payload);
 
-    if (foundUser && foundUser.password === user.password) {
-      localStorage.setItem("user", JSON.stringify(foundUser));        // Save user to localStorage
-      dispatch(asynccurrentuser());                                   // Set user in redux
-      toast.success("Logged in successfully!");
-      console.log("Login success:", foundUser);
-    } else {
-      toast.error("Wrong email or password");
-      console.warn("Login failed: Invalid credentials");
+    if (data?.token) {
+      localStorage.setItem("token", data.token);
     }
+
+    const storedUser = getStoredUser();
+    persistUser(data, storedUser, dispatch);
+    toast.success("Logged in successfully!");
+    console.log("Login success:", data);
   } catch (error) {
     console.error("Login error userAction.jsx:", error);
-    toast.error("Something went wrong. Please try again.");
+    toast.error(getErrorMessage(error, "Wrong email or password"));
   }
 };
-
 
 export const asyncsignupuser = (user) => async (dispatch) => {
   try {
-    const { data: existingUsers } = await axios.get(`/users?email=${user.email}`);      // Check if user already exists
-    if (existingUsers.length > 0) {
-      toast.error("User already exists with this email");
-      return;
-    }
-    await axios.post("/users", user);                             // Register new user
-    toast.success("Registered successfully! Please sign in.");
-    console.log("User registered:", user);
-    localStorage.setItem("user", JSON.stringify(user));           // auto-login after signup
-    dispatch(asynccurrentuser());
+    const payload = {
+      name: user.name || user.fullName || user.username,
+      email: user.email,
+      password: user.password,
+    };
 
+    const { data } = await axios.post("/api/auth/signup", payload);
+
+    if (data?.token) {
+      localStorage.setItem("token", data.token);
+    }
+
+    const storedUser = getStoredUser();
+    persistUser({ ...user, ...data }, storedUser, dispatch);
+    toast.success("Registered successfully!");
+    console.log("User registered:", data);
   } catch (error) {
     console.error("Signup error:", error);
-    toast.error("Something went wrong during signup");
+    toast.error(getErrorMessage(error, "Something went wrong during signup"));
   }
 };
-
 
 export const asynclogoutuser = () => async (dispatch) => {
   try {
     localStorage.removeItem("user");
-    localStorage.removeItem("token");                         // optional, if using token auth
-    dispatch(LogoutUser());                                   // Clear user from redux state
+    localStorage.removeItem("token");
+    dispatch(LogoutUser());
     toast.success("Logged out successfully!");
     console.log("User logged out.");
   } catch (error) {
@@ -74,14 +149,14 @@ export const asynclogoutuser = () => async (dispatch) => {
   }
 };
 
-
 export const asyncupdateuser = (id, user) => async (dispatch) => {
   try {
-    const { data } = await axios.patch(`/users/${id}`, user);
+    const payload = buildProfilePayload(user);
+    const { data } = await axios.put("/api/user/profile", payload);
 
     if (data) {
-      localStorage.setItem("user", JSON.stringify(data));     // Update localStorage with new user data
-      dispatch(asynccurrentuser());
+      const storedUser = getStoredUser();
+      persistUser({ ...storedUser, ...user, ...data }, storedUser, dispatch);
       toast.success("Profile updated successfully!");
       console.log("User updated:", data);
     } else {
@@ -90,21 +165,24 @@ export const asyncupdateuser = (id, user) => async (dispatch) => {
     }
   } catch (error) {
     console.error("Update error:", error);
-    toast.error("Error updating profile. Please try again.");
+    toast.error(
+      getErrorMessage(error, "Error updating profile. Please try again.")
+    );
   }
 };
 
-
 export const asyncdeleteuser = (id) => async (dispatch) => {
   try {
-    await axios.delete(`/users/${id}`);
+    await axios.delete("/api/user/profile");
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
     dispatch(LogoutUser());
     toast.success("Your account has been deleted.");
     console.log("User deleted successfully!");
   } catch (error) {
     console.error("Failed to delete user:", error);
-    toast.error("Failed to delete account. Please try again.");
+    toast.error(
+      getErrorMessage(error, "Failed to delete account. Please try again.")
+    );
   }
 };
-
