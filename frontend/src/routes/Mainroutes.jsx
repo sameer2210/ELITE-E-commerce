@@ -11,7 +11,7 @@ import ProductDetails from './../pages/product/ProductDetails';
 // Lazy-loaded components
 const Signup = lazy(() => import("../pages/user/Signup"));
 const Signin = lazy(() => import("../pages/user/Signin"));
-const Products = lazy(() => import("../components/product/ProductList"));
+const Home = lazy(() => import("../pages/general/Home"));
 const About = lazy(() => import("../pages/general/About"));
 const Contact = lazy(() => import("../pages/general/Contact"));
 const PageNotFound = lazy(() => import("../pages/general/PageNotFound"));
@@ -27,7 +27,7 @@ const Mainroutes = () => {
     <Suspense fallback={<Loader />}>
       <Routes>
         {/* Public */}
-        <Route path="/" element={<Products />} />
+        <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
 
