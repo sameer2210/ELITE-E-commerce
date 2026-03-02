@@ -8,7 +8,7 @@ Main project folder for the frontend React application.
 
 #### 📁 node_modules/
 
-Contains all installed npm packages and dependencies. Managed automatically by npm/yarn.
+Contains all installed packages and dependencies. Managed automatically by Bun.
 
 #### 📁 public/
 
@@ -94,9 +94,9 @@ Visual map/diagram of the frontend structure.
 
 Main HTML file loaded by Vite. Contains root div for React.
 
-#### package-lock.json / package.json
+#### bun.lock / package.json
 
-NPM package management files. List dependencies, scripts, and project metadata.
+Bun package management files. List dependencies, scripts, and project metadata.
 
 ## folder structure
 
@@ -177,7 +177,7 @@ NPM package management files. List dependencies, scripts, and project metadata.
 ├── 📄 eslint.config.js
 ├── 📄 frontend_map.pdf
 ├── 📄 index.html
-├── 📄 package-lock.json
+├── 📄 bun.lock
 ├── 📄 package.json
 ├── 📄 README.md
 └── 📄 vite.config.js
@@ -287,9 +287,13 @@ backend/
 
 ### 7. Development & Contribution
 
-- Run `npm install` to install dependencies.
-- Use `npm run dev` to start the development server.
-- Lint code with `npm run lint`.
+- Run `bun install` to install dependencies.
+- Use `bun run dev` to start the development server.
+- Lint code with `bun run lint`.
+
+## CI
+
+GitHub Actions runs a Bun-based pipeline to install, lint, test (backend), and build (frontend) on pushes and pull requests.
 - Follow the folder structure and naming conventions for new components/pages.
 
 ---
