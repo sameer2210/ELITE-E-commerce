@@ -1,0 +1,53 @@
+name: ÉLITE Bun CI Pipeline
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Install Bun
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      # -------- BACKEND --------
+      - name: Install Backend Dependencies
+        run: |
+          cd backend
+          bun install
+
+      - name: Lint Backend
+        run: |
+          cd backend
+          bun run lint || true
+
+      - name: Test Backend
+        run: |
+          cd backend
+          bun test
+
+      # -------- FRONTEND --------
+      - name: Install Frontend Dependencies
+        run: |
+          cd frontend
+          bun install
+
+      - name: Lint Frontend
+        run: |
+          cd frontend
+          bun run lint || true
+
+      - name: Build Frontend
+        run: |
+          cd frontend
+          bun run build

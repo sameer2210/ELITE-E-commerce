@@ -1,6 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
@@ -8,8 +5,8 @@ import morgan from 'morgan';
 import { errorHandler, notFound } from '../src/middleware/error.middleware.js';
 
 import authRoutes from './routes/auth.routes.js';
+import productRoutes from './routes/product.routes.js';
 import userRoutes from './routes/user.routes.js';
-import productRoutes from "./routes/product.routes.js";
 // import orderRoutes from "./routes/order.routes.js";
 // import uploadRoutes from "./routes/upload.routes.js";
 
@@ -33,9 +30,9 @@ app.use(
 
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
-app.use("/api/product", productRoutes);
+app.use('/api/product', productRoutes);
 // Legacy/Frontend-friendly routes
-app.use("/products", productRoutes);
+app.use('/products', productRoutes);
 // app.use("/api/upload", uploadRoutes);
 // app.use("/api/order", orderRoutes);
 
