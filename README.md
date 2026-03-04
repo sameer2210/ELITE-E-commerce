@@ -1,44 +1,41 @@
-# ÉLITE Frontend
+# ÉLITE
 
-## Folder Structure & File Explanations
+ÉLITE is a full-stack e-commerce platform built with React and Vite on the frontend, and powered by Bun, Express, and MongoDB on the backend.
+It features product browsing with filters and sorting, cart management, secure authentication using JSON Web Token, and admin-controlled product CRUD operations.
+Designed with a layered architecture and Redux-based state management, it is structured for scalability, maintainability, and production-grade deployment.
 
-### 📁 frontend/
 
-Main project folder for the frontend React application.
-
-#### 📁 node_modules/
-
-Contains all installed packages and dependencies. Managed automatically by Bun.
-
-#### 📁 public/
-
-- `kit_2025.jpg`: Static assets (images, etc.) served directly. Not processed by Webpack/Vite.
-
-#### 📁 src/
-
-Source code for the React app.
-
-##### 📁 api/
-
-- `config.jsx`: API configuration, base URLs, and utility functions for making HTTP requests.
-
-##### 📁 components/
-
-Reusable UI components, organized by feature:
-
-- **cart/**: Cart-related UI (CartItem, CartSummary, QuantitySelector)
-- **common/**: Shared UI (Button, Loader, RatingStars)
-- **filters/**: Product filtering UI (Availability, Brand, Category, Price, etc.)
-- **layout/**: Layout components (Footer, Nav, Sidebar)
-- **product/**: Product display (ProductCard, ProductList)
-
-##### 📁 hooks/
-
-Custom React hooks for business logic:
-
-- **cartHook/useCart.js**: Cart state and logic
-- **productHook/**: (future product-related hooks)
-
++## Features
++- Product catalog with filter UI, sorting, and infinite scroll
++- Product details view with image gallery and related items
++- Cart management with quantity updates
++- User authentication (signup/signin) and profile management
++- Admin-only product creation, updates, and deletion
++
++## Tech Stack
++**Frontend:** React 19, Vite, Redux Toolkit, React Router, Tailwind CSS v4, Axios, Framer Motion
++**Backend:** Bun runtime, Express 5, MongoDB + Mongoose, JWT auth, CORS, Multer
++
++## Project Structure
++- `frontend/` React app (Vite)
++- `backend/` Express API
++- `backend/src/routes/` API routes
++- `backend/src/controllers/` business logic
++- `backend/src/models/` Mongoose schemas
++
++## Getting Started
++### Prerequisites
++- Bun (for both frontend and backend)
++- MongoDB (local or Atlas)
++
++### Setup
++1. Install dependencies:
++```bash
++cd backend
++bun install
++cd ../frontend
++bun install
++```
 ##### 📁 pages/
 
 Top-level pages for routing:
