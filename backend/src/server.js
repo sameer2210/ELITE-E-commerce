@@ -1,6 +1,7 @@
 import http from 'http';
 import app from './app.js';
 import connectDB from './config/db.js';
+import ensureAdmin from "./utils/ensureAdmin.js";
 
 const PORT = process.env.PORT || 5000;
 
@@ -9,6 +10,7 @@ const server = http.createServer(app); // Create HTTP server
 const startServer = async () => {
   try {
     await connectDB();
+    await ensureAdmin();
     server.listen(PORT, () => {
       console.log(`Server is running on PORT ${PORT}`);
     });
