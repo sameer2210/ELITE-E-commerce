@@ -8,6 +8,7 @@ import { asyncupdateuser } from "../../store/actions/userActions";
 import { asyncAddtoCartProduct } from "../../store/actions/cartAction";
 import { asyncdeleteproduct, asyncupdateproduct } from "../../store/actions/productAction";
 import { Star, Plus, Minus, Heart, Truck, Shield, RotateCcw, ArrowLeft } from "lucide-react";
+import axios from "../../api/config";
 
 const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
@@ -17,24 +18,48 @@ const ProductDetails = () => {
   const { id } = useParams();
   const user = useSelector(state => state.userReducer.user || null);
   const { products, loading } = useSelector(state => state.productReducer);
-  const product = products.find(p => p.id === id || p._id === id);
+  const productFromStore = products.find(p => p.id === id || p._id === id);
+  const [fetchedProduct, setFetchedProduct] = useState(null);
+  const [fetching, setFetching] = useState(false);
+  const [fetchError, setFetchError] = useState("");
+  const product = productFromStore || fetchedProduct;
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Go to home page if product is deleted
   useEffect(() => {
-    if (!product && products.length > 0) {
-      navigate("/");
-    }
-  }, [product, products, navigate]);
+    let isMounted = true;
+
+    const loadProduct = async () => {
+      if (!productFromStore && id) {
+        setFetching(true);
+        setFetchError("");
+        try {
+          const { data } = await axios.get(`/products/${id}`);
+          if (isMounted) setFetchedProduct(data);
+        } catch (error) {
+          if (isMounted) setFetchError("Product not found.");
+        } finally {
+          if (isMounted) setFetching(false);
+        }
+      }
+    };
+
+    loadProduct();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [productFromStore, id]);
+
+  const isBusy = loading || fetching;
 
   const handleQuantityChange = (change) => {
-    if (loading) return;
+    if (isBusy) return;
     setQuantity(prev => Math.max(1, prev + change));
   };
 
   const UpdateHandler = async (data) => {
-    if (loading) return;
+    if (isBusy) return;
     try {
       const updatedProduct = {
         ...product,
@@ -62,7 +87,7 @@ const ProductDetails = () => {
       navigate("/login");
       return;
     }
-    if (loading) return;
+    if (isBusy) return;
     try {
       const updatedUser = await asyncAddtoCartProduct(user, product, quantity);
       await dispatch(asyncupdateuser(user.id, updatedUser));
@@ -75,7 +100,7 @@ const ProductDetails = () => {
 
   const DeleteHandler = async () => {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
-    if (loading) return;
+    if (isBusy) return;
     try {
       await dispatch(asyncdeleteproduct(product.id || product._id));
       toast.success("Product deleted!");
@@ -87,7 +112,7 @@ const ProductDetails = () => {
   };
 
   const handleWishlistToggle = () => {
-    if (loading) return;
+    if (isBusy) return;
     setIsWishlisted(prev => !prev);
     toast.success(isWishlisted ? "Removed from wishlist" : "Added to wishlist");
   };
@@ -96,8 +121,21 @@ const ProductDetails = () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-blue-500 mx-auto"></div>
-          <p className="mt-2 text-gray-600">Loading product...</p>
+          {fetching ? (
+            <>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-blue-500 mx-auto"></div>
+              <p className="mt-2 text-gray-600">Loading product...</p>
+            </>
+          ) : (
+            <>
+              <p className="text-gray-700 font-medium">
+                {fetchError || "Product unavailable."}
+              </p>
+              <Button onClick={() => navigate("/")} className="mt-4">
+                Back to Home
+              </Button>
+            </>
+          )}
         </div>
       </div>
     );
@@ -110,7 +148,7 @@ const ProductDetails = () => {
           {/* Main Content */}
           <div className="lg:col-span-3">
             <div className="bg-white rounded-lg shadow p-6 relative">
-              {loading && (
+              {isBusy && (
                 <div className="absolute inset-0 bg-white/70 flex items-center justify-center">
                   <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-blue-500"></div>
                 </div>
@@ -121,7 +159,7 @@ const ProductDetails = () => {
                   <h1 className="text-2xl font-bold text-gray-800">{product.title}</h1>
                   <Button
                     onClick={() => navigate("/")}
-                    disabled={loading}
+                    disabled={isBusy}
                   ><ArrowLeft className="w-4 h-4" /> Back
                   </Button>
                 </div>
@@ -159,7 +197,7 @@ const ProductDetails = () => {
                           key={index}
                           onClick={() => setSelectedImage(index)}
                           className={`w-12 h-12 rounded border-2 ${selectedImage === index ? "border-blue-500" : "border-gray-200"}`}
-                          disabled={loading}
+                          disabled={isBusy}
                         >
                           <img src={image} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover" />
                         </button>
@@ -191,7 +229,7 @@ const ProductDetails = () => {
                       <Button
                         onClick={() => handleQuantityChange(-1)}
                         className="p-2 hover:bg-gray-100"
-                        disabled={quantity <= 1 || loading}
+                        disabled={quantity <= 1 || isBusy}
                       >
                         <Minus className="w-4 h-4" />
                       </Button>
@@ -199,7 +237,7 @@ const ProductDetails = () => {
                       <Button
                         onClick={() => handleQuantityChange(1)}
                         className="p-2 hover:bg-gray-100 rounded-tl-2xl rounded-tr-none"
-                        disabled={loading}
+                        disabled={isBusy}
                       >
                         <Plus className="w-4 h-4" />
                       </Button>
@@ -210,14 +248,14 @@ const ProductDetails = () => {
                   <div className="space-y-2">
                     <Button
                       onClick={AddtoCartHandler}
-                      disabled={loading}
+                      disabled={isBusy}
                     >
-                      {loading ? "Adding..." : "Add to Cart"}
+                      {isBusy ? "Adding..." : "Add to Cart"}
                     </Button>
                     <Button
                       onClick={handleWishlistToggle}
                       className={` ${isWishlisted ? " text-red-500" : "border-gray-300 text-gray-700"}`}
-                      disabled={loading}
+                      disabled={isBusy}
                     >
                       <Heart className={`w-4 h-4 ${isWishlisted ? "fill-red-500" : ""}`} />
                       {isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
@@ -259,7 +297,7 @@ const ProductDetails = () => {
                     defaultValues={product}
                     onSubmit={UpdateHandler}
                     onDelete={DeleteHandler}
-                    loading={loading}
+                    loading={isBusy}
                   />
                 </div>
               )}
@@ -274,7 +312,7 @@ const ProductDetails = () => {
                 <Button
                   onClick={() => navigate("/")}
                   className="text-sm"
-                  disabled={loading}
+                  disabled={isBusy}
                 >
                   View All
                 </Button>

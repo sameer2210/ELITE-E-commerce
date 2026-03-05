@@ -6,6 +6,9 @@ const parsePositiveInt = (value) => {
   return Math.floor(num);
 };
 
+const escapeRegExp = (value) =>
+  value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 const getPagination = (req) => {
   const start = parsePositiveInt(req.query._start);
   const limit = parsePositiveInt(req.query._limit);
@@ -28,8 +31,26 @@ const getPagination = (req) => {
 // @route   GET /api/product OR /products
 export const getProducts = async (req, res, next) => {
   try {
+    const searchTerm = (req.query.q || req.query.search || "").trim();
     const { skip, limit } = getPagination(req);
     let query = Product.find();
+
+    if (searchTerm) {
+      const regex = new RegExp(escapeRegExp(searchTerm), "i");
+      query = Product.find({
+        $or: [
+          { title: regex },
+          { subtitle: regex },
+          { brand: regex },
+          { department: regex },
+          { category: regex },
+          { tag: regex },
+          { description: regex },
+          { articleNumber: regex },
+        ],
+      });
+    }
+
     if (skip) query = query.skip(skip);
     if (limit) query = query.limit(limit);
     const products = await query.exec();

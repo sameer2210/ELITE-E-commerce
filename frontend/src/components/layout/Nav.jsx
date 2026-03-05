@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { asynclogoutuser } from '../../store/actions/userActions';
+import { useProductSearch } from '../../hooks/productHook/useProductSearch';
+import ProductSearchBar from '../search/ProductSearchBar';
+import ProductSearchOverlay from '../search/ProductSearchOverlay';
 import {
   Search,
   ShoppingBag,
@@ -10,7 +13,6 @@ import {
   User,
   Menu,
   X,
-  Mic,
 } from 'lucide-react';
 
 // Move navigationData outside the component for performance
@@ -170,9 +172,17 @@ const Nav = () => {
   const [cartCount] = useState(3);
   const [isUserMenuOpen, setUserMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
   const dispatch = useDispatch();
   const activeDropdownData = activeDropdown ? navigationData[activeDropdown] : null;
+  const {
+    query: searchQuery,
+    setQuery: setSearchQuery,
+    results: searchResults,
+    loading: searchLoading,
+    error: searchError,
+    minChars: searchMinChars,
+    clear: clearSearch,
+  } = useProductSearch({ minChars: 2, limit: 8, debounceMs: 250 });
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -182,8 +192,11 @@ const Nav = () => {
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (!e.target.closest('.dropdown-container')) {
-        setSearchOpen(false);
+      if (!e.target.closest('.dropdown-container, .search-overlay')) {
+        if (isSearchOpen) {
+          setSearchOpen(false);
+          clearSearch();
+        }
         setUserMenuOpen(false);
         setActiveDropdown(null);
       }
@@ -192,7 +205,7 @@ const Nav = () => {
       document.addEventListener('click', handleClickOutside);
     }
     return () => document.removeEventListener('click', handleClickOutside);
-  }, [isSearchOpen, isUserMenuOpen, activeDropdown]);
+  }, [isSearchOpen, isUserMenuOpen, activeDropdown, clearSearch]);
 
   const dropdownTimeoutRef = useRef(null);
 
@@ -264,7 +277,10 @@ const Nav = () => {
                     onClick={(e) => {
                       e.stopPropagation();
                       setUserMenuOpen(!isUserMenuOpen);
-                      setSearchOpen(false);
+                      if (isSearchOpen) {
+                        setSearchOpen(false);
+                        clearSearch();
+                      }
                     }}
                     className="flex items-center p-2 text-gray-200 hover:text-white transition-colors rounded-full hover:bg-white/10"
                     aria-label="Account menu"
@@ -368,7 +384,10 @@ const Nav = () => {
                     onClick={(e) => {
                       e.stopPropagation();
                       setUserMenuOpen(!isUserMenuOpen);
-                      setSearchOpen(false);
+                      if (isSearchOpen) {
+                        setSearchOpen(false);
+                        clearSearch();
+                      }
                     }}
                     className="flex items-center p-2 text-gray-200 hover:text-white transition-colors rounded-full hover:bg-white/10"
                     aria-label="Account menu"
@@ -437,23 +456,15 @@ const Nav = () => {
 
           {/* Search Bar - Desktop */}
           <div className="hidden md:flex justify-center pb-4">
-            <div className="relative w-full max-w-4xl">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-white/70" strokeWidth={1.5} />
-              </div>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="block w-full pl-12 pr-12 py-2.5 border border-white/30 rounded-full bg-black/30 focus:outline-none focus:ring-2 focus:ring-white/30 text-sm placeholder-white/50 text-white transition-all duration-200"
-                placeholder="What are you looking for?"
-              />
-              <div className="absolute inset-y-0 right-0 pr-4 flex items-center">
-                <button className="p-1 hover:bg-white/10 rounded-full transition-colors" aria-label="Voice search">
-                  <Mic className="h-4 w-4 text-white/70" strokeWidth={1.5} />
-                </button>
-              </div>
-            </div>
+            <ProductSearchBar
+              query={searchQuery}
+              onQueryChange={setSearchQuery}
+              results={searchResults}
+              loading={searchLoading}
+              error={searchError}
+              minChars={searchMinChars}
+              onResultSelect={() => setSearchQuery('')}
+            />
           </div>
 
           {/* Desktop Navigation Menu */}
@@ -511,30 +522,18 @@ const Nav = () => {
 
         {/* Mobile Search Overlay */}
         {isSearchOpen && (
-          <div className="fixed inset-0 z-50 bg-gray-900">
-            <div className="flex items-center justify-between p-4 border-b border-gray-800">
-              <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" strokeWidth={1.5} />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-700 rounded-full bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-100 text-sm placeholder-gray-400"
-                  placeholder="What are you looking for?"
-                  autoFocus
-                />
-              </div>
-              <button
-                onClick={() => setSearchOpen(false)}
-                className="ml-4 p-2 text-gray-400 hover:text-white transition-colors"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-            <div className="p-4">
-              <p className="text-sm text-gray-400 text-center">Search our premium collection...</p>
-            </div>
-          </div>
+          <ProductSearchOverlay
+            query={searchQuery}
+            onQueryChange={setSearchQuery}
+            results={searchResults}
+            loading={searchLoading}
+            error={searchError}
+            minChars={searchMinChars}
+            onClose={() => {
+              setSearchOpen(false);
+              clearSearch();
+            }}
+          />
         )}
 
       </nav>
