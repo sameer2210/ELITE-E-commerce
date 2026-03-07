@@ -61,7 +61,7 @@ const Signup = () => {
 
               <div className="mb-8">
                 <h2 className="text-5xl font-bold mb-4 leading-tight">
-                  LUXURY
+                  
                   <br />
                   COLLECTION
                 </h2>

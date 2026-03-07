@@ -41,7 +41,7 @@ const Signin = () => {
 
               <div>
                 <h2 className="text-5xl font-bold mb-4 leading-tight">
-                  LUXURY <br />COLLECTION
+                   <br />COLLECTION
                 </h2>
                 <p className="text-white/80 text-lg leading-relaxed">
                   Sign in to access all the features of our service.

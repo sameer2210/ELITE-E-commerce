@@ -140,7 +140,7 @@ const PageNotFound = () => {
                     variants={itemVariants}
                 >
                     <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed font-light">
-                        It seems you've wandered into uncharted luxury territory. The page you're looking for couldn't be found. Let's guide you back to elegance.
+                        It seems you've wandered into uncharted  territory. The page you're looking for couldn't be found. Let's guide you back to elegance.
                     </p>
                 </motion.div>
 
@@ -185,7 +185,7 @@ const PageNotFound = () => {
                     variants={itemVariants}
                 >
                     <p className="text-sm text-gray-500 font-light">
-                        Need assistance? Our luxury concierge is here to help you find exactly what you're looking for.
+                        Need assistance? Our  concierge is here to help you find exactly what you're looking for.
                     </p>
                 </motion.div>
             </motion.div>

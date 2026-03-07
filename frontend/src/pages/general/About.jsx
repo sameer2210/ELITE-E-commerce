@@ -1,7 +1,6 @@
-/* eslint-disable no-unused-vars */
 import React, { useRef, useEffect, useState } from "react";
 
-const LuxuryAboutPage = () => {
+const About = () => {
   const heroRef = useRef(null);
   const teamRef = useRef(null);
   const [scrollY, setScrollY] = useState(0);
@@ -62,47 +61,47 @@ const LuxuryAboutPage = () => {
   const teamMembers = [
     {
       name: "Elena Rosetti",
-      role: "Lead Designer",
+      role: "Lead Engineer",
       image:
         "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=400&fit=crop&crop=face",
-      specialty: "Minimalist Aesthetics"
+      specialty: "Full-Stack Architecture"
     },
     {
       name: "Marcus Chen",
-      role: "Creative Director",
+      role: "Platform Engineer",
       image:
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=400&fit=crop&crop=face",
-      specialty: "Sustainable Innovation"
+      specialty: "Cloud Scalability"
     },
     {
       name: "Sofia Laurent",
-      role: "Experience Designer",
+      role: "Product Engineer",
       image:
         "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&h=400&fit=crop&crop=face",
-      specialty: "User-Centered Design"
+      specialty: "User-Centered UX"
     },
     {
       name: "David Thompson",
-      role: "Design Strategist",
+      role: "Developer Advocate",
       image:
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&crop=face",
-      specialty: "Brand Architecture"
+      specialty: "Developer Experience"
     }
   ];
 
   const awards = [
     {
-      name: "Good Design Award",
+      name: "Best Website",
       logo: "https://images-workbench.99static.com/bja9KgE5G97WbTAamMvECp3k4jE=/99designs-contests-attachments/120/120719/attachment_120719539",
       year: "2024"
     },
     {
-      name: "Red Dot Award",
+      name: "Best UI Design",
       logo: "https://images-workbench.99static.com/34wwYQGg-eUQ6Mwrd-EeINokPJg=/99designs-contests-attachments/93/93513/attachment_93513935",
       year: "2023"
     },
     {
-      name: "IF Design Award",
+      name: "Best Developer Project",
       logo: "https://images-workbench.99static.com/--qWUBDsuMxlSWcu6bUa733PY2o=/99designs-contests-attachments/132/132483/attachment_132483398",
       year: "2024"
     }
@@ -110,296 +109,7 @@ const LuxuryAboutPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 overflow-x-hidden">
-      <style jsx>{`
-        .playfair {
-          font-family: "Playfair Display", serif;
-        }
-        .inter {
-          font-family: "Inter", sans-serif;
-        }
 
-        /* Advanced Animations */
-        .slide-in-left {
-          animation: slideInLeft 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
-            forwards;
-          opacity: 0;
-          transform: translateX(-60px);
-        }
-
-        .slide-in-right {
-          animation: slideInRight 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)
-            forwards;
-          opacity: 0;
-          transform: translateX(60px);
-        }
-
-        .fade-in-up {
-          animation: fadeInUp 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-          opacity: 0;
-          transform: translateY(60px);
-        }
-
-        .scale-in {
-          animation: scaleIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-          opacity: 0;
-          transform: scale(0.8);
-        }
-
-        .rotate-in {
-          animation: rotateIn 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-          opacity: 0;
-          transform: rotate(-5deg) scale(0.9);
-        }
-
-        .typewriter {
-          overflow: hidden;
-          border-right: 3px solid #1e293b;
-          white-space: nowrap;
-          animation: typing 3s steps(40, end),
-            blink-caret 0.75s step-end infinite;
-        }
-
-        @keyframes slideInLeft {
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        @keyframes slideInRight {
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        @keyframes fadeInUp {
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes scaleIn {
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-
-        @keyframes rotateIn {
-          to {
-            opacity: 1;
-            transform: rotate(0deg) scale(1);
-          }
-        }
-
-        @keyframes typing {
-          from {
-            width: 0;
-          }
-          to {
-            width: 100%;
-          }
-        }
-
-        @keyframes blink-caret {
-          from,
-          to {
-            border-color: transparent;
-          }
-          50% {
-            border-color: #1e293b;
-          }
-        }
-
-        /* Enhanced hover effects */
-        .team-card {
-          transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-          transform-style: preserve-3d;
-        }
-
-        .team-card:hover {
-          transform: translateY(-20px) rotateX(5deg);
-          box-shadow: 0 40px 80px -12px rgba(30, 41, 59, 0.25);
-        }
-
-        .team-card:hover .card-overlay {
-          opacity: 1;
-          transform: translateY(0);
-        }
-
-        .card-overlay {
-          opacity: 0;
-          transform: translateY(20px);
-          transition: all 0.4s ease;
-        }
-
-        /* Advanced button effects */
-        .btn-luxury {
-          position: relative;
-          overflow: hidden;
-          transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-          transform-style: preserve-3d;
-        }
-
-        .btn-luxury::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(255, 255, 255, 0.3),
-            transparent
-          );
-          transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .btn-luxury:hover::before {
-          left: 100%;
-        }
-
-        .btn-luxury:hover {
-          transform: translateY(-3px) scale(1.05);
-          box-shadow: 0 20px 40px rgba(30, 41, 59, 0.2);
-        }
-
-        /* Floating animation */
-        .float {
-          animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-20px);
-          }
-        }
-
-        /* Pulse effect */
-        .pulse-glow {
-          animation: pulseGlow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes pulseGlow {
-          from {
-            box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
-          }
-          to {
-            box-shadow: 0 0 40px rgba(37, 99, 235, 0.6);
-          }
-        }
-
-        /* Morphing background */
-        .morphing-bg {
-          background: linear-gradient(-45deg, #f8fafc, #e2e8f0);
-          background-size: 400% 400%;
-          animation: gradient 15s ease infinite;
-        }
-
-        @keyframes gradient {
-          0% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-          100% {
-            background-position: 0% 50%;
-          }
-        }
-
-        /* Text reveal effect */
-        .text-reveal {
-          background: linear-gradient(
-            90deg,
-            #1e293b 0%,
-            #334155 50%,
-            #1e293b 100%
-          );
-          background-size: 200% auto;
-          color: transparent;
-          -webkit-background-clip: text;
-          background-clip: text;
-          animation: textShine 3s linear infinite;
-        }
-
-        @keyframes textShine {
-          to {
-            background-position: 200% center;
-          }
-        }
-
-        /* Stagger animation delays */
-        .delay-100 {
-          animation-delay: 0.1s;
-        }
-        .delay-200 {
-          animation-delay: 0.2s;
-        }
-        .delay-300 {
-          animation-delay: 0.3s;
-        }
-        .delay-400 {
-          animation-delay: 0.4s;
-        }
-        .delay-500 {
-          animation-delay: 0.5s;
-        }
-        .delay-600 {
-          animation-delay: 0.6s;
-        }
-        .delay-700 {
-          animation-delay: 0.7s;
-        }
-        .delay-800 {
-          animation-delay: 0.8s;
-        }
-
-        /* Parallax elements */
-        .parallax-slow {
-          transform: translateY(${scrollY * 0.2}px);
-        }
-
-        .parallax-fast {
-          transform: translateY(${scrollY * 0.5}px);
-        }
-
-        /* 3D hover cards */
-        .card-3d {
-          perspective: 1000px;
-        }
-
-        .card-3d-inner {
-          transition: transform 0.6s;
-          transform-style: preserve-3d;
-        }
-
-        .card-3d:hover .card-3d-inner {
-          transform: rotateY(180deg);
-        }
-
-        .card-front,
-        .card-back {
-          backface-visibility: hidden;
-        }
-
-        .card-back {
-          transform: rotateY(180deg);
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-        }
-      `}</style>
 
       {/* Enhanced Hero Section with parallax */}
       <section
@@ -420,26 +130,26 @@ const LuxuryAboutPage = () => {
                 <h1 className="playfair text-6xl lg:text-8xl font-bold text-slate-800 leading-tight">
                   ÉLITE
                   <br />
-                  <span className="text-reveal">LUXURY HAVEN</span>
+                  <span className="text-reveal"> PLATFORM</span>
                 </h1>
               </div>
 
               <div className="slide-in-left delay-300 space-y-6">
                 <p className="inter text-xl text-slate-600 leading-relaxed max-w-md font-light">
-                  At LuxuryHaven,{" "}
+                  At ÉLITE,{" "}
                   <span className="font-semibold text-emerald-700">
-                    simplicity and craftsmanship
+                    developer craft
                   </span>{" "}
-                  come together to shape everyday luxury. Guided by timeless
-                  design principles, we create meaningful spaces.
+                  powers a living showcase of real products. Builders share the
+                  work, decisions, and results behind every release.
                 </p>
                 <p className="inter text-lg text-slate-600 leading-relaxed max-w-md">
-                  Design is a way of life where{" "}
+                  Clients explore authentic projects, and our AI recommends the
+                  best developers for each brief, guided by{" "}
                   <span className="italic">
-                    purpose, feeling, and Italian craftsmanship
+                    product vision, code quality, and performance
                   </span>{" "}
-                  come together to shape calm, meaningful spaces that feel as
-                  good as they look.
+                  to launch digital experiences with confidence.
                 </p>
               </div>
 
@@ -448,7 +158,7 @@ const LuxuryAboutPage = () => {
                   onClick={() => scrollToSection(teamRef)}
                   className="btn-luxury group inline-flex items-center px-10 py-5 bg-gradient-to-r from-slate-800 to-slate-900 text-white inter font-semibold text-sm tracking-wider hover:text-black hover:from-white hover:to-stone-800 transition-all duration-500 rounded-full"
                 >
-                  LEARN MORE
+                  EXPLORE DEVELOPERS
                   <svg
                     className="w-5 h-5 ml-3 group-hover:translate-x-2 group-hover:rotate-12 transition-all duration-300"
                     fill="none"
@@ -470,7 +180,7 @@ const LuxuryAboutPage = () => {
               <div className="relative float">
                 <img
                   src="kit_2025.jpg"
-                  alt="Luxury team workspace"
+                  alt="developer workspace"
                   className="w-full h-[500px] object-cover object-center rounded-3xl shadow-2xl transform hover:scale-205 transition-all duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 via-transparent to-teal-500/20 rounded-3xl"></div>
@@ -500,11 +210,11 @@ const LuxuryAboutPage = () => {
             <div className="space-y-8 fade-in-up">
               <div>
                 <h2 className="playfair text-5xl lg:text-6xl font-bold text-slate-800 mb-6 leading-tight">
-                  DESIGNERS{" "}
+                  CREATORS{" "}
                   <em className="text-slate-700 text-reveal">
                     BEHIND
                     <br />
-                    THE VISION
+                    THE PLATFORM
                   </em>
                 </h2>
                 <div className="w-24 h-1 bg-gradient-to-r from-teal-400 to-slate-500 mb-8 scale-in delay-300"></div>
@@ -513,23 +223,23 @@ const LuxuryAboutPage = () => {
                   <span className="font-semibold text-teal-700">
                     unique perspective
                   </span>
-                  , bound by a shared passion for thoughtful design and timeless
-                  quality. Together, we shape spaces that feel personal,
-                  purposeful, and beautifully made.
+                  , united by a passion for building products that scale and
+                  delight. Together, we empower developers to showcase their
+                  work and help clients hire with confidence.
                 </p>
               </div>
 
               <div className="space-y-6 inter text-sm text-slate-500 fade-in-up delay-400">
                 <p className="leading-relaxed">
-                  Founded in Italy, LuxuryHaven grew from its base that is
-                  intrinsic to its character—
+                  Founded by engineers and product builders, ÉLITE grew from a
+                  commitment to{" "}
                   <span className="font-semibold">responsible innovation</span>,
-                  sustainable design, and authentic Italian craftsmanship.
+                  transparent hiring, and measurable product impact.
                 </p>
                 <p className="leading-relaxed">
-                  Our design philosophy centers on creating{" "}
-                  <span className="italic">timeless pieces</span> that transcend
-                  trends and speak to the soul of modern living.
+                  Our platform philosophy centers on creating{" "}
+                  <span className="italic">scalable products</span> that outlast
+                  trends and power modern digital experiences.
                 </p>
               </div>
             </div>
@@ -593,12 +303,11 @@ const LuxuryAboutPage = () => {
             </h2>
             <div className="w-32 h-1 bg-gradient-to-r from-teal-400 to-slate-500 mx-auto mb-8 scale-in delay-300"></div>
             <p className="inter text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed font-light fade-in-up delay-400">
-              LuxuryHaven's designs are{" "}
-              <span className="font-semibold text-teal-700">
-                globally awarded
-              </span>{" "}
-              for their timeless simplicity and purposeful innovation,
-              recognized by the world's most prestigious design institutions.
+              Outstanding projects on ÉLITE receive{" "}
+              <span className="font-semibold text-teal-700">recognition</span>{" "}
+              for innovation, design quality, performance, and creativity.
+              Awards highlight Best Website, Best UI Design, and Best Developer
+              Project winners across the platform.
             </p>
           </div>
 
@@ -632,7 +341,10 @@ const LuxuryAboutPage = () => {
 
       {/* Enhanced Final CTA Section */}
       <section className="py-40 px-6 relative overflow-hidden">
-        <div className="absolute inset-0"></div>
+        <div className="absolute inset-0">
+          Build the future with the right developer. Explore talent, showcase
+          projects, and launch your next product.
+        </div>
 
         {/* Animated particles */}
         <div className="absolute inset-0">
@@ -673,4 +385,4 @@ const LuxuryAboutPage = () => {
   );
 };
 
-export default LuxuryAboutPage;
+export default About;

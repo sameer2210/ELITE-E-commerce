@@ -266,9 +266,7 @@ const Nav = () => {
                 <span className="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold tracking-[0.35em] uppercase text-white">
                   ÉLITE
                 </span>
-                <span className="text-[10px] font-semibold tracking-[0.35em] text-white/70 uppercase">
-                  LUXURY
-                </span>
+
               </NavLink>
             </div>
 
@@ -399,9 +397,7 @@ const Nav = () => {
               <span className="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs font-semibold tracking-[0.35em] uppercase text-white">
                 ÉLITE
               </span>
-              <span className="text-xs font-semibold tracking-[0.4em] text-white/70 uppercase">
-                LUXURY
-              </span>
+          
             </NavLink>
 
             {/* Search Bar - Desktop */}
