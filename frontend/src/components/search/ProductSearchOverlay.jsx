@@ -1,8 +1,8 @@
-import React from "react";
+import React, { memo } from "react";
 import { Search, X } from "lucide-react";
 import ProductSearchResults from "./ProductSearchResults";
 
-const ProductSearchOverlay = ({
+const ProjectSearchOverlay = ({
   query,
   onQueryChange,
   results,
@@ -23,9 +23,9 @@ const ProductSearchOverlay = ({
             value={query}
             onChange={(e) => onQueryChange(e.target.value)}
             className="w-full pl-10 pr-4 py-2 border border-gray-700 rounded-full bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-100 text-sm placeholder-gray-400 text-white"
-            placeholder="What are you looking for?"
+            placeholder="Search projects, developers, tech, awards..."
             autoFocus
-            aria-label="Search products"
+            aria-label="Search projects"
           />
         </div>
         <button
@@ -39,7 +39,7 @@ const ProductSearchOverlay = ({
       <div className="p-4">
         {trimmed.length === 0 ? (
           <p className="text-sm text-gray-400 text-center">
-            Search our premium collection...
+            Search projects, developers, and award-winning work...
           </p>
         ) : (
           <div className="rounded-2xl bg-stone-950/95 border border-white/10 shadow-2xl backdrop-blur-xl">
@@ -58,4 +58,4 @@ const ProductSearchOverlay = ({
   );
 };
 
-export default ProductSearchOverlay;
+export default memo(ProjectSearchOverlay);

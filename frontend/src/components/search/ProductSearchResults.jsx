@@ -1,13 +1,19 @@
-import React from "react";
+import React, { memo, useMemo } from "react";
 import { NavLink } from "react-router-dom";
 
-const formatPrice = (value) => {
-  const num = Number(value);
-  if (!Number.isFinite(num)) return null;
-  return `$${num.toLocaleString("en-IN")}`;
+const normalizeList = (value) => {
+  if (!value) return [];
+  if (Array.isArray(value)) return value.filter(Boolean);
+  if (typeof value === "string") {
+    return value
+      .split(",")
+      .map((entry) => entry.trim())
+      .filter(Boolean);
+  }
+  return [];
 };
 
-const ProductSearchResults = ({
+const ProjectSearchResults = ({
   query,
   results,
   loading,
@@ -16,6 +22,38 @@ const ProductSearchResults = ({
   onSelect,
 }) => {
   const trimmed = query.trim();
+  const normalizedResults = useMemo(() => {
+    if (!Array.isArray(results)) return [];
+    return results.map((item) => {
+      const id = item.id || item._id || item.slug || item.title;
+      const title =
+        item.title || item.name || item.projectName || "Untitled Project";
+      const developer =
+        item.developer?.name ||
+        item.developerName ||
+        item.author ||
+        item.brand ||
+        "Unknown Developer";
+      const techStack = normalizeList(
+        item.techStack || item.stack || item.technologies
+      );
+      const awards = normalizeList(item.awards || item.badges);
+      const image =
+        item.image ||
+        item.thumbnail ||
+        item.cover ||
+        item.images?.[0] ||
+        "https://via.placeholder.com/96";
+      return {
+        id,
+        title,
+        developer,
+        techStack,
+        awards,
+        image,
+      };
+    });
+  }, [results]);
 
   if (!trimmed) return null;
 
@@ -29,7 +67,7 @@ const ProductSearchResults = ({
 
   if (loading) {
     return (
-      <p className="px-4 py-3 text-sm text-white/70">Searching products...</p>
+      <p className="px-4 py-3 text-sm text-white/70">Searching projects...</p>
     );
   }
 
@@ -39,30 +77,30 @@ const ProductSearchResults = ({
     );
   }
 
-  if (!results?.length) {
+  if (!normalizedResults.length) {
     return (
       <p className="px-4 py-3 text-sm text-white/60">
-        No products found for "{trimmed}".
+        No projects found for "{trimmed}".
       </p>
     );
   }
 
   return (
     <ul className="max-h-80 overflow-auto divide-y divide-white/10" role="listbox">
-      {results.map((product) => {
-        const id = product.id || product._id;
-        const price = formatPrice(product.price);
+      {normalizedResults.map((project) => {
+        const techPreview = project.techStack.slice(0, 3).join(" • ");
+        const awardPreview = project.awards.slice(0, 2).join(" • ");
         return (
-          <li key={id} role="option">
+          <li key={project.id} role="option">
             <NavLink
-              to={`/product-info/${id}`}
+              to={`/projects/${project.id}`}
               onClick={onSelect}
               className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors"
             >
               <div className="h-12 w-12 rounded-lg overflow-hidden bg-white/10">
                 <img
-                  src={product.image || product.images?.[0] || "https://via.placeholder.com/96"}
-                  alt={product.title}
+                  src={project.image}
+                  alt={project.title}
                   className="h-full w-full object-cover"
                   onError={(e) => {
                     e.target.src = "https://via.placeholder.com/96";
@@ -71,15 +109,18 @@ const ProductSearchResults = ({
               </div>
               <div className="min-w-0">
                 <p className="text-sm font-medium text-white truncate">
-                  {product.title}
+                  {project.title}
                 </p>
                 <p className="text-xs text-white/60 truncate">
-                  {[product.brand, product.category].filter(Boolean).join(" • ")}
+                  {project.developer}
+                  {techPreview ? ` • ${techPreview}` : ""}
                 </p>
+                {awardPreview ? (
+                  <p className="text-[11px] text-teal-300/80 truncate">
+                    Awards: {awardPreview}
+                  </p>
+                ) : null}
               </div>
-              {price && (
-                <span className="ml-auto text-sm text-white/80">{price}</span>
-              )}
             </NavLink>
           </li>
         );
@@ -88,4 +129,4 @@ const ProductSearchResults = ({
   );
 };
 
-export default ProductSearchResults;
+export default memo(ProjectSearchResults);

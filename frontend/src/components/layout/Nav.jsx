@@ -1,114 +1,76 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { asynclogoutuser } from '../../store/actions/userActions';
-import { useProductSearch } from '../../hooks/productHook/useProductSearch';
-import ProductSearchBar from '../search/ProductSearchBar';
-import ProductSearchOverlay from '../search/ProductSearchOverlay';
+import { useProjectSearch } from '../../hooks/projectHook/useProjectSearch';
+import ProjectSearchBar from '../search/ProductSearchBar';
+import ProjectSearchOverlay from '../search/ProductSearchOverlay';
+import {
+  NAVIGATION,
+  NAV_ORDER,
+  SEARCH_SUGGESTIONS,
+} from '../../config/navigation.config';
 import {
   Search,
-  ShoppingBag,
-  CreditCard,
   User,
   Menu,
   X,
+  Folder,
+  Bookmark,
+  Upload,
+  Bell,
+  ChevronDown,
 } from 'lucide-react';
 
-// Move navigationData outside the component for performance
-const navigationData = {
-  'New In': { featured: [], categories: [], spotlight: {} },
-  'Men': {
-    featured: { title: 'Featured Categories', brands: ['Clothing', 'Footwear', 'Accessories', 'Grooming'] },
-    categories: {
-      Clothing: { items: ['Shirts', 'T-Shirts', 'Jeans', 'Suits'] },
-      Footwear: { items: ['Casual Shoes', 'Formal Shoes', 'Sneakers'] },
-    },
-    spotlight: {
-      title: 'New Collection',
-      image: '/api/placeholder/300/400',
-      brand: 'Premium Menswear',
-      description: 'Elevate your style with our curated collection',
-      cta: 'SHOP NOW',
-    },
-  },
-  'Women': {
-    featured: { title: 'Featured Categories', brands: ['Clothing', 'Footwear', 'Accessories', 'Beauty'] },
-    categories: {
-      Clothing: { items: ['Dresses', 'Tops', 'Skirts', 'Ethnic Wear'] },
-      Footwear: { items: ['Heels', 'Flats', 'Sandals'] },
-    },
-    spotlight: {
-      title: 'Trending Now',
-      image: '/api/placeholder/300/400',
-      brand: "Women's Fashion",
-      description: "Discover the latest trends in women's fashion",
-      cta: 'EXPLORE',
-    },
-  },
-  'Watches & Jewellery': {
-    featured: {
-      title: 'Featured Brands',
-      brands: ['Rado', 'Longines', 'Tissot', 'Versace', 'Cartier', 'Rolex'],
-    },
-    categories: {
-      TimeValue: { items: ['Cartier', 'IWC Schaffhausen', 'Jaeger-LeCoultre'] },
-      'Re-loved Watches': { items: ['Rolex', 'Omega', 'Tudor'] },
-      'Fine Jewellery': { items: ['Bulgari', 'Piaget', 'De Beers Forevermark'] },
-      Gender: { items: ['Men', 'Women', 'Unisex'] },
-      Material: { items: ['Stainless Steel', 'Genuine Leather', '18k Gold'] },
-    },
-    spotlight: {
-      title: 'Spotlight On',
-      image: '/api/placeholder/300/400',
-      brand: 'Cartier',
-      description: 'Timeless designs that stand for elegance, beauty & precision',
-      cta: 'DISCOVER',
-    },
-  },
-  'Home': { featured: [], categories: [], spotlight: {} },
-  'Kids': { featured: [], categories: [], spotlight: {} },
-  'Beauty': { featured: [], categories: [], spotlight: {} },
-  'Indiluxe': { featured: [], categories: [], spotlight: {} },
-  'Brands': { featured: [], categories: [], spotlight: {} },
-};
+const NavDropdown = memo(({ menuItem, activeDropdown, handleMouseEnter }) => {
+  const isActive = activeDropdown === menuItem.key;
+  const hasMega = Boolean(menuItem.mega);
 
-
-const NavDropdown = ({ menuItem, activeDropdown, handleMouseEnter }) => (
-  <div
-    key={menuItem}
-    className="relative"
-    onMouseEnter={() => handleMouseEnter(menuItem)}
-  >
-    <button
-      className="flex items-center space-x-1 text-sm font-semibold text-gray-200 hover:text-white transition-colors py-2"
-      aria-haspopup="true"
-      aria-expanded={activeDropdown === menuItem}
-      tabIndex={0}
+  return (
+    <div
+      key={menuItem.key}
+      className="relative"
+      onMouseEnter={() => handleMouseEnter(menuItem.key)}
     >
-      <span>{menuItem}</span>
-    </button>
-  </div>
-);
+      <NavLink
+        to={menuItem.path}
+        className={`flex items-center space-x-1 text-sm font-semibold transition-colors py-2 ${
+          isActive ? 'text-white' : 'text-gray-200 hover:text-white'
+        }`}
+        onFocus={() => handleMouseEnter(menuItem.key)}
+        aria-haspopup={hasMega ? 'true' : undefined}
+        aria-expanded={hasMega ? isActive : undefined}
+        tabIndex={0}
+      >
+        <span>{menuItem.label}</span>
+      </NavLink>
+    </div>
+  );
+});
 
-const NavMegaMenu = ({ data }) => {
+NavDropdown.displayName = 'NavDropdown';
+
+const NavMegaMenu = memo(({ data }) => {
   if (!data) return null;
+
+  const featuredItems = data.featured?.items || data.featured?.brands || [];
 
   return (
     <div className="p-6 grid grid-cols-4 gap-6">
       {/* Featured Section */}
-      {data.featured && data.featured.brands && data.featured.brands.length > 0 && (
+      {featuredItems.length > 0 && (
         <div className="space-y-4">
           <h3 className="text-sm font-bold text-white uppercase tracking-wider border-b border-gray-700 pb-2">
             {data.featured.title}
           </h3>
           <div className="space-y-2">
-            {data.featured.brands.map((brand, index) => (
+            {featuredItems.map((item, index) => (
               <button
                 key={index}
                 className="block text-sm text-gray-400 hover:text-white transition-colors py-1"
               >
-                {brand}
+                {item}
               </button>
             ))}
           </div>
@@ -121,14 +83,15 @@ const NavMegaMenu = ({ data }) => {
             <div key={category} className="space-y-3">
               <h3 className="text-sm font-bold text-white uppercase">{category}</h3>
               <div className="space-y-1">
-                {catData.items && catData.items.map((item, idx) => (
-                  <button
-                    key={idx}
-                    className="block text-sm text-gray-400 hover:text-white transition-colors py-1"
-                  >
-                    {item}
-                  </button>
-                ))}
+                {catData.items &&
+                  catData.items.map((item, idx) => (
+                    <button
+                      key={idx}
+                      className="block text-sm text-gray-400 hover:text-white transition-colors py-1"
+                    >
+                      {item}
+                    </button>
+                  ))}
               </div>
             </div>
           ))}
@@ -153,27 +116,51 @@ const NavMegaMenu = ({ data }) => {
             <div className="space-y-2">
               <h4 className="font-bold text-white text-lg">{data.spotlight.brand}</h4>
               <p className="text-sm text-gray-400">{data.spotlight.description}</p>
-              <button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-200">
-                {data.spotlight.cta}
-              </button>
+              {data.spotlight.link ? (
+                <NavLink
+                  to={data.spotlight.link}
+                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-200 inline-flex items-center justify-center"
+                >
+                  {data.spotlight.cta}
+                </NavLink>
+              ) : (
+                <button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-200">
+                  {data.spotlight.cta}
+                </button>
+              )}
             </div>
           </div>
         </div>
       )}
     </div>
   );
-};
+});
+
+NavMegaMenu.displayName = 'NavMegaMenu';
 
 const Nav = () => {
   const { user } = useSelector((state) => state.userReducer);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isSearchOpen, setSearchOpen] = useState(false);
-  const [cartCount] = useState(3);
+  const [notificationCount] = useState(2);
   const [isUserMenuOpen, setUserMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [openMobileSections, setOpenMobileSections] = useState(() => new Set());
   const dispatch = useDispatch();
-  const activeDropdownData = activeDropdown ? navigationData[activeDropdown] : null;
+  const menuItems = useMemo(
+    () => NAV_ORDER.map((key) => ({ key, ...NAVIGATION[key] })),
+    [NAV_ORDER, NAVIGATION]
+  );
+  const activeMenu = useMemo(
+    () => (activeDropdown ? NAVIGATION[activeDropdown] : null),
+    [activeDropdown]
+  );
+  const activeDropdownData = activeMenu?.mega || null;
+  const searchSuggestions = useMemo(
+    () => SEARCH_SUGGESTIONS,
+    [SEARCH_SUGGESTIONS]
+  );
   const {
     query: searchQuery,
     setQuery: setSearchQuery,
@@ -182,7 +169,7 @@ const Nav = () => {
     error: searchError,
     minChars: searchMinChars,
     clear: clearSearch,
-  } = useProductSearch({ minChars: 2, limit: 8, debounceMs: 250 });
+  } = useProjectSearch({ minChars: 2, limit: 8, debounceMs: 250 });
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -209,37 +196,60 @@ const Nav = () => {
 
   const dropdownTimeoutRef = useRef(null);
 
-  // Memoize menu keys for performance
-  const menuKeys = useMemo(() => Object.keys(navigationData), []);
+  const handleMouseEnter = useCallback(
+    (menuKey) => {
+      clearTimeout(dropdownTimeoutRef.current);
+      if (activeDropdown === menuKey) return;
+      const mega = NAVIGATION[menuKey]?.mega;
+      const hasMegaContent = Boolean(
+        mega &&
+          ((mega.featured?.items?.length || mega.featured?.brands?.length) ||
+            Object.keys(mega.categories || {}).length > 0 ||
+            mega.spotlight?.title)
+      );
+      if (hasMegaContent) {
+        setActiveDropdown(menuKey);
+      } else {
+        setActiveDropdown(null);
+      }
+    },
+    [activeDropdown, NAVIGATION]
+  );
 
-  const handleMouseEnter = (menuItem) => {
-    clearTimeout(dropdownTimeoutRef.current);
-    if (activeDropdown === menuItem) return;
-    const data = navigationData[menuItem];
-    if (
-      data &&
-      (data.featured?.brands?.length > 0 ||
-        Object.keys(data.categories || {}).length > 0 ||
-        data.spotlight?.title)
-    ) {
-      setActiveDropdown(menuItem);
-    }
-  };
-
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     dropdownTimeoutRef.current = setTimeout(() => {
       setActiveDropdown(null);
     }, 150);
-  };
+  }, []);
 
-  const handleLogout = async () => {
+  const handleLogout = useCallback(async () => {
+    if (!user) return;
     try {
-      await dispatch(asynclogoutuser(user.id))
-      toast.success("Logged out successfully");
+      await dispatch(asynclogoutuser(user.id));
+      toast.success('Logged out successfully');
     } catch {
-      toast.error("Failed to log out");
+      toast.error('Failed to log out');
     }
-  }
+  }, [dispatch, user]);
+
+  const toggleMobileSection = useCallback((menuKey) => {
+    setOpenMobileSections((prev) => {
+      const next = new Set(prev);
+      if (next.has(menuKey)) {
+        next.delete(menuKey);
+      } else {
+        next.add(menuKey);
+      }
+      return next;
+    });
+  }, []);
+
+  const handleSuggestionClick = useCallback(
+    (value) => {
+      setSearchQuery(value);
+    },
+    [setSearchQuery]
+  );
 
   return (
     <>
@@ -288,61 +298,89 @@ const Nav = () => {
                     <User className="w-5 h-5" strokeWidth={1.5} />
                   </button>
                   {isUserMenuOpen && (
-                    <div className="absolute top-full right-0 mt-2 w-48 bg-stone-950 rounded-lg shadow-xl border border-gray-800 p-2 animate-in slide-in-from-top-2 z-2">
+                    <div className="absolute top-full right-0 mt-2 w-52 bg-stone-950 rounded-lg shadow-xl border border-gray-800 p-2 animate-in slide-in-from-top-2 z-2">
                       <div className="px-3 py-2 border-b border-gray-700">
-                        <div className="text-sm font-medium text-white">
-                          {user.name || "User"}
-                        </div>
+                        <div className="text-sm font-medium text-white">{user.name || 'User'}</div>
                         <div className="text-xs text-gray-400">
                           {user.isAdmin ? 'Admin' : 'Member'}
                         </div>
                       </div>
-                      <NavLink to="/settings" className="block px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg text-sm">
-                        Profile
+                      <NavLink
+                        to="/profile"
+                        className="block px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg text-sm"
+                      >
+                        My Profile
                       </NavLink>
-                      <NavLink to="/contact" className="block px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg text-sm">
-                        Contact
+                      <NavLink
+                        to="/my-projects"
+                        className="block px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg text-sm"
+                      >
+                        My Projects
                       </NavLink>
-                      <NavLink to="/wishlist" className="block px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg text-sm">
-                        Wishlist
+                      <NavLink
+                        to="/submit"
+                        className="block px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg text-sm"
+                      >
+                        Submit Project
                       </NavLink>
-                      {user.isAdmin && (
-                        <NavLink to="/productCreate" className="block px-3 py-2 text-white hover:bg-red-500 rounded-lg text-sm">
-                          Admin Panel
-                        </NavLink>
-                      )}
+                      <NavLink
+                        to="/saved"
+                        className="block px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg text-sm"
+                      >
+                        Saved Projects
+                      </NavLink>
+                      <NavLink
+                        to="/settings"
+                        className="block px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg text-sm"
+                      >
+                        Settings
+                      </NavLink>
                       <div className="border-t border-gray-700 my-1"></div>
-                      <button onClick={handleLogout} className="block px-3 py-2 text-red-500 hover:text-white hover:bg-red-600 rounded-lg w-full text-left text-sm">
-                        Sign Out
+                      <button
+                        onClick={handleLogout}
+                        className="block px-3 py-2 text-red-500 hover:text-white hover:bg-red-600 rounded-lg w-full text-left text-sm"
+                      >
+                        Logout
                       </button>
                     </div>
                   )}
                 </div>
               ) : (
-                <NavLink to="/signin" className="block px-3 py-2 text-white border border-white/30 rounded-full text-xs hover:bg-white hover:text-black transition">
+                <NavLink
+                  to="/signin"
+                  className="block px-3 py-2 text-white border border-white/30 rounded-full text-xs hover:bg-white hover:text-black transition"
+                >
                   SIGN IN
                 </NavLink>
               )}
 
               <NavLink
-                to="/cart"
+                to="/projects"
                 className="relative p-2 text-gray-200 hover:text-white transition-colors rounded-full hover:bg-white/10"
-                aria-label="Cart"
+                aria-label="Projects"
               >
-                <ShoppingBag className="w-5 h-5" strokeWidth={1.5} />
-                {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-teal-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
-                    {cartCount}
-                  </span>
-                )}
+                <Folder className="w-5 h-5" strokeWidth={1.5} />
               </NavLink>
 
               <NavLink
-                to="/wishlist"
+                to="/saved"
                 className="p-2 text-gray-200 hover:text-white transition-colors rounded-full hover:bg-white/10"
-                aria-label="Gift card"
+                aria-label="Saved projects"
               >
-                <CreditCard className="w-5 h-5" strokeWidth={1.5} />
+                <Bookmark className="w-5 h-5" strokeWidth={1.5} />
+              </NavLink>
+
+              <NavLink
+                to="/notifications"
+                className="relative p-2 text-gray-200 hover:text-white transition-colors rounded-full hover:bg-white/10"
+                aria-label="Notifications"
+              >
+                <Bell className="w-5 h-5" strokeWidth={1.5} />
+                {notificationCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-teal-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                    {notificationCount}
+                  </span>
+                )}
               </NavLink>
 
               <button
@@ -357,25 +395,39 @@ const Nav = () => {
 
           {/* Desktop Header */}
           <div className="hidden md:grid grid-cols-[auto_1fr_auto] items-center py-4">
-            <div className="flex items-center gap-4">
-              <NavLink to="/" className="inline-flex items-center gap-2">
-                <span className="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs font-semibold tracking-[0.35em] uppercase text-white">
-                  ÉLITE
-                </span>
-                <span className="text-xs font-semibold tracking-[0.4em] text-white/70 uppercase">
-                  LUXURY
-                </span>
-              </NavLink>
-              <span className="text-xs font-semibold tracking-[0.35em] text-white/50 uppercase">
-                INDI
+            <NavLink to="/" className="inline-flex items-center gap-2">
+              <span className="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs font-semibold tracking-[0.35em] uppercase text-white">
+                ÉLITE
               </span>
-            </div>
-
-            <NavLink to="/" className="flex items-center justify-center">
-              <span className="text-lg font-semibold text-white/90 tracking-[0.45em] uppercase">
-                ÉLITE LUXURY
+              <span className="text-xs font-semibold tracking-[0.4em] text-white/70 uppercase">
+                LUXURY
               </span>
             </NavLink>
+
+            {/* Search Bar - Desktop */}
+            <div className="hidden md:flex flex-col items-center justify-center pb-4 gap-3">
+              <ProjectSearchBar
+                query={searchQuery}
+                onQueryChange={setSearchQuery}
+                results={searchResults}
+                loading={searchLoading}
+                error={searchError}
+                minChars={searchMinChars}
+                onResultSelect={() => setSearchQuery('')}
+              />
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                {searchSuggestions.map((suggestion) => (
+                  <button
+                    key={suggestion}
+                    type="button"
+                    onClick={() => handleSuggestionClick(suggestion)}
+                    className="px-3 py-1 text-[11px] font-semibold tracking-wide uppercase text-white/70 border border-white/10 rounded-full hover:text-white hover:border-white/30 transition"
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
+            </div>
 
             <div className="flex items-center justify-end space-x-2">
               {user ? (
@@ -395,76 +447,99 @@ const Nav = () => {
                     <User className="w-5 h-5" strokeWidth={1.5} />
                   </button>
                   {isUserMenuOpen && (
-                    <div className="absolute top-full right-0 mt-2 w-48 bg-stone-950 rounded-lg shadow-xl border border-gray-800 p-2 animate-in slide-in-from-top-2 z-2">
+                    <div className="absolute top-full right-0 mt-2 w-52 bg-stone-950 rounded-lg shadow-xl border border-gray-800 p-2 animate-in slide-in-from-top-2 z-2">
                       <div className="px-3 py-2 border-b border-gray-700">
-                        <div className="text-sm font-medium text-white">
-                          {user.name || "User"}
-                        </div>
+                        <div className="text-sm font-medium text-white">{user.name || 'User'}</div>
                         <div className="text-xs text-gray-400">
                           {user.isAdmin ? 'Admin' : 'Member'}
                         </div>
                       </div>
-                      <NavLink to="/settings" className="block px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg text-sm">
-                        Profile
+                      <NavLink
+                        to="/profile"
+                        className="block px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg text-sm"
+                      >
+                        My Profile
                       </NavLink>
-                      <NavLink to="/contact" className="block px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg text-sm">
-                        Contact
+                      <NavLink
+                        to="/my-projects"
+                        className="block px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg text-sm"
+                      >
+                        My Projects
                       </NavLink>
-                      <NavLink to="/wishlist" className="block px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg text-sm">
-                        Wishlist
+                      <NavLink
+                        to="/submit"
+                        className="block px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg text-sm"
+                      >
+                        Submit Project
                       </NavLink>
-                      {user.isAdmin && (
-                        <NavLink to="/productCreate" className="block px-3 py-2 text-white hover:bg-red-500 rounded-lg text-sm">
-                          Admin Panel
-                        </NavLink>
-                      )}
+                      <NavLink
+                        to="/saved"
+                        className="block px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg text-sm"
+                      >
+                        Saved Projects
+                      </NavLink>
+                      <NavLink
+                        to="/settings"
+                        className="block px-3 py-2 text-gray-300 hover:bg-gray-800 rounded-lg text-sm"
+                      >
+                        Settings
+                      </NavLink>
                       <div className="border-t border-gray-700 my-1"></div>
-                      <button onClick={handleLogout} className="block px-3 py-2 text-red-500 hover:text-white hover:bg-red-600 rounded-lg w-full text-left text-sm">
-                        Sign Out
+                      <button
+                        onClick={handleLogout}
+                        className="block px-3 py-2 text-red-500 hover:text-white hover:bg-red-600 rounded-lg w-full text-left text-sm"
+                      >
+                        Logout
                       </button>
                     </div>
                   )}
                 </div>
               ) : (
-                <NavLink to="/signin" className="block px-3 py-2 text-white border border-white/30 rounded-full text-xs hover:bg-white hover:text-black transition">
+                <NavLink
+                  to="/signin"
+                  className="block px-3 py-2 text-white border border-white/30 rounded-full text-xs hover:bg-white hover:text-black transition"
+                >
                   SIGN IN
                 </NavLink>
               )}
 
               <NavLink
-                to="/cart"
+                to="/projects"
                 className="relative p-2 text-gray-200 hover:text-white transition-colors rounded-full hover:bg-white/10"
-                aria-label="Cart"
+                aria-label="Projects"
               >
-                <ShoppingBag className="w-5 h-5" strokeWidth={1.5} />
-                {cartCount > 0 && (
+                <Folder className="w-5 h-5" strokeWidth={1.5} />
+              </NavLink>
+
+              <NavLink
+                to="/saved"
+                className="p-2 text-gray-200 hover:text-white transition-colors rounded-full hover:bg-white/10"
+                aria-label="Saved projects"
+              >
+                <Bookmark className="w-5 h-5" strokeWidth={1.5} />
+              </NavLink>
+
+              <NavLink
+                to="/notifications"
+                className="relative p-2 text-gray-200 hover:text-white transition-colors rounded-full hover:bg-white/10"
+                aria-label="Notifications"
+              >
+                <Bell className="w-5 h-5" strokeWidth={1.5} />
+                {notificationCount > 0 && (
                   <span className="absolute -top-1 -right-1 bg-teal-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
-                    {cartCount}
+                    {notificationCount}
                   </span>
                 )}
               </NavLink>
 
               <NavLink
-                to="/wishlist"
-                className="p-2 text-gray-200 hover:text-white transition-colors rounded-full hover:bg-white/10"
-                aria-label="Gift card"
+                to="/submit"
+                className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-black text-xs font-semibold tracking-[0.25em] uppercase hover:bg-gray-200 transition"
               >
-                <CreditCard className="w-5 h-5" strokeWidth={1.5} />
+                <Upload className="w-4 h-4" strokeWidth={1.5} />
+                Submit Site
               </NavLink>
             </div>
-          </div>
-
-          {/* Search Bar - Desktop */}
-          <div className="hidden md:flex justify-center pb-4">
-            <ProductSearchBar
-              query={searchQuery}
-              onQueryChange={setSearchQuery}
-              results={searchResults}
-              loading={searchLoading}
-              error={searchError}
-              minChars={searchMinChars}
-              onResultSelect={() => setSearchQuery('')}
-            />
           </div>
 
           {/* Desktop Navigation Menu */}
@@ -473,8 +548,8 @@ const Nav = () => {
               className="flex items-center divide-x divide-white/15 dropdown-container"
               onMouseLeave={handleMouseLeave}
             >
-              {menuKeys.map((menuItem) => (
-                <div key={menuItem} className="px-4">
+              {menuItems.map((menuItem) => (
+                <div key={menuItem.key} className="px-4">
                   <NavDropdown
                     menuItem={menuItem}
                     activeDropdown={activeDropdown}
@@ -502,19 +577,73 @@ const Nav = () => {
           {isMobileMenuOpen && (
             <div className="md:hidden border-t border-gray-800 animate-in slide-in-from-top-4 duration-300">
               <div className="px-4 pt-4 pb-6 space-y-2 bg-gray-900">
-                {menuKeys.map((menuItem) => (
-                  <NavLink
-                    key={menuItem}
-                    to={`/${menuItem.replace(/\s+/g, '').toLowerCase()}`}
-                    className={({ isActive }) =>
-                      `w-full text-left px-4 py-3 text-sm font-medium ${isActive ? 'text-white bg-gray-800' : 'text-gray-300'} hover:bg-gray-800 rounded-lg transition-colors flex items-center justify-between`
-                    }
-                    onClick={() => setMobileMenuOpen(false)}
-                    tabIndex={0}
-                  >
-                    {menuItem}
-                  </NavLink>
-                ))}
+                {menuItems.map((menuItem) => {
+                  const mobileItems = menuItem.mobile?.items || [];
+                  const hasChildren = mobileItems.length > 0;
+                  const isOpen = openMobileSections.has(menuItem.key);
+                  const isSubmit = menuItem.key === 'submit';
+
+                  if (hasChildren) {
+                    return (
+                      <div key={menuItem.key} className="rounded-lg border border-white/5">
+                        <button
+                          type="button"
+                          onClick={() => toggleMobileSection(menuItem.key)}
+                          className={`w-full px-4 py-3 text-sm font-medium flex items-center justify-between transition-colors ${
+                            isOpen ? 'text-white bg-gray-800' : 'text-gray-300 hover:bg-gray-800'
+                          } rounded-lg`}
+                        >
+                          <span>{menuItem.label}</span>
+                          <ChevronDown
+                            className={`w-4 h-4 transition-transform ${
+                              isOpen ? 'rotate-180' : ''
+                            }`}
+                          />
+                        </button>
+                        {isOpen && (
+                          <div className="mt-1 space-y-1 pb-2">
+                            {mobileItems.map((item) => (
+                              <NavLink
+                                key={item.label}
+                                to={item.path}
+                                className={({ isActive }) =>
+                                  `block ml-4 mr-2 px-3 py-2 text-sm rounded-lg transition-colors ${
+                                    isActive
+                                      ? 'text-white bg-gray-800'
+                                      : 'text-gray-400 hover:bg-gray-800'
+                                  }`
+                                }
+                                onClick={() => setMobileMenuOpen(false)}
+                              >
+                                {item.label}
+                              </NavLink>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <NavLink
+                      key={menuItem.key}
+                      to={menuItem.path}
+                      className={({ isActive }) =>
+                        `w-full text-left px-4 py-3 text-sm font-medium rounded-lg transition-colors flex items-center justify-between ${
+                          isSubmit
+                            ? 'bg-white text-black uppercase tracking-[0.2em]'
+                            : isActive
+                              ? 'text-white bg-gray-800'
+                              : 'text-gray-300 hover:bg-gray-800'
+                        }`
+                      }
+                      onClick={() => setMobileMenuOpen(false)}
+                      tabIndex={0}
+                    >
+                      {menuItem.label}
+                    </NavLink>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -522,7 +651,7 @@ const Nav = () => {
 
         {/* Mobile Search Overlay */}
         {isSearchOpen && (
-          <ProductSearchOverlay
+          <ProjectSearchOverlay
             query={searchQuery}
             onQueryChange={setSearchQuery}
             results={searchResults}
@@ -535,7 +664,6 @@ const Nav = () => {
             }}
           />
         )}
-
       </nav>
     </>
   );
