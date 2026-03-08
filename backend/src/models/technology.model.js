@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const categorySchema = new mongoose.Schema(
+const technologySchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -8,7 +8,7 @@ const categorySchema = new mongoose.Schema(
       trim: true,
       unique: true,
     },
-    description: {
+    category: {
       type: String,
       trim: true,
     },
@@ -16,6 +16,6 @@ const categorySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Category = mongoose.model("Category", categorySchema);
+const Technology = mongoose.model("Technology", technologySchema);
 
-export default Category;
+export default Technology;
