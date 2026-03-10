@@ -30,7 +30,8 @@ export const updateMyProfile = async (req, res, next) => {
       _id: updated._id,
       name: updated.name,
       email: updated.email,
-      isAdmin: updated.isAdmin,
+      role: updated.role,
+      isAdmin: updated.role === "admin",
     });
   } catch (err) {
     next(err);
@@ -78,14 +79,15 @@ export const updateUserById = async (req, res, next) => {
 
     if (req.body.name) user.name = req.body.name;
     if (req.body.email) user.email = req.body.email;
-    if (req.body.isAdmin !== undefined) user.isAdmin = req.body.isAdmin;
+    if (req.body.role) user.role = req.body.role;
 
     const updated = await user.save();
     res.json({
       _id: updated._id,
       name: updated.name,
       email: updated.email,
-      isAdmin: updated.isAdmin,
+      role: updated.role,
+      isAdmin: updated.role === "admin",
     });
   } catch (err) {
     next(err);

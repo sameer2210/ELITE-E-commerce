@@ -3,9 +3,11 @@ import User from '../models/user.model.js';
 import generateToken from '../utils/generateToken.js';
 
 // REGISTER (only for normal users, admin comes from seed file)
+const allowedRoles = new Set(["developer", "client"]);
+
 export const registerUser = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
     const userExists = await User.findOne({ email });
     if (userExists) {
@@ -13,11 +15,13 @@ export const registerUser = async (req, res, next) => {
       throw new Error('User already exists');
     }
 
+    const safeRole = allowedRoles.has(role) ? role : "client";
+
     const user = await User.create({
       name,
       email,
       password,
-      role: 'user', //  Enforce only "user" role here
+      role: safeRole,
     });
 
     res.status(201).json({

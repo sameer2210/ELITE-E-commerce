@@ -36,3 +36,16 @@ export const adminOnly = (req, res, next) => {
       .json({ message: "Not Authorized , only Admin access required" });
   }
 };
+
+export const requireRole = (...roles) => {
+  const allowed = roles.flat().filter(Boolean);
+  return (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({ message: "Not Authorized" });
+    }
+    if (allowed.length && !allowed.includes(req.user.role)) {
+      return res.status(403).json({ message: "Not Authorized for this role" });
+    }
+    next();
+  };
+};
