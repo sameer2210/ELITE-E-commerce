@@ -1,14 +1,18 @@
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../components/common/Button";
 import ProductForm from "../../components/product/ProductForm";
 import { asyncupdateuser } from "../../store/actions/userActions";
 import { asyncAddtoCartProduct } from "../../store/actions/cartAction";
-import { asyncdeleteproduct, asyncupdateproduct } from "../../store/actions/productAction";
+import {
+  useDeleteProduct,
+  useProduct,
+  useProducts,
+  useUpdateProduct,
+} from "../../api/products";
 import { Star, Plus, Minus, Heart, Truck, Shield, RotateCcw, ArrowLeft } from "lucide-react";
-import axios from "../../api/config";
 
 const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
@@ -16,42 +20,29 @@ const ProductDetails = () => {
   const [isWishlisted, setIsWishlisted] = useState(false);
 
   const { id } = useParams();
-  const user = useSelector(state => state.userReducer.user || null);
-  const { products, loading } = useSelector(state => state.productReducer);
-  const productFromStore = products.find(p => p.id === id || p._id === id);
-  const [fetchedProduct, setFetchedProduct] = useState(null);
-  const [fetching, setFetching] = useState(false);
-  const [fetchError, setFetchError] = useState("");
-  const product = productFromStore || fetchedProduct;
+  const user = useSelector((state) => state.userReducer.user || null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    let isMounted = true;
+  const {
+    data: product,
+    isLoading: productLoading,
+    isError: productError,
+  } = useProduct(id);
 
-    const loadProduct = async () => {
-      if (!productFromStore && id) {
-        setFetching(true);
-        setFetchError("");
-        try {
-          const { data } = await axios.get(`/products/${id}`);
-          if (isMounted) setFetchedProduct(data);
-        } catch (error) {
-          if (isMounted) setFetchError("Product not found.");
-        } finally {
-          if (isMounted) setFetching(false);
-        }
-      }
-    };
+  const { data: relatedProductsData, isLoading: relatedLoading } = useProducts({
+    limit: 12,
+  });
 
-    loadProduct();
+  const updateProduct = useUpdateProduct();
+  const deleteProduct = useDeleteProduct();
 
-    return () => {
-      isMounted = false;
-    };
-  }, [productFromStore, id]);
+  const relatedProducts = (relatedProductsData || [])
+    .filter((item) => (item.id || item._id) !== id)
+    .slice(0, 10);
 
-  const isBusy = loading || fetching;
+  const fetchError = productError ? "Product not found." : "";
+  const isBusy = productLoading || updateProduct.isPending || deleteProduct.isPending;
 
   const handleQuantityChange = (change) => {
     if (isBusy) return;
@@ -59,10 +50,9 @@ const ProductDetails = () => {
   };
 
   const UpdateHandler = async (data) => {
-    if (isBusy) return;
+    if (isBusy || !product) return;
     try {
       const updatedProduct = {
-        ...product,
         image: data.image,
         title: data.title,
         price: Number(data.price) || 0,
@@ -70,9 +60,10 @@ const ProductDetails = () => {
         department: data.department,
         category: data.category,
         tag: data.tag,
-        description: data.description
+        description: data.description,
       };
-      await dispatch(asyncupdateproduct(product.id || product._id, updatedProduct));
+      const productId = product.id || product._id;
+      await updateProduct.mutateAsync({ id: productId, payload: updatedProduct });
       toast.success("Product updated!");
       navigate("/");
     } catch (error) {
@@ -100,9 +91,10 @@ const ProductDetails = () => {
 
   const DeleteHandler = async () => {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
-    if (isBusy) return;
+    if (isBusy || !product) return;
     try {
-      await dispatch(asyncdeleteproduct(product.id || product._id));
+      const productId = product.id || product._id;
+      await deleteProduct.mutateAsync(productId);
       toast.success("Product deleted!");
       navigate("/");
     } catch (error) {
@@ -121,7 +113,7 @@ const ProductDetails = () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          {fetching ? (
+          {productLoading ? (
             <>
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-blue-500 mx-auto"></div>
               <p className="mt-2 text-gray-600">Loading product...</p>
@@ -318,29 +310,42 @@ const ProductDetails = () => {
                 </Button>
               </div>
               <div className="space-y-4">
-                {products
-                  .filter(item => (item.id || item._id) !== id)
-                  .slice(0, 10)
-                  .map(item => (
+                {relatedLoading && (
+                  <p className="text-sm text-gray-500 text-center">
+                    Loading related products...
+                  </p>
+                )}
+                {!relatedLoading &&
+                  relatedProducts.map((item) => (
                     <div
                       key={item.id || item._id}
-                      onClick={() => navigate(`/product-info/${item.id || item._id}`)}
+                      onClick={() =>
+                        navigate(`/product-info/${item.id || item._id}`)
+                      }
                       className="flex items-center gap-2 p-2 rounded hover:bg-gray-50 cursor-pointer"
                     >
                       <img
                         src={item.image || "https://via.placeholder.com/50"}
                         alt={item.title}
                         className="w-12 h-12 rounded object-cover"
-                        onError={(e) => (e.target.src = "https://via.placeholder.com/50")}
+                        onError={(e) =>
+                          (e.target.src = "https://via.placeholder.com/50")
+                        }
                       />
                       <div>
-                        <h4 className="text-sm font-medium text-gray-800">{item.title}</h4>
-                        <p className="text-sm text-gray-600">${Number(item.price).toFixed(2)}</p>
+                        <h4 className="text-sm font-medium text-gray-800">
+                          {item.title}
+                        </h4>
+                        <p className="text-sm text-gray-600">
+                          ${Number(item.price).toFixed(2)}
+                        </p>
                       </div>
                     </div>
                   ))}
-                {products.length <= 1 && (
-                  <p className="text-sm text-gray-500 text-center">No related products</p>
+                {!relatedLoading && relatedProducts.length === 0 && (
+                  <p className="text-sm text-gray-500 text-center">
+                    No related products
+                  </p>
                 )}
               </div>
             </div>

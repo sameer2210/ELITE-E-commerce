@@ -1,4 +1,5 @@
 import axios from "axios";
+
 const envBaseURL = import.meta.env.VITE_API_BASE_URL;
 
 const baseURL = envBaseURL
@@ -13,6 +14,7 @@ if (!baseURL) {
 
 const instance = axios.create({
   baseURL,
+  withCredentials: true,
 });
 
 instance.interceptors.request.use((config) => {
@@ -23,4 +25,5 @@ instance.interceptors.request.use((config) => {
   return config;
 });
 
+export const http = instance;
 export default instance;

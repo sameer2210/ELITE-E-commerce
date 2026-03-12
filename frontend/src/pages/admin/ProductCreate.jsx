@@ -1,18 +1,15 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { nanoid } from "nanoid";
 import { toast } from "react-toastify";
 import { ArrowLeft } from "lucide-react";
 import Button from "../../components/common/Button";
 import ProductForm from "../../components/product/ProductForm";
-import { asynccreateproduct } from "../../store/actions/productAction";
+import { useCreateProduct } from "../../api/products";
 
 const ProductCreate = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.userReducer || {});
-  const [loading, setLoading] = useState(false);
+  const { mutateAsync: createProduct, isPending } = useCreateProduct();
 
   // Redirect non-admins
   if (!user?.isAdmin) {
@@ -22,12 +19,10 @@ const ProductCreate = () => {
   }
 
   const handleCreate = async (data) => {
-    if (loading) return;
-    setLoading(true);
+    if (isPending) return;
 
     try {
-      const product = { ...data, id: nanoid() };
-      await dispatch(asynccreateproduct(product));
+      await createProduct({ ...data });
       toast.success("Product created successfully!");
       navigate("/");
     } catch (error) {
@@ -35,8 +30,6 @@ const ProductCreate = () => {
       toast.error(
         error.message || "Failed to create product. Please try again."
       );
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -73,7 +66,7 @@ const ProductCreate = () => {
             }}
             onSubmit={handleCreate}
             isEdit={false}
-            loading={loading}
+            loading={isPending}
           />
         </div>
       </div>

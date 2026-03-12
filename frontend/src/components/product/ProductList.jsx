@@ -1,56 +1,51 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import axios from "../../api/config";
-import { loadlazyproducts } from "../../store/reducers/productSlice";
+import { useInfiniteProducts } from "../../api/products";
 import { motion } from "framer-motion";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useEffect, useState, lazy, Suspense } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { lazy, Suspense } from "react";
 
 const ProductTemplate = lazy(() => import("./ProductCard"));
 
 const ProductList = () => {
-  const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.productReducer);
-  const [hasMore, setHasMore] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+  } = useInfiniteProducts({ limit: 6 });
 
-  const fetchProducts = async () => {
-    if (loading) return; // Prevent multiple parallel fetches
-    setLoading(true);
-    try {
-      const start = products.length;
-      const limit = 6;
-      const { data } = await axios.get(`/products?_limit=${limit}&_start=${start}`);
+  const products = data?.pages?.flat() || [];
 
-      if (data.length < limit) setHasMore(false);
-      if (data.length > 0) dispatch(loadlazyproducts(data));
-      if (error) setError("");
-    } catch (err) {
-      console.error("Failed to fetch products:", err);
-      setError("Failed to load products. Please try again.");
-      setHasMore(false);
-    } finally {
-      setLoading(false);
-    }
+  const fetchProducts = () => {
+    if (!hasNextPage || isFetchingNextPage) return;
+    fetchNextPage();
   };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
 
   return (
     <>
-      {error && (
-        <p className="text-center text-red-500 py-4 font-semibold">{error}</p>
+      {isError && (
+        <p className="text-center text-red-500 py-4 font-semibold">
+          Failed to load products. Please try again.
+        </p>
+      )}
+      {isLoading && (
+        <p className="text-center text-gray-500 py-4">
+          Loading products...
+        </p>
       )}
       <InfiniteScroll
         dataLength={products.length}
         next={fetchProducts}
-        hasMore={hasMore}
-        loader={<p className="text-center text-gray-500 py-4">Loading more products...</p>}
+        hasMore={Boolean(hasNextPage)}
+        loader={
+          <p className="text-center text-gray-500 py-4">
+            Loading more products...
+          </p>
+        }
         endMessage={
           <p className="text-center text-green-600 py-4 font-semibold">
             Yay! You have seen all products.
