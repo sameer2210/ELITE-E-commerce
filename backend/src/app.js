@@ -2,22 +2,8 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
 import morgan from 'morgan';
-import { errorHandler, notFound } from '../src/middleware/error.middleware.js';
-
-import authRoutes from './routes/auth.routes.js';
-import awardRoutes from './routes/award.routes.js';
-import categoryRoutes from './routes/category.routes.js';
-import clientProfileRoutes from './routes/clientProfile.routes.js';
-import developerProfileRoutes from './routes/developerProfile.routes.js';
-import matchRoutes from './routes/match.routes.js';
-import messageRoutes from './routes/message.routes.js';
-import notificationRoutes from './routes/notification.routes.js';
-import projectRoutes from './routes/project.routes.js';
-import projectRequestRoutes from './routes/projectRequest.routes.js';
-import productRoutes from './routes/product.routes.js';
-import reviewRoutes from './routes/review.routes.js';
-import technologyRoutes from './routes/technology.routes.js';
-import userRoutes from './routes/user.routes.js';
+import { errorHandler, notFound } from './middleware/error.middleware.js';
+import { registerRoutes } from './routes/index.js';
 
 const app = express();
 
@@ -37,23 +23,7 @@ app.use(
   })
 );
 
-app.use('/api/auth', authRoutes);
-app.use('/api/awards', awardRoutes);
-app.use('/api/categories', categoryRoutes);
-app.use('/api/client-profiles', clientProfileRoutes);
-app.use('/api/developer-profiles', developerProfileRoutes);
-app.use('/api/matches', matchRoutes);
-app.use('/api/messages', messageRoutes);
-app.use('/api/notifications', notificationRoutes);
-app.use('/api/projects', projectRoutes);
-app.use('/api/project-requests', projectRequestRoutes);
-app.use('/api/user', userRoutes);
-app.use('/api/product', productRoutes);
-app.use('/api/reviews', reviewRoutes);
-app.use('/api/technologies', technologyRoutes);
-// Legacy/Frontend-friendly routes
-app.use('/products', productRoutes);
-app.use('/projects', projectRoutes);
+registerRoutes(app);
 
 //test Route
 app.get('/', (req, res) => {
