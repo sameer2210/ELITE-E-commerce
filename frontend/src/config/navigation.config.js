@@ -154,7 +154,7 @@ export const NAVIGATION = {
         title: "Collection Spotlight",
         image: "/api/placeholder/300/400",
         brand: "SaaS Launch Packs",
-        description: "High-converting landing pages for product teams.",
+        description: "High-converting landing pages for project teams.",
         cta: "BROWSE COLLECTION",
         link: "/collections/saas",
       },

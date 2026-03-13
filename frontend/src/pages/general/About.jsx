@@ -75,7 +75,7 @@ const About = () => {
     },
     {
       name: "Sofia Laurent",
-      role: "Product Engineer",
+      role: "Project Engineer",
       image:
         "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&h=400&fit=crop&crop=face",
       specialty: "User-Centered UX"
@@ -140,14 +140,14 @@ const About = () => {
                   <span className="font-semibold text-emerald-700">
                     developer craft
                   </span>{" "}
-                  powers a living showcase of real products. Builders share the
+                  powers a living showcase of real projects. Builders share the
                   work, decisions, and results behind every release.
                 </p>
                 <p className="inter text-lg text-slate-600 leading-relaxed max-w-md">
                   Clients explore authentic projects, and our AI recommends the
                   best developers for each brief, guided by{" "}
                   <span className="italic">
-                    product vision, code quality, and performance
+                    project vision, code quality, and performance
                   </span>{" "}
                   to launch digital experiences with confidence.
                 </p>
@@ -223,7 +223,7 @@ const About = () => {
                   <span className="font-semibold text-teal-700">
                     unique perspective
                   </span>
-                  , united by a passion for building products that scale and
+                  , united by a passion for building projects that scale and
                   delight. Together, we empower developers to showcase their
                   work and help clients hire with confidence.
                 </p>
@@ -231,14 +231,14 @@ const About = () => {
 
               <div className="space-y-6 inter text-sm text-slate-500 fade-in-up delay-400">
                 <p className="leading-relaxed">
-                  Founded by engineers and product builders, ÉLITE grew from a
+                  Founded by engineers and project builders, ÉLITE grew from a
                   commitment to{" "}
                   <span className="font-semibold">responsible innovation</span>,
-                  transparent hiring, and measurable product impact.
+                  transparent hiring, and measurable project impact.
                 </p>
                 <p className="leading-relaxed">
                   Our platform philosophy centers on creating{" "}
-                  <span className="italic">scalable products</span> that outlast
+                  <span className="italic">scalable projects</span> that outlast
                   trends and power modern digital experiences.
                 </p>
               </div>
@@ -343,7 +343,7 @@ const About = () => {
       <section className="py-40 px-6 relative overflow-hidden">
         <div className="absolute inset-0">
           Build the future with the right developer. Explore talent, showcase
-          projects, and launch your next product.
+          projects, and launch your next project.
         </div>
 
         {/* Animated particles */}

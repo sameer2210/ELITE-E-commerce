@@ -4,8 +4,8 @@ import { NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { asynclogoutuser } from '../../store/actions/userActions';
 import { useProjectSearch } from '../../hooks/projectHook/useProjectSearch';
-import ProjectSearchBar from '../search/ProductSearchBar';
-import ProjectSearchOverlay from '../search/ProductSearchOverlay';
+import ProjectSearchBar from '../search/ProjectSearchBar';
+import ProjectSearchOverlay from '../search/ProjectSearchOverlay';
 import {
   NAVIGATION,
   NAV_ORDER,

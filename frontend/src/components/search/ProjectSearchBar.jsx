@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { Mic, Search, X } from "lucide-react";
-import ProductSearchResults from "./ProductSearchResults";
+import ProjectSearchResults from "./ProjectSearchResults";
 
 const ProjectSearchBar = ({
   query,
@@ -49,7 +49,7 @@ const ProjectSearchBar = ({
       </div>
       {showPanel && (
         <div className="absolute left-0 right-0 mt-2 rounded-2xl bg-stone-950/95 border border-white/10 shadow-2xl backdrop-blur-xl z-50">
-          <ProductSearchResults
+          <ProjectSearchResults
             query={query}
             results={results}
             loading={loading}

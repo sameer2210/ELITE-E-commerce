@@ -14,40 +14,22 @@ const Carts = () => {
     console.log("Redux User:", user);
   }, [user]);
 
-  const AddHandler = (index) => {
+  const removeHandler = (index) => {
     if (!user || !user.cart || !user.cart[index]) return;
 
     const copyUser = { ...user, cart: [...user.cart] };
-    copyUser.cart[index] = {
-      ...copyUser.cart[index],
-      quantity: copyUser.cart[index].quantity + 1,
-    };
+    copyUser.cart.splice(index, 1);
     dispatch(asyncupdateuser(copyUser.id, copyUser));
   };
 
-  const SubstractHandler = (index) => {
-    if (!user || !user.cart || !user.cart[index]) return;
-
-    const copyUser = { ...user, cart: [...user.cart] };
-
-    if (copyUser.cart[index].quantity <= 1) {
-      copyUser.cart.splice(index, 1);
-    } else {
-      copyUser.cart[index] = {
-        ...copyUser.cart[index],
-        quantity: copyUser.cart[index].quantity - 1,
-      };
-    }
-    dispatch(asyncupdateuser(copyUser.id, copyUser));
-  };
-
-  // Guard for empty cart or missing product data
+  // Guard for empty saved list or missing project data
   const cartlist =
     user?.cart?.length > 0 ? (
       user.cart.map((item, index) => {
         if (!item?.product) return null;
 
-        const { image, title, price, id } = item.product;
+        const project = item.product;
+        const { image, title, id, category } = project;
 
         return (
           <div
@@ -60,38 +42,31 @@ const Carts = () => {
               alt={title}
             />
             <h1 className="w-1/4 truncate">{title}</h1>
-            <h1>${price}</h1>
-            <div className="space-x-3 flex items-center">
-              <button
-                onClick={() => AddHandler(index)}
-                className="px-2 py-1 bg-green-300 rounded"
-              >
-                +
-              </button>
-              <span>{item.quantity}</span>
-              <button
-                onClick={() => SubstractHandler(index)}
-                className="px-2 py-1 bg-red-300 rounded"
-              >
-                -
-              </button>
-            </div>
+            <p className="text-sm text-gray-600">
+              {category?.name || category || "Uncategorized"}
+            </p>
+            <button
+              onClick={() => removeHandler(index)}
+              className="px-3 py-1 bg-red-300 rounded"
+            >
+              Remove
+            </button>
             <Link
-              to={`/product-info/${id}`}
+              to={`/projects/${id}`}
               className="text-cyan-800 underline ml-4"
             >
-              Back
+              View Project
             </Link>
           </div>
         );
       })
     ) : (
-      <p className="text-gray-500">Your cart is empty.</p>
+      <p className="text-gray-500">No saved projects yet.</p>
     );
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-bold mb-5">Your Shopping Cart</h2>
+      <h2 className="text-2xl font-bold mb-5">Saved Projects</h2>
       {cartlist}
     </div>
   );

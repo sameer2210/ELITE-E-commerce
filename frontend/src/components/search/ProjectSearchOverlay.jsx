@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { Search, X } from "lucide-react";
-import ProductSearchResults from "./ProductSearchResults";
+import ProjectSearchResults from "./ProjectSearchResults";
 
 const ProjectSearchOverlay = ({
   query,
@@ -43,7 +43,7 @@ const ProjectSearchOverlay = ({
           </p>
         ) : (
           <div className="rounded-2xl bg-stone-950/95 border border-white/10 shadow-2xl backdrop-blur-xl">
-            <ProductSearchResults
+            <ProjectSearchResults
               query={query}
               results={results}
               loading={loading}

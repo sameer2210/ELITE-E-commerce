@@ -3,7 +3,11 @@ import { NavLink } from "react-router-dom";
 
 const normalizeList = (value) => {
   if (!value) return [];
-  if (Array.isArray(value)) return value.filter(Boolean);
+  if (Array.isArray(value)) {
+    return value
+      .map((entry) => entry?.name || entry?.title || entry)
+      .filter(Boolean);
+  }
   if (typeof value === "string") {
     return value
       .split(",")
@@ -30,6 +34,7 @@ const ProjectSearchResults = ({
         item.title || item.name || item.projectName || "Untitled Project";
       const developer =
         item.developer?.name ||
+        item.developerId?.name ||
         item.developerName ||
         item.author ||
         item.brand ||
