@@ -8,7 +8,6 @@ import messageRoutes from './message.routes.js';
 import notificationRoutes from './notification.routes.js';
 import projectRoutes from './project.routes.js';
 import projectRequestRoutes from './projectRequest.routes.js';
-import productRoutes from './product.routes.js';
 import reviewRoutes from './review.routes.js';
 import technologyRoutes from './technology.routes.js';
 import userRoutes from './user.routes.js';
@@ -28,12 +27,9 @@ const apiRoutes = [
   { path: '/api/technologies', router: technologyRoutes },
   { path: '/api/user', router: userRoutes },
   { path: '/api/users', router: userRoutes },
-  { path: '/api/product', router: productRoutes },
-  { path: '/api/products', router: productRoutes },
 ];
 
 const legacyRoutes = [
-  { path: '/products', router: productRoutes },
   { path: '/projects', router: projectRoutes },
 ];
 
@@ -45,4 +41,3 @@ export const registerRoutes = (app) => {
     app.use(path, router);
   }
 };
-

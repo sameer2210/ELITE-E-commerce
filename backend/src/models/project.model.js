@@ -33,6 +33,10 @@ const projectSchema = new mongoose.Schema(
         trim: true,
       },
     ],
+    image: {
+      type: String,
+      trim: true,
+    },
     liveDemo: {
       type: String,
       trim: true,
@@ -62,6 +66,34 @@ const projectSchema = new mongoose.Schema(
 );
 
 projectSchema.index({ technologies: 1 });
+
+projectSchema.pre("validate", function (next) {
+  const imagesModified = this.isModified("images");
+  const imageModified = this.isModified("image");
+
+  if (imagesModified) {
+    if (Array.isArray(this.images) && this.images.length) {
+      this.image = this.images[0];
+    } else {
+      this.image = undefined;
+    }
+  } else if (imageModified) {
+    if (this.image) {
+      this.images = [this.image];
+    } else {
+      this.images = [];
+    }
+  }
+
+  next();
+});
+
+projectSchema.virtual("id").get(function () {
+  return this._id.toString();
+});
+
+projectSchema.set("toJSON", { virtuals: true, versionKey: false });
+projectSchema.set("toObject", { virtuals: true, versionKey: false });
 
 const Project = mongoose.model("Project", projectSchema);
 
