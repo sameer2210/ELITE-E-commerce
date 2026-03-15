@@ -18,7 +18,7 @@ const Signup = () => {
     handleSubmit,
     watch,
     formState: { errors, isSubmitting, isValid },
-  } = useForm({ mode: "onChange" });
+  } = useForm({ mode: "onChange", defaultValues: { role: "client" } });
 
   const passwordValue = watch("password");
 
@@ -47,41 +47,26 @@ const Signup = () => {
   ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[url(https://images.unsplash.com/photo-1644394969490-a0722932071a?q=80&w=1986&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] bg-center bg-cover relative overflow-hidden">
-      <div className="absolute inset-0 bg-black/60"></div>
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-4">
-        <div className="flex w-full bg-black/35 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden border border-white/10">
+    <div className="min-h-screen flex items-center justify-center bg-[#0b0b0b] relative overflow-hidden">
+      <div className="w-full max-w-6xl mx-auto px-4">
+        <div className="flex w-full bg-slate-900/70 rounded-3xl shadow-[0_24px_60px_-24px_rgba(0,0,0,0.7)] overflow-hidden border border-white/10">
           {/* Left Side - Brand & Social */}
-          <div className="hidden lg:flex lg:w-1/2 p-12 flex-col justify-between relative text-white">
+          <div className="hidden lg:flex lg:w-1/2 p-12 flex-col justify-between relative text-slate-100 border-r border-white/10">
             <div>
               <div className="flex items-center mb-8">
-                <div className="w-8 h-8 bg-white/30 rounded transform rotate-45 mr-3"></div>
-                <h1 className="text-3xl font-bold tracking-wide">ÉLITE</h1>
+                <div className="w-8 h-8 bg-teal-400/20 rounded-lg mr-3"></div>
+                <h1 className="text-3xl font-semibold tracking-wide">ÉLITE</h1>
               </div>
 
               <div className="mb-8">
                 <h2 className="text-5xl font-bold mb-4 leading-tight">
-                  
-                  <br />
-                  COLLECTION
+                  LAUNCH <br />
+                  YOUR SPACE
                 </h2>
-                <p className="text-white/80 text-lg leading-relaxed">
-                  Create your account and unlock exclusive access.
-                  <br />
-                  Curated pieces, tailored for you.
+                <p className="text-slate-300 text-lg leading-relaxed">
+                  Create your account to post projects, connect with talent, and ship faster.
                 </p>
               </div>
-            </div>
-
-            <div className="absolute bottom-10 right-8 w-64 h-64 opacity-30">
-              <svg viewBox="0 0 200 200" className="w-full h-full">
-                <path
-                  d="M100 20 C120 30, 140 50, 140 80 L140 120 C140 140, 130 160, 100 180 C70 160, 60 140, 60 120 L60 80 C60 50, 80 30, 100 20 Z"
-                  fill="white"
-                  opacity="0.6"
-                />
-                <circle cx="100" cy="40" r="15" fill="white" opacity="0.8" />
-              </svg>
             </div>
 
             <div>
@@ -94,7 +79,7 @@ const Signup = () => {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={`Visit us on ${social.name}`}
-                    className={`w-11 h-11 bg-black/60 border border-white/10 rounded-full flex items-center justify-center transition-all duration-300 ${social.color} hover:scale-110`}
+                    className={`w-11 h-11 bg-slate-800/70 border border-white/10 rounded-full flex items-center justify-center transition-all duration-300 ${social.color} hover:scale-110`}
                   >
                     <social.icon className="w-5 h-5 text-white" />
                   </a>
@@ -106,7 +91,7 @@ const Signup = () => {
           {/* Right Side - Signup Form */}
           <div className="w-full lg:w-1/2 p-8 lg:p-12 bg-white/5">
             <div className="max-w-md mx-auto">
-              <h2 className="text-white text-4xl font-bold">Create account</h2>
+              <h2 className="text-white text-4xl font-semibold">Create account</h2>
               <p className="text-white/70 mt-2 mb-8">Join us in a few quick steps.</p>
 
               <form onSubmit={handleSubmit(SignupHandler)} className="space-y-5" noValidate>
@@ -123,7 +108,7 @@ const Signup = () => {
                       minLength: { value: 2, message: "Enter at least 2 characters" },
                     })}
                     aria-invalid={errors.fullName ? "true" : "false"}
-                    className="w-full text-white placeholder-white/60 bg-white/10 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-white/60 focus:border-transparent transition-all"
+                    className="w-full text-white placeholder-white/60 bg-slate-800/60 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-400/60 focus:border-transparent transition-all"
                     placeholder="John Doe"
                   />
                   {errors.fullName && (
@@ -148,7 +133,7 @@ const Signup = () => {
                       },
                     })}
                     aria-invalid={errors.username ? "true" : "false"}
-                    className="w-full text-white placeholder-white/60 bg-white/10 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-white/60 focus:border-transparent transition-all"
+                    className="w-full text-white placeholder-white/60 bg-slate-800/60 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-400/60 focus:border-transparent transition-all"
                     placeholder="john_22"
                   />
                   {errors.username && (
@@ -172,11 +157,32 @@ const Signup = () => {
                       },
                     })}
                     aria-invalid={errors.email ? "true" : "false"}
-                    className="w-full text-white placeholder-white/60 bg-white/10 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-white/60 focus:border-transparent transition-all"
+                    className="w-full text-white placeholder-white/60 bg-slate-800/60 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-400/60 focus:border-transparent transition-all"
                     placeholder="john@doe.example"
                   />
                   {errors.email && (
                     <p className="text-xs text-red-300">{errors.email.message}</p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="signup-role" className="text-white/80 text-sm font-medium">
+                    Account type
+                  </label>
+                  <select
+                    id="signup-role"
+                    {...register("role", { required: "Select an account type" })}
+                    className="w-full text-white bg-slate-800/60 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-400/60 focus:border-transparent transition-all"
+                  >
+                    <option value="client" className="text-gray-900">
+                      Client
+                    </option>
+                    <option value="developer" className="text-gray-900">
+                      Developer
+                    </option>
+                  </select>
+                  {errors.role && (
+                    <p className="text-xs text-red-300">{errors.role.message}</p>
                   )}
                 </div>
 
@@ -194,7 +200,7 @@ const Signup = () => {
                         minLength: { value: 8, message: "Minimum 8 characters" },
                       })}
                       aria-invalid={errors.password ? "true" : "false"}
-                      className="w-full text-white placeholder-white/60 bg-white/10 border border-white/10 rounded-lg px-4 py-3 pr-16 focus:outline-none focus:ring-2 focus:ring-white/60 focus:border-transparent transition-all"
+                      className="w-full text-white placeholder-white/60 bg-slate-800/60 border border-white/10 rounded-lg px-4 py-3 pr-16 focus:outline-none focus:ring-2 focus:ring-teal-400/60 focus:border-transparent transition-all"
                       placeholder="••••••••"
                     />
                     <button
@@ -224,7 +230,7 @@ const Signup = () => {
                         validate: (value) => value === passwordValue || "Passwords do not match",
                       })}
                       aria-invalid={errors.confirmPassword ? "true" : "false"}
-                      className="w-full text-white placeholder-white/60 bg-white/10 border border-white/10 rounded-lg px-4 py-3 pr-16 focus:outline-none focus:ring-2 focus:ring-white/60 focus:border-transparent transition-all"
+                      className="w-full text-white placeholder-white/60 bg-slate-800/60 border border-white/10 rounded-lg px-4 py-3 pr-16 focus:outline-none focus:ring-2 focus:ring-teal-400/60 focus:border-transparent transition-all"
                       placeholder="••••••••"
                     />
                     <button
@@ -249,7 +255,7 @@ const Signup = () => {
                     type="text"
                     autoComplete="address-level2"
                     {...register("location")}
-                    className="w-full text-white placeholder-white/60 bg-white/10 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-white/60 focus:border-transparent transition-all"
+                    className="w-full text-white placeholder-white/60 bg-slate-800/60 border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-400/60 focus:border-transparent transition-all"
                     placeholder="Mumbai"
                   />
                 </div>
@@ -259,7 +265,7 @@ const Signup = () => {
                     id="signup-terms"
                     type="checkbox"
                     {...register("terms", { required: "You must accept the terms" })}
-                    className="mt-1 w-4 h-4 bg-white/10 border-white/20 rounded focus:ring-white/60 focus:ring-2"
+                    className="mt-1 w-4 h-4 bg-slate-800/60 border-white/20 rounded focus:ring-teal-400/60 focus:ring-2"
                   />
                   <label htmlFor="signup-terms" className="text-sm text-white/80">
                     I agree to the{" "}
@@ -275,7 +281,7 @@ const Signup = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting || !isValid}
-                  className="w-full rounded-tr-2xl bg-white text-gray-900 font-semibold py-3 px-6 border-2 border-white/70 hover:border-white hover:bg-white/90 transition-all duration-300 text-base uppercase tracking-wide disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full rounded-xl bg-teal-400 text-slate-900 font-semibold py-3 px-6 hover:bg-teal-300 transition-all duration-300 text-base uppercase tracking-wide disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? "Creating account..." : "Sign up"}
                 </button>

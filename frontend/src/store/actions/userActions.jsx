@@ -95,7 +95,11 @@ export const asynccurrentuser = () => async (dispatch) => {
 
 export const asyncsigninuser = (user) => async (dispatch) => {
   try {
-    const payload = { email: user.email, password: user.password };
+    const payload = {
+      email: user.email,
+      password: user.password,
+      role: user.role,
+    };
     const { data } = await axios.post("/api/auth/signin", payload);
 
     if (data?.token) {
@@ -118,6 +122,7 @@ export const asyncsignupuser = (user) => async (dispatch) => {
       name: user.name || user.fullName || user.username,
       email: user.email,
       password: user.password,
+      role: user.role,
     };
 
     const { data } = await axios.post("/api/auth/signup", payload);

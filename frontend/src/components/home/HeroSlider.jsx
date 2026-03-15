@@ -6,33 +6,33 @@ const HeroSlider = () => {
     () => [
       {
         id: 1,
-        brand: "DARVEYS",
-        title: "GLOBAL FAVOURITES",
+        brand: "SAAS LAUNCH",
+        title: "DASHBOARD READY",
         subtitle:
-          "Shop Hugo Boss, Prada, Gucci, Balenciaga, Balmain, Moncler & more",
-        cta: "DISCOVER",
+          "Build smarter products with modular UI, real-time insights, and polished flows.",
+        cta: "VIEW PLATFORM",
         image:
-          "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3",
+          "https://source.unsplash.com/2000x1200/?saas,dashboard,ui,webapp",
       },
       {
         id: 2,
-        brand: "LUXE EDIT",
-        title: "TAILORED ICONS",
+        brand: "DESIGN STUDIO",
+        title: "WEB EXPERIENCES",
         subtitle:
-          "Statement silhouettes and signature details, curated for modern style.",
-        cta: "SHOP NOW",
+          "Craft immersive sites with expressive layouts, bold typography, and crisp UX.",
+        cta: "SEE PORTFOLIO",
         image:
-          "https://images.unsplash.com/photo-1514996937319-344454492b37?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3",
+          "https://source.unsplash.com/2000x1200/?web,design,studio,ux",
       },
       {
         id: 3,
-        brand: "ÉLITE",
-        title: "SEASON HIGHLIGHTS",
+        brand: "ECOMMERCE LAB",
+        title: "CONVERTING STORES",
         subtitle:
-          "Discover the edit of the season with premium essentials and rare drops.",
-        cta: "EXPLORE",
+          "Launch conversion-first storefronts with storytelling, speed, and clarity.",
+        cta: "START SELLING",
         image:
-          "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3",
+          "https://source.unsplash.com/2000x1200/?ecommerce,website,landing,commerce",
       },
     ],
     []
@@ -61,9 +61,9 @@ const HeroSlider = () => {
     <section className="bg-stone-950 py-6 sm:py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden rounded-3xl bg-stone-900 shadow-2xl">
-          <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/65 via-black/35 to-transparent"></div>
+          <div className="absolute inset-0 z-10 bg-linear-to-r from-black/65 via-black/35 to-transparent"></div>
 
-          <div className="relative h-[360px] sm:h-[440px] lg:h-[520px]">
+          <div className="relative h-90 sm:h-110 lg:h-130">
             {slides.map((slide, index) => (
               <div
                 key={slide.id}
